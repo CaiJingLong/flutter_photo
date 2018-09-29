@@ -1,6 +1,8 @@
 library photo;
 
 import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/page/not_permission_dialog.dart';
 import 'package:photo/src/page/photo_main_page.dart';
