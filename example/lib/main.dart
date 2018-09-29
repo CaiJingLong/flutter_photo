@@ -49,6 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     PhotoPicker.pickImage(
       context: context,
+      themeColor: Colors.green,
+      padding: 5.0,
+      dividerColor: Colors.deepOrange,
+      disableColor: Colors.grey,
+      itemRadio: 0.88,
     );
   }
 
@@ -101,5 +106,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void _test(){
+//    Navigator.of(context).pop
   }
 }
