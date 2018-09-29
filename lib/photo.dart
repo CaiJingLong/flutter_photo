@@ -53,7 +53,7 @@ class PhotoPicker {
 
     themeColor ??= Theme.of(context)?.primaryColor ?? Colors.black;
     dividerColor ??= Theme.of(context)?.dividerColor ?? Colors.grey;
-    disableColor ??= Theme.of(context)?.dividerColor ?? Colors.grey;
+    disableColor ??= Theme.of(context)?.disabledColor ?? Colors.grey;
     textColor ??= Colors.white;
 
     var options = Options(
@@ -62,7 +62,7 @@ class PhotoPicker {
       maxSelected: maxSelected,
       itemRadio:itemRadio,
       padding: padding,
-      paddingColor: disableColor,
+      disableColor: disableColor,
       textColor: textColor,
       themeColor: themeColor,
     );

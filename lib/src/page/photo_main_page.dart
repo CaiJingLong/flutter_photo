@@ -54,32 +54,41 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
       color: options.textColor,
       fontSize: 14.0,
     );
-    return DefaultTextStyle(
-      style: textStyle,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: options.themeColor,
-          title: Text(
-            i18nProvider.getTitleText(options),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                i18nProvider.getSureText(options, this),
-                style: textStyle,
-              ),
-              onPressed: sure,
+    return WillPopScope(
+      child: DefaultTextStyle(
+        style: textStyle,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: options.themeColor,
+            title: Text(
+              i18nProvider.getTitleText(options),
             ),
-          ],
-        ),
-        body: _buildBody(),
-        bottomSheet: _BottomWidget(
-          provider: i18nProvider,
-          options: options,
-          onGalleryChange: _onGalleryChange,
-          selectedProvider: this,
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  i18nProvider.getSureText(options, this),
+                  style: selectedCount == 0
+                      ? textStyle.copyWith(color: options.disableColor)
+                      : textStyle,
+                ),
+                onPressed: selectedCount == 0 ? null : sure,
+              ),
+            ],
+          ),
+          body: _buildBody(),
+          bottomNavigationBar: _BottomWidget(
+            provider: i18nProvider,
+            options: options,
+            onGalleryChange: _onGalleryChange,
+            selectedProvider: this,
+          ),
         ),
       ),
+      onWillPop: () async {
+        selectedList.clear();
+        Navigator.of(context).pop(selectedList);
+        return false;
+      },
     );
   }
 
@@ -95,7 +104,7 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
 
   Widget _buildBody() {
     return Container(
-      color: options.paddingColor,
+      color: options.disableColor,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: options.rowCount,
@@ -206,7 +215,9 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
     setState(() {});
   }
 
-  void sure() {}
+  void sure() {
+    Navigator.pop(context, selectedList);
+  }
 
   void _onItemClick(ImageEntity data) {}
 
@@ -244,15 +255,35 @@ class __BottomWidgetState extends State<_BottomWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var textStyle = TextStyle(fontSize: 14.0, color: options.textColor);
+    print(MediaQuery.of(context).padding.bottom);
     return Container(
       color: options.themeColor,
-      height: 44.0,
-      child: Row(
-        children: <Widget>[
-          Text(
-            widget.galleryName,
+      child: SafeArea(
+        bottom: true,
+        child: Container(
+          height: 44.0,
+          child: Row(
+            children: <Widget>[
+              Text(
+                widget.galleryName,
+                style: textStyle,
+              ),
+              Expanded(
+                child: Container(),
+              ),
+              Container(
+                height: 44.0,
+                alignment: Alignment.center,
+                child: Text(
+                  i18nProvider.getPreviewText(options, widget.selectedProvider),
+                  style: textStyle,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

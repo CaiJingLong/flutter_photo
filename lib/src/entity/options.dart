@@ -15,7 +15,7 @@ class Options {
 
   final Color textColor;
 
-  final Color paddingColor;
+  final Color disableColor;
 
   const Options({
     this.rowCount,
@@ -25,11 +25,8 @@ class Options {
     this.themeColor,
     this.dividerColor,
     this.textColor,
-    this.paddingColor,
+    this.disableColor,
   });
 
-  @override
-  String toString() {
-    return 'Options{rowCount: $rowCount, maxSelected: $maxSelected, padding: $padding, themeColor: $themeColor, dividerColor: $dividerColor, textColor: $textColor, paddingColor: $paddingColor}';
-  }
+
 }

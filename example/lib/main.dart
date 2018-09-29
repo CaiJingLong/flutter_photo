@@ -46,15 +46,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    PhotoPicker.pickImage(
+  void _incrementCounter() async{
+    var imgList = await PhotoPicker.pickImage(
       context: context,
       themeColor: Colors.green,
       padding: 5.0,
       dividerColor: Colors.deepOrange,
-      disableColor: Colors.grey,
+      disableColor: Colors.grey.shade300,
       itemRadio: 0.88,
     );
+
+    print(imgList);
   }
 
   @override
@@ -108,7 +110,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _test(){
-//    Navigator.of(context).pop
-  }
 }

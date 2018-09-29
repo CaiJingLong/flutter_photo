@@ -14,6 +14,8 @@ abstract class I18nProvider {
 
   String getMaxTipText(Options options);
 
+  String getAllGalleryText(Options options);
+
   I18NPermissionProvider getNotPermissionText(Options options);
 
   static const I18nProvider chinese = _CNProvider();
@@ -50,6 +52,11 @@ class _CNProvider extends I18nProvider {
   }
 
   @override
+  String getAllGalleryText(Options options) {
+    return "全部图片";
+  }
+
+  @override
   I18NPermissionProvider getNotPermissionText(Options options) {
     return I18NPermissionProvider(
         cancelText: "取消", sureText: "去开启", titleText: "没有访问相册的权限");
@@ -82,6 +89,11 @@ class _ENProvider extends I18nProvider {
   @override
   String getMaxTipText(Options options) {
     return "select ${options.maxSelected} pictures at most";
+  }
+
+  @override
+  String getAllGalleryText(Options options) {
+    return "all images";
   }
 
   @override
