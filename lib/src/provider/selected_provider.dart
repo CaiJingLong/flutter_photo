@@ -30,5 +30,16 @@ abstract class SelectedProvider {
     return selectedList.remove(entity);
   }
 
+  void compareAndRemoveEntities(List<ImageEntity> previewSelectedList) {
+    var srcList = List.of(selectedList);
+    selectedList.clear();
+    srcList.forEach((entity) {
+      if (previewSelectedList.contains(entity)){
+        selectedList.add(entity);
+      }
+    });
+  }
+
+
   void sure();
 }

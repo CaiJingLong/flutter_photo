@@ -101,7 +101,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
             options: options,
             galleryName: currentPath.name,
             onGalleryChange: _onGalleryChange,
-            onTapPreview: _onTapPreview,
+            onTapPreview: selectedList.isEmpty ? null : _onTapPreview,
             selectedProvider: this,
             galleryListProvider: this,
           ),
@@ -173,7 +173,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   Widget _buildItem(BuildContext context, int index) {
     var data = list[index];
     return GestureDetector(
-      onTap: () => _onItemClick(data),
+      onTap: () => _onItemClick(data, index),
       child: Stack(
         children: <Widget>[
           ImageItem(
@@ -254,8 +254,6 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     setState(() {});
   }
 
-  void _onItemClick(ImageEntity data) {}
-
   void _onGalleryChange(ImagePathEntity value) {
     _currentPath = value;
 
@@ -267,8 +265,33 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     });
   }
 
-  void _onTapPreview() {
+  void _onItemClick(ImageEntity data, int index) {
+    var result = new PhotoPreviewResult();
     Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) {
+          return ConfigProvider(
+            provider: ConfigProvider.of(context).provider,
+            options: options,
+            child: PhotoPreviewPage(
+              selectedProvider: this,
+              list: List.of(list),
+              initIndex: index,
+              changeProviderOnCheckChange: true,
+              result: result,
+            ),
+          );
+        },
+      ),
+    ).then((v) {
+      setState(() {});
+    });
+  }
+
+  void _onTapPreview() {
+    var result = new PhotoPreviewResult();
+    Navigator.of(context)
+        .push(
       MaterialPageRoute(
         builder: (ctx) => ConfigProvider(
               provider: ConfigProvider.of(context).provider,
@@ -276,9 +299,16 @@ class _PhotoMainPageState extends State<PhotoMainPage>
               child: PhotoPreviewPage(
                 selectedProvider: this,
                 list: List.of(selectedList),
+                changeProviderOnCheckChange: false,
+                result: result,
               ),
             ),
       ),
+    )
+        .then(
+      (v) {
+        compareAndRemoveEntities(result.previewSelectedList);
+      },
     );
   }
 }
@@ -319,7 +349,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = TextStyle(fontSize: 14.0, color: options.textColor);
+    var textStyle = TextStyle(fontSize: 14.0);
     const textPadding = const EdgeInsets.symmetric(horizontal: 16.0);
     return Container(
       color: options.themeColor,
@@ -327,7 +357,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
         bottom: true,
         top: false,
         child: Container(
-          height: 44.0,
+          height: 52.0,
           child: Row(
             children: <Widget>[
               GestureDetector(
@@ -339,16 +369,17 @@ class __BottomWidgetState extends State<_BottomWidget> {
                   padding: textPadding,
                   child: Text(
                     widget.galleryName,
-                    style: textStyle,
+                    style: textStyle.copyWith(color: options.textColor),
                   ),
                 ),
               ),
               Expanded(
                 child: Container(),
               ),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: widget.onTapPreview,
+              FlatButton(
+                onPressed: widget.onTapPreview,
+                textColor: options.textColor,
+                disabledTextColor: options.disableColor,
                 child: Container(
                   height: 44.0,
                   alignment: Alignment.center,
