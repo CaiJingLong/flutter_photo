@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:photo/src/entity/options.dart';
-import 'package:photo/src/page/not_permission_dialog.dart';
-import 'package:photo/src/page/photo_main_page.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
+import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
+import 'package:photo/src/ui/page/photo_main_page.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 /// A Calculator.

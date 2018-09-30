@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:photo/src/engine/lru_cache.dart';
 import 'package:photo/src/entity/options.dart';
+import 'package:photo/src/provider/gallery_list_provider.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/provider/selected_provider.dart';
+import 'package:photo/src/ui/dialog/change_gallery_dialog.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class PhotoMainPage extends StatefulWidget {
@@ -17,35 +19,44 @@ class PhotoMainPage extends StatefulWidget {
   _PhotoMainPageState createState() => _PhotoMainPageState();
 }
 
-class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
+class _PhotoMainPageState extends State<PhotoMainPage>
+    with SelectedProvider, GalleryListProvider {
   Options get options => widget.options;
 
   I18nProvider get i18nProvider => widget.provider;
-
-  List<ImageEntity> selectedList = [];
-  List<ImageParentPath> pathList = [];
 
   List<ImageEntity> list = [];
 
   Color get themeColor => options.themeColor;
 
-  ImageParentPath _currentPath;
+  ImagePathEntity _currentPath = ImagePathEntity.all;
 
-  ImageParentPath get currentPath {
+  ImagePathEntity get currentPath {
     if (_currentPath == null) {
       return null;
     }
     return _currentPath;
   }
 
-  set currentPath(ImageParentPath value) {
+  set currentPath(ImagePathEntity value) {
     _currentPath = value;
   }
+
+  GlobalKey scaffoldKey;
+  ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
     _refreshList();
+    scaffoldKey = GlobalKey();
+    scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    scaffoldKey = null;
+    super.dispose();
   }
 
   @override
@@ -77,10 +88,13 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
           ),
           body: _buildBody(),
           bottomNavigationBar: _BottomWidget(
+            key: scaffoldKey,
             provider: i18nProvider,
             options: options,
+            galleryName: currentPath.name,
             onGalleryChange: _onGalleryChange,
             selectedProvider: this,
+            galleryListProvider: this,
           ),
         ),
       ),
@@ -92,10 +106,39 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
     );
   }
 
+  @override
+  bool isUpperLimit() {
+    var result = selectedCount == options.maxSelected;
+    if (result) _showTip(i18nProvider.getMaxTipText(options));
+    return result;
+  }
+
+  void sure() {
+    Navigator.pop(context, selectedList);
+  }
+
+  void _showTip(String msg) {
+    Scaffold.of(scaffoldKey.currentContext).showSnackBar(
+      SnackBar(
+        content: Text(
+          msg,
+          style: TextStyle(
+            color: options.textColor,
+            fontSize: 14.0,
+          ),
+        ),
+        duration: Duration(milliseconds: 1500),
+        backgroundColor: themeColor.withOpacity(0.7),
+      ),
+    );
+  }
+
   void _refreshList() async {
-    pathList = await ImageScanner.getImagePathList();
-    var path = pathList[0];
-    var imageList = await path.imageList;
+    var pathList = await ImageScanner.getImagePathList();
+    galleryPathList.clear();
+    galleryPathList.addAll(pathList);
+
+    var imageList = await currentPath.imageList;
     this.list.clear();
     this.list.addAll(imageList);
     print(list);
@@ -106,6 +149,7 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
     return Container(
       color: options.disableColor,
       child: GridView.builder(
+        controller: scrollController,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: options.rowCount,
           childAspectRatio: options.itemRadio,
@@ -116,19 +160,6 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
         itemCount: list.length,
       ),
     );
-  }
-
-  @override
-  int get selectedCount => selectedList.length;
-
-  @override
-  bool containsEntity(ImageEntity entity) {
-    return selectedList.contains(entity);
-  }
-
-  @override
-  int indexOfSelected(ImageEntity entity) {
-    return selectedList.indexOf(entity);
   }
 
   Widget _buildItem(BuildContext context, int index) {
@@ -208,24 +239,29 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider {
 
   void changeCheck(bool value, ImageEntity entity) {
     if (value) {
-      selectedList.add(entity);
+      addSelectEntity(entity);
     } else {
-      selectedList.remove(entity);
+      removeSelectEntity(entity);
     }
     setState(() {});
   }
 
-  void sure() {
-    Navigator.pop(context, selectedList);
-  }
-
   void _onItemClick(ImageEntity data) {}
 
-  void _onGalleryChange(ImageParentPath value) {}
+  void _onGalleryChange(ImagePathEntity value) {
+    _currentPath = value;
+
+    _currentPath.imageList.then((v) {
+      list.clear();
+      list.addAll(v);
+      scrollController.jumpTo(0.0);
+      setState(() {});
+    });
+  }
 }
 
 class _BottomWidget extends StatefulWidget {
-  final ValueChanged<ImageParentPath> onGalleryChange;
+  final ValueChanged<ImagePathEntity> onGalleryChange;
 
   final Options options;
 
@@ -235,6 +271,8 @@ class _BottomWidget extends StatefulWidget {
 
   final String galleryName;
 
+  final GalleryListProvider galleryListProvider;
+
   const _BottomWidget({
     Key key,
     this.onGalleryChange,
@@ -242,6 +280,7 @@ class _BottomWidget extends StatefulWidget {
     this.provider,
     this.selectedProvider,
     this.galleryName = "",
+    this.galleryListProvider,
   }) : super(key: key);
 
   @override
@@ -257,6 +296,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
   Widget build(BuildContext context) {
     var textStyle = TextStyle(fontSize: 14.0, color: options.textColor);
     print(MediaQuery.of(context).padding.bottom);
+    const textPadding = const EdgeInsets.symmetric(horizontal: 16.0);
     return Container(
       color: options.themeColor,
       child: SafeArea(
@@ -265,9 +305,18 @@ class __BottomWidgetState extends State<_BottomWidget> {
           height: 44.0,
           child: Row(
             children: <Widget>[
-              Text(
-                widget.galleryName,
-                style: textStyle,
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: _showGallerySelectDialog,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 44.0,
+                  padding: textPadding,
+                  child: Text(
+                    widget.galleryName,
+                    style: textStyle,
+                  ),
+                ),
               ),
               Expanded(
                 child: Container(),
@@ -279,13 +328,24 @@ class __BottomWidgetState extends State<_BottomWidget> {
                   i18nProvider.getPreviewText(options, widget.selectedProvider),
                   style: textStyle,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: textPadding,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _showGallerySelectDialog() async {
+    var result = await showModalBottomSheet(
+      context: context,
+      builder: (ctx) => ChangeGalleryDialog(
+            galleryList: widget.galleryListProvider.galleryPathList,
+          ),
+    );
+
+    if (result != null) widget.onGalleryChange?.call(result);
   }
 }
 
