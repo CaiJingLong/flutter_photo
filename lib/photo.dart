@@ -1,12 +1,12 @@
 library photo;
 
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
-import 'package:photo/src/ui/page/photo_main_page.dart';
+import 'package:photo/src/ui/photo_app.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 /// A Calculator.
@@ -62,7 +62,7 @@ class PhotoPicker {
       rowCount: rowCount,
       dividerColor: dividerColor,
       maxSelected: maxSelected,
-      itemRadio:itemRadio,
+      itemRadio: itemRadio,
       padding: padding,
       disableColor: disableColor,
       textColor: textColor,
@@ -98,7 +98,7 @@ class PhotoPicker {
       BuildContext context, Options options, I18nProvider provider) {
     return Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => PhotoMainPage(
+        builder: (ctx) => PhotoApp(
               options: options,
               provider: provider,
             ),

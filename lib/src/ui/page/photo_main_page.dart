@@ -3,17 +3,21 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:photo/src/engine/lru_cache.dart';
 import 'package:photo/src/entity/options.dart';
+import 'package:photo/src/provider/config_provider.dart';
 import 'package:photo/src/provider/gallery_list_provider.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/provider/selected_provider.dart';
 import 'package:photo/src/ui/dialog/change_gallery_dialog.dart';
+import 'package:photo/src/ui/page/photo_preview_page.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class PhotoMainPage extends StatefulWidget {
-  final Options options;
-  final I18nProvider provider;
+  final ValueChanged<List<ImageEntity>> onClose;
 
-  const PhotoMainPage({Key key, this.options, this.provider}) : super(key: key);
+  const PhotoMainPage({
+    Key key,
+    this.onClose,
+  }) : super(key: key);
 
   @override
   _PhotoMainPageState createState() => _PhotoMainPageState();
@@ -21,9 +25,9 @@ class PhotoMainPage extends StatefulWidget {
 
 class _PhotoMainPageState extends State<PhotoMainPage>
     with SelectedProvider, GalleryListProvider {
-  Options get options => widget.options;
+  Options get options => ConfigProvider.of(context).options;
 
-  I18nProvider get i18nProvider => widget.provider;
+  I18nProvider get i18nProvider => ConfigProvider.of(context).provider;
 
   List<ImageEntity> list = [];
 
@@ -65,12 +69,16 @@ class _PhotoMainPageState extends State<PhotoMainPage>
       color: options.textColor,
       fontSize: 14.0,
     );
-    return WillPopScope(
+    return Theme(
+      data: Theme.of(context).copyWith(primaryColor: options.themeColor),
       child: DefaultTextStyle(
         style: textStyle,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: options.themeColor,
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: _cancel,
+            ),
             title: Text(
               i18nProvider.getTitleText(options),
             ),
@@ -93,17 +101,18 @@ class _PhotoMainPageState extends State<PhotoMainPage>
             options: options,
             galleryName: currentPath.name,
             onGalleryChange: _onGalleryChange,
+            onTapPreview: _onTapPreview,
             selectedProvider: this,
             galleryListProvider: this,
           ),
         ),
       ),
-      onWillPop: () async {
-        selectedList.clear();
-        Navigator.of(context).pop(selectedList);
-        return false;
-      },
     );
+  }
+
+  void _cancel() {
+    selectedList.clear();
+    widget.onClose(selectedList);
   }
 
   @override
@@ -114,7 +123,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   }
 
   void sure() {
-    Navigator.pop(context, selectedList);
+    widget.onClose?.call(selectedList);
   }
 
   void _showTip(String msg) {
@@ -141,7 +150,6 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     var imageList = await currentPath.imageList;
     this.list.clear();
     this.list.addAll(imageList);
-    print(list);
     setState(() {});
   }
 
@@ -258,6 +266,21 @@ class _PhotoMainPageState extends State<PhotoMainPage>
       setState(() {});
     });
   }
+
+  void _onTapPreview() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => ConfigProvider(
+              provider: ConfigProvider.of(context).provider,
+              options: options,
+              child: PhotoPreviewPage(
+                selectedProvider: this,
+                list: List.of(selectedList),
+              ),
+            ),
+      ),
+    );
+  }
 }
 
 class _BottomWidget extends StatefulWidget {
@@ -272,6 +295,7 @@ class _BottomWidget extends StatefulWidget {
   final String galleryName;
 
   final GalleryListProvider galleryListProvider;
+  final VoidCallback onTapPreview;
 
   const _BottomWidget({
     Key key,
@@ -281,6 +305,7 @@ class _BottomWidget extends StatefulWidget {
     this.selectedProvider,
     this.galleryName = "",
     this.galleryListProvider,
+    this.onTapPreview,
   }) : super(key: key);
 
   @override
@@ -295,12 +320,12 @@ class __BottomWidgetState extends State<_BottomWidget> {
   @override
   Widget build(BuildContext context) {
     var textStyle = TextStyle(fontSize: 14.0, color: options.textColor);
-    print(MediaQuery.of(context).padding.bottom);
     const textPadding = const EdgeInsets.symmetric(horizontal: 16.0);
     return Container(
       color: options.themeColor,
       child: SafeArea(
         bottom: true,
+        top: false,
         child: Container(
           height: 44.0,
           child: Row(
@@ -321,14 +346,19 @@ class __BottomWidgetState extends State<_BottomWidget> {
               Expanded(
                 child: Container(),
               ),
-              Container(
-                height: 44.0,
-                alignment: Alignment.center,
-                child: Text(
-                  i18nProvider.getPreviewText(options, widget.selectedProvider),
-                  style: textStyle,
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: widget.onTapPreview,
+                child: Container(
+                  height: 44.0,
+                  alignment: Alignment.center,
+                  child: Text(
+                    i18nProvider.getPreviewText(
+                        options, widget.selectedProvider),
+                    style: textStyle,
+                  ),
+                  padding: textPadding,
                 ),
-                padding: textPadding,
               ),
             ],
           ),
