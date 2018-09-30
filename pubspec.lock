@@ -211,9 +211,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "2a7004e5de7a50f4a4178d3bb8599bdcfb4c6da4"
-      resolved-ref: "2a7004e5de7a50f4a4178d3bb8599bdcfb4c6da4"
-      url: "https://github.com/CaiJingLong/flutter_photo_manager"
+      ref: da04bdf1b629cf14322e795613d7e77fb933034c
+      resolved-ref: da04bdf1b629cf14322e795613d7e77fb933034c
+      url: "https://github.com/CaiJingLong/flutter_photo_manager.git"
     source: git
     version: "0.0.1"
   plugin:

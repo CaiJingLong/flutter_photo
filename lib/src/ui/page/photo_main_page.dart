@@ -427,6 +427,7 @@ class ImageItem extends StatelessWidget {
     if (thumb != null) {
       return _buildImageItem(thumb);
     }
+
     return FutureBuilder<Uint8List>(
       future: entity.thumbData,
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
