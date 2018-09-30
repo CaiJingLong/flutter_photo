@@ -203,9 +203,26 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
       onTap: () => changeSelected(item, index),
       child: Container(
         width: 80.0,
-        child: ImageItem(
-          themeColor: themeColor,
-          entity: item,
+        child: Stack(
+          children: <Widget>[
+            ImageItem(
+              themeColor: themeColor,
+              entity: item,
+            ),
+            IgnorePointer(
+              child: StreamBuilder(
+                stream: pageStream,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if(previewSelectedList.contains(item)){
+                    return Container();
+                  }
+                  return Container(
+                    color: Colors.white.withOpacity(0.5),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
