@@ -197,7 +197,6 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   }
 
   Widget _buildThumbItem(BuildContext context, int index) {
-    // todo 这里需要一个遮盖
     var item = previewSelectedList[index];
     return GestureDetector(
       onTap: () => changeSelected(item, index),
@@ -213,7 +212,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
               child: StreamBuilder(
                 stream: pageStream,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if(previewSelectedList.contains(item)){
+                  if (previewSelectedList.contains(item)) {
                     return Container();
                   }
                   return Container(
@@ -252,6 +251,8 @@ class _BigPhotoImageState extends State<BigPhotoImage>
       builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
         var file = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done && file != null) {
+          // todo ios 图片优化,在返回时再生成图片
+          // 展示时,不允许放大,使用原生方案生成一个与屏幕同宽的图片
           return Image.file(
             file,
             fit: BoxFit.contain,
