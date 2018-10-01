@@ -9,7 +9,6 @@ import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
 import 'package:photo/src/ui/photo_app.dart';
 import 'package:photo_manager/photo_manager.dart';
 
-/// A Calculator.
 class PhotoPicker {
   static PhotoPicker _instance;
 
@@ -19,6 +18,8 @@ class PhotoPicker {
     _instance ??= PhotoPicker._();
     return _instance;
   }
+
+  
 
   /// 没有授予权限的时候,会开启一个dialog去帮助用户去应用设置页面开启权限
   /// 确定开启设置页面,取消关闭弹窗

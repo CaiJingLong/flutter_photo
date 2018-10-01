@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo/photo.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 void main() => runApp(new MyApp());
 
@@ -28,7 +29,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   void _pickImage() async{
-    var imgList = await PhotoPicker.pickImage(
+    List<ImageEntity> imgList = await PhotoPicker.pickImage(
       context: context,
       themeColor: Colors.green,
       padding: 5.0,
