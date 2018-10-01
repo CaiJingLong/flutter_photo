@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:photo/src/entity/options.dart';
@@ -247,13 +248,13 @@ class _BigPhotoImageState extends State<BigPhotoImage>
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: widget.imageEntity.file,
-      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
+      future: widget.imageEntity.thumbDataWithSize(1300, 1300),
+      builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var file = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done && file != null) {
           // todo ios 图片优化,在返回时再生成图片
           // 展示时,不允许放大,使用原生方案生成一个与屏幕同宽的图片
-          return Image.file(
+          return Image.memory(
             file,
             fit: BoxFit.contain,
             width: double.infinity,
