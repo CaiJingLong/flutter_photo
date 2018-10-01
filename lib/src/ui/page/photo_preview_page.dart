@@ -96,6 +96,10 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    var textStyle = TextStyle(
+      color: options.textColor,
+      fontSize: 14.0,
+    );
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: options.themeColor),
       child: Scaffold(
@@ -108,6 +112,20 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                   "${snap.data + 1}/${widget.list.length}",
                 ),
           ),
+          actions: <Widget>[
+            FlatButton(
+              child: StreamBuilder(
+                stream: pageStream,
+                builder: (ctx, s) => Text(
+                      config.provider.getSureText(options, selectedList.length),
+                      style: selectedList.length == 0
+                          ? textStyle.copyWith(color: options.disableColor)
+                          : textStyle,
+                    ),
+              ),
+              onPressed: selectedList.length == 0 ? null : sure,
+            ),
+          ],
         ),
         body: PageView.builder(
           controller: pageController,
@@ -249,6 +267,10 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   void changeSelected(ImageEntity entity, int index) {
     var itemIndex = list.indexOf(entity);
     if (itemIndex != -1) pageController.jumpToPage(itemIndex);
+  }
+
+  void sure() {
+    Navigator.pop(context, selectedList);
   }
 }
 

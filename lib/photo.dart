@@ -19,7 +19,7 @@ class PhotoPicker {
     return _instance;
   }
 
-  
+  static const String rootRouteName = "photo_picker_image";
 
   /// 没有授予权限的时候,会开启一个dialog去帮助用户去应用设置页面开启权限
   /// 确定开启设置页面,取消关闭弹窗
@@ -96,13 +96,13 @@ class PhotoPicker {
   }
 
   Future<List<ImageEntity>> _openGalleryContentPage(
-      BuildContext context, Options options, I18nProvider provider) {
+      BuildContext context, Options options, I18nProvider provider)async{
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => PhotoApp(
-              options: options,
-              provider: provider,
-            ),
+          options: options,
+          provider: provider,
+        ),
       ),
     );
   }

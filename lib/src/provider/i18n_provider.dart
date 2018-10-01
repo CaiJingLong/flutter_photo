@@ -6,7 +6,7 @@ abstract class I18nProvider {
 
   String getTitleText(Options options);
 
-  String getSureText(Options options, SelectedProvider selectedProvider);
+  String getSureText(Options options, int currentCount);
 
   String getPreviewText(Options options, SelectedProvider selectedProvider);
 
@@ -37,8 +37,8 @@ class _CNProvider extends I18nProvider {
   }
 
   @override
-  String getSureText(Options options, SelectedProvider selectedProvider) {
-    return "确定(${selectedProvider.selectedCount}/${options.maxSelected})";
+  String getSureText(Options options, int currentCount) {
+    return "确定($currentCount/${options.maxSelected})";
   }
 
   @override
@@ -77,8 +77,8 @@ class _ENProvider extends I18nProvider {
   }
 
   @override
-  String getSureText(Options options, SelectedProvider selectedProvider) {
-    return "sure(${selectedProvider.selectedCount}/${options.maxSelected})";
+  String getSureText(Options options, int currentCount) {
+    return "sure($currentCount/${options.maxSelected})";
   }
 
   @override

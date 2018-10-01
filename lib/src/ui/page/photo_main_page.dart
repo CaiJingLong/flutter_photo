@@ -87,7 +87,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
             actions: <Widget>[
               FlatButton(
                 child: Text(
-                  i18nProvider.getSureText(options, this),
+                  i18nProvider.getSureText(options, selectedCount),
                   style: selectedCount == 0
                       ? textStyle.copyWith(color: options.disableColor)
                       : textStyle,
@@ -290,6 +290,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
         },
       ),
     ).then((v) {
+      if (handlePreviewResult(v)) {
+        Navigator.pop(context, v);
+        return;
+      }
       isPushed = false;
       setState(() {});
     });
@@ -315,10 +319,25 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     )
         .then(
       (v) {
+        if (handlePreviewResult(v)) {
+          print(v);
+          Navigator.pop(context, v);
+          return;
+        }
         isPushed = false;
         compareAndRemoveEntities(result.previewSelectedList);
       },
     );
+  }
+
+  bool handlePreviewResult(List<ImageEntity> v) {
+    if (v == null) {
+      return false;
+    }
+    if (v is List<ImageEntity>) {
+      return true;
+    }
+    return false;
   }
 }
 

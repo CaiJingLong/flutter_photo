@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       itemRadio: 0.88,
     );
 
-    print(imgList);
+    print("imgList = $imgList");
   }
 
   @override
