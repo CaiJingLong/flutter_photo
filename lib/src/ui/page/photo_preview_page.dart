@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -54,8 +53,24 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   bool get changeProviderOnCheckChange => widget.changeProviderOnCheckChange;
 
-  List<ImageEntity> get previewSelectedList =>
-      widget.result.previewSelectedList;
+  PhotoPreviewResult get result => widget.result;
+
+  /// 缩略图用的数据
+  ///
+  /// 用于与provider数据联动
+  List<ImageEntity> get previewList {
+    return selectedProvider.selectedList;
+  }
+
+  /// 选中的数据
+  List<ImageEntity> _selectedList = [];
+
+  List<ImageEntity> get selectedList {
+    if (changeProviderOnCheckChange) {
+      return previewList;
+    }
+    return _selectedList;
+  }
 
   PageController pageController;
 
@@ -63,11 +78,14 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   void initState() {
     super.initState();
     pageChangeController.add(0);
-    previewSelectedList.clear();
-    previewSelectedList.addAll(selectedProvider.selectedList);
     pageController = PageController(
       initialPage: widget.initIndex,
     );
+
+    _selectedList.clear();
+    _selectedList.addAll(selectedProvider.selectedList);
+
+    result.previewSelectedList = _selectedList;
   }
 
   @override
@@ -128,7 +146,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
           var index = snapshot.data;
           var data = list[index];
           return CheckboxListTile(
-            value: previewSelectedList.contains(data),
+            value: selectedList.contains(data),
             onChanged: (bool check) {
               if (changeProviderOnCheckChange) {
                 _onChangeProvider(check, index);
@@ -154,9 +172,9 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   void _onCheckInOnlyPreview(bool check, int index) {
     var item = list[index];
     if (check) {
-      previewSelectedList.add(item);
+      selectedList.add(item);
     } else {
-      previewSelectedList.remove(item);
+      selectedList.remove(item);
     }
     pageChangeController.add(index);
   }
@@ -165,12 +183,9 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   void _onChangeProvider(bool check, int index) {
     var item = list[index];
     if (check) {
-      if (selectedProvider.addSelectEntity(item)) {
-        previewSelectedList.add(item);
-      }
+      selectedProvider.addSelectEntity(item);
     } else {
       selectedProvider.removeSelectEntity(item);
-      previewSelectedList.remove(item);
     }
     pageChangeController.add(index);
   }
@@ -187,18 +202,21 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   }
 
   Widget _buildThumb() {
-    return Container(
-      height: 80.0,
-      child: ListView.builder(
-        itemBuilder: _buildThumbItem,
-        itemCount: previewSelectedList.length,
-        scrollDirection: Axis.horizontal,
-      ),
+    return StreamBuilder(
+      builder: (ctx, snapshot) => Container(
+            height: 80.0,
+            child: ListView.builder(
+              itemBuilder: _buildThumbItem,
+              itemCount: previewList.length,
+              scrollDirection: Axis.horizontal,
+            ),
+          ),
+      stream: pageStream,
     );
   }
 
   Widget _buildThumbItem(BuildContext context, int index) {
-    var item = previewSelectedList[index];
+    var item = previewList[index];
     return GestureDetector(
       onTap: () => changeSelected(item, index),
       child: Container(
@@ -213,7 +231,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
               child: StreamBuilder(
                 stream: pageStream,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (previewSelectedList.contains(item)) {
+                  if (selectedList.contains(item)) {
                     return Container();
                   }
                   return Container(
@@ -247,13 +265,15 @@ class _BigPhotoImageState extends State<BigPhotoImage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     return FutureBuilder(
-      future: widget.imageEntity.thumbDataWithSize(1300, 1300),
+      future:
+          widget.imageEntity.thumbDataWithSize(width.floor(), height.floor()),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var file = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done && file != null) {
-          // todo ios 图片优化,在返回时再生成图片
-          // 展示时,不允许放大,使用原生方案生成一个与屏幕同宽的图片
+          print(file.length);
           return Image.memory(
             file,
             fit: BoxFit.contain,

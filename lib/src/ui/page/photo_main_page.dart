@@ -49,6 +49,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   GlobalKey scaffoldKey;
   ScrollController scrollController;
 
+  bool isPushed = false;
+
   @override
   void initState() {
     super.initState();
@@ -127,6 +129,9 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   }
 
   void _showTip(String msg) {
+    if (isPushed) {
+      return;
+    }
     Scaffold.of(scaffoldKey.currentContext).showSnackBar(
       SnackBar(
         content: Text(
@@ -267,6 +272,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   void _onItemClick(ImageEntity data, int index) {
     var result = new PhotoPreviewResult();
+    isPushed = true;
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) {
@@ -284,12 +290,14 @@ class _PhotoMainPageState extends State<PhotoMainPage>
         },
       ),
     ).then((v) {
+      isPushed = false;
       setState(() {});
     });
   }
 
   void _onTapPreview() {
     var result = new PhotoPreviewResult();
+    isPushed = true;
     Navigator.of(context)
         .push(
       MaterialPageRoute(
@@ -307,6 +315,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     )
         .then(
       (v) {
+        isPushed = false;
         compareAndRemoveEntities(result.previewSelectedList);
       },
     );
