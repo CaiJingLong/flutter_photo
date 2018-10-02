@@ -6,7 +6,7 @@ use flutter as ui
 if you want to build custom ui, you just need api to make custom ui. to use [photo_manager](https://github.com/CaiJingLong/flutter_photo_manager)
 
 ## screenshot
-!(image)[https://github.com/CaiJingLong/some_asset/blob/master/image_picker1.gif]
+![image](https://github.com/CaiJingLong/some_asset/blob/master/image_picker1.gif)
 
 ## install
 
