@@ -113,17 +113,18 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                 ),
           ),
           actions: <Widget>[
-            FlatButton(
-              child: StreamBuilder(
-                stream: pageStream,
-                builder: (ctx, s) => Text(
+            StreamBuilder(
+              stream: pageStream,
+              builder: (ctx, s) => FlatButton(
+                splashColor: Colors.transparent,
+                onPressed: selectedList.length == 0 ? null : sure,
+                child: Text(
                       config.provider.getSureText(options, selectedList.length),
                       style: selectedList.length == 0
                           ? textStyle.copyWith(color: options.disableColor)
                           : textStyle,
                     ),
               ),
-              onPressed: selectedList.length == 0 ? null : sure,
             ),
           ],
         ),
@@ -141,15 +142,19 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   Widget _buildBottom() {
     return Container(
-      height: 52.0,
       color: themeColor,
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Container(),
+      child: SafeArea(
+        child: Container(
+          height: 52.0,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(),
+              ),
+              _buildCheckbox(),
+            ],
           ),
-          _buildCheckbox(),
-        ],
+        ),
       ),
     );
   }

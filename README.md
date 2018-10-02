@@ -46,3 +46,33 @@ void _pickImage() async{
   }
 
 ```
+
+
+## about android
+
+### glide
+
+android use glide to create image thumb, version is 4.8.0
+
+if you other android library use the library, and version is not same, then you need edit your android project's build.gradle
+
+```gradle
+rootProject.allprojects {
+
+    subprojects {
+        project.configurations.all {
+            resolutionStrategy.eachDependency { details ->
+                if (details.requested.group == 'com.github.bumptech.glide'
+                        && details.requested.name.contains('glide')) {
+                    details.useVersion "4.8.0"
+                }
+            }
+        }
+    }
+
+}
+```
+
+if you use the proguard
+
+see the [github](https://github.com/bumptech/glide#proguard)

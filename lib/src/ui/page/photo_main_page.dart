@@ -86,6 +86,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
             ),
             actions: <Widget>[
               FlatButton(
+                splashColor: Colors.transparent,
                 child: Text(
                   i18nProvider.getSureText(options, selectedCount),
                   style: selectedCount == 0
@@ -388,9 +389,9 @@ class __BottomWidgetState extends State<_BottomWidget> {
           height: 52.0,
           child: Row(
             children: <Widget>[
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: _showGallerySelectDialog,
+              FlatButton(
+                onPressed: _showGallerySelectDialog,
+                splashColor: Colors.transparent,
                 child: Container(
                   alignment: Alignment.center,
                   height: 44.0,
@@ -407,6 +408,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
               FlatButton(
                 onPressed: widget.onTapPreview,
                 textColor: options.textColor,
+                splashColor: Colors.transparent,
                 disabledTextColor: options.disableColor,
                 child: Container(
                   height: 44.0,
