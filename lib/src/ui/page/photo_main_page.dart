@@ -148,7 +148,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   }
 
   void _refreshList() async {
-    var pathList = await ImageScanner.getImagePathList();
+    var pathList = await PhotoManager.getImagePathList();
     galleryPathList.clear();
     galleryPathList.addAll(pathList);
 

@@ -9,6 +9,8 @@ import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
 import 'package:photo/src/ui/photo_app.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+export 'package:photo/src/provider/i18n_provider.dart' show I18NCustomProvider,I18nProvider,CNProvider,ENProvider;
+
 class PhotoPicker {
   static PhotoPicker _instance;
 
@@ -78,7 +80,7 @@ class PhotoPicker {
     Options options,
     I18nProvider provider,
   ) async {
-    var requestPermission = await ImageScanner.requestPermission();
+    var requestPermission = await PhotoManager.requestPermission();
     if (requestPermission != true) {
       var result = await showDialog(
         context: context,
@@ -87,7 +89,7 @@ class PhotoPicker {
             ),
       );
       if (result == true) {
-        ImageScanner.openSetting();
+        PhotoManager.openSetting();
       }
       return null;
     }

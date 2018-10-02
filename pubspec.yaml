@@ -1,5 +1,5 @@
 name: photo
-description: image picker, multi selector, if you want to build custom ui,you just use flutter_photo_manager.
+description: image picker, multi picker,use flutter as ui, if you want to build custom ui,you just use photo_manager.
 version: 0.0.1
 author: caijinglong
 homepage: https://github.com/CaiJingLong/flutter_photo
@@ -10,10 +10,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  photo_manager:
-    git:
-      url: https://github.com/CaiJingLong/flutter_photo_manager.git
-      ref: c87060911e1312113a9df43bec084e0c031ac58a
+
+  photo_manager: ^0.0.1
+#  photo_manager:
+#    git:
+#      url: https://github.com/CaiJingLong/flutter_photo_manager.git
+#      ref: c87060911e1312113a9df43bec084e0c031ac58a
 #  photo_manager:
 #    path: /Users/caijinglong/code/flutter/plugin/flutter_photo_manager/
 

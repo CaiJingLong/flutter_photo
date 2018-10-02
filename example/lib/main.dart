@@ -27,8 +27,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String currentSelected = "";
 
-  void _pickImage() async{
+  void _pickImage() async {
     List<ImageEntity> imgList = await PhotoPicker.pickImage(
       context: context,
       themeColor: Colors.green,
@@ -36,9 +37,22 @@ class _MyHomePageState extends State<MyHomePage> {
       dividerColor: Colors.deepOrange,
       disableColor: Colors.grey.shade300,
       itemRadio: 0.88,
+      maxSelected: 8,
+      provider: CNProvider(),
+      rowCount: 5,
+      textColor: Colors.white,
     );
 
-    print("imgList = $imgList");
+    List<String> r = [];
+
+    for(var e in imgList){
+      var file = await e.file;
+      r.add(file.absolute.path);
+    }
+
+    currentSelected = r.join("\n\n");
+
+    setState(() {});
   }
 
   @override
@@ -47,7 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: new AppBar(
         title: new Text(widget.title),
       ),
-      body: Container(),
+      body: Container(
+        child: Center(
+          child: Text('$currentSelected'),
+        ),
+      ),
       floatingActionButton: new FloatingActionButton(
         onPressed: _pickImage,
         tooltip: 'pickImage',
@@ -55,5 +73,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
 }

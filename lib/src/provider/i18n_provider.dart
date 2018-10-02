@@ -18,13 +18,13 @@ abstract class I18nProvider {
 
   I18NPermissionProvider getNotPermissionText(Options options);
 
-  static const I18nProvider chinese = _CNProvider();
+  static const I18nProvider chinese = CNProvider();
 
-  static const I18nProvider english = _ENProvider();
+  static const I18nProvider english = ENProvider();
 }
 
-class _CNProvider extends I18nProvider {
-  const _CNProvider() : super._();
+class CNProvider extends I18nProvider {
+  const CNProvider() : super._();
 
   @override
   String getTitleText(Options options) {
@@ -63,8 +63,8 @@ class _CNProvider extends I18nProvider {
   }
 }
 
-class _ENProvider extends I18nProvider {
-  const _ENProvider() : super._();
+class ENProvider extends I18nProvider {
+  const ENProvider() : super._();
 
   @override
   String getTitleText(Options options) {
