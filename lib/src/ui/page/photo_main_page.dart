@@ -185,6 +185,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
           ImageItem(
             entity: data,
             themeColor: themeColor,
+            size: options.thumbSize,
           ),
           _buildMask(containsEntity(data)),
           _buildSelected(data),
@@ -445,10 +446,13 @@ class ImageItem extends StatelessWidget {
 
   final Color themeColor;
 
+  final int size;
+
   const ImageItem({
     Key key,
     this.entity,
     this.themeColor,
+    this.size = 64,
   }) : super(key: key);
 
   @override
@@ -459,7 +463,7 @@ class ImageItem extends StatelessWidget {
     }
 
     return FutureBuilder<Uint8List>(
-      future: entity.thumbData,
+      future: entity.thumbDataWithSize(size, size),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var futureData = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done &&

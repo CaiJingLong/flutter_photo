@@ -51,6 +51,7 @@ class PhotoPicker {
     Color dividerColor,
     Color textColor,
     Color disableColor,
+    int thumbSize = 64,
     I18nProvider provider = I18nProvider.chinese,
   }) {
     assert(provider != null, "provider must be not null");
@@ -70,6 +71,7 @@ class PhotoPicker {
       disableColor: disableColor,
       textColor: textColor,
       themeColor: themeColor,
+      thumbSize: thumbSize,
     );
 
     return PhotoPicker()._pickImage(context, options, provider);

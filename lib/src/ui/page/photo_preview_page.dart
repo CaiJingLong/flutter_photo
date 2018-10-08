@@ -249,6 +249,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
             ImageItem(
               themeColor: themeColor,
               entity: item,
+              size: options.thumbSize,
             ),
             IgnorePointer(
               child: StreamBuilder(

@@ -41,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
       provider: CNProvider(),
       rowCount: 5,
       textColor: Colors.white,
+      thumbSize: 250,
     );
 
     List<String> r = [];

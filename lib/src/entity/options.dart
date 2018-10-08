@@ -17,6 +17,8 @@ class Options {
 
   final Color disableColor;
 
+  final int thumbSize;
+
   const Options({
     this.rowCount,
     this.maxSelected,
@@ -26,7 +28,6 @@ class Options {
     this.dividerColor,
     this.textColor,
     this.disableColor,
+    this.thumbSize,
   });
-
-
 }
