@@ -4,15 +4,33 @@ import 'dart:typed_data';
 import 'package:photo_manager/photo_manager.dart';
 
 class ImageLruCache {
-  static LRUMap<ImageEntity, Uint8List> _map = LRUMap(500);
+  static LRUMap<_ImageCacheEntity, Uint8List> _map = LRUMap(500);
 
-  static Uint8List getData(ImageEntity entity) {
-    return _map.get(entity);
+  static Uint8List getData(ImageEntity entity, [int size = 64]) {
+    return _map.get(_ImageCacheEntity(entity, size));
   }
 
-  static void setData(ImageEntity entity, Uint8List list) {
-    _map.put(entity, list);
+  static void setData(ImageEntity entity, int size, Uint8List list) {
+    _map.put(_ImageCacheEntity(entity,size), list);
   }
+}
+
+class _ImageCacheEntity {
+  ImageEntity entity;
+  int size;
+
+  _ImageCacheEntity(this.entity, this.size);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _ImageCacheEntity &&
+          runtimeType == other.runtimeType &&
+          entity == other.entity &&
+          size == other.size;
+
+  @override
+  int get hashCode => entity.hashCode ^ size.hashCode;
 }
 
 // Copyright (c) 2015, the Dart project authors.  Please see the AUTHORS file

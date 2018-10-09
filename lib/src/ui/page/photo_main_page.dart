@@ -35,6 +35,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   ImagePathEntity _currentPath = ImagePathEntity.all;
 
+  bool _isInit = false;
+
   ImagePathEntity get currentPath {
     if (_currentPath == null) {
       return null;
@@ -150,16 +152,25 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   void _refreshList() async {
     var pathList = await PhotoManager.getImagePathList();
+
+    options.sortDelegate.sort(pathList);
+
     galleryPathList.clear();
     galleryPathList.addAll(pathList);
 
     var imageList = await currentPath.imageList;
     this.list.clear();
     this.list.addAll(imageList);
-    setState(() {});
+    setState(() {
+      _isInit = true;
+    });
   }
 
   Widget _buildBody() {
+    if (!_isInit) {
+      return _buildLoading();
+    }
+
     return Container(
       color: options.disableColor,
       child: GridView.builder(
@@ -341,6 +352,34 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     }
     return false;
   }
+
+  Widget _buildLoading() {
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: 40.0,
+            height: 40.0,
+            padding: const EdgeInsets.all(5.0),
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation(themeColor),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              i18nProvider.loadingText(),
+              style: const TextStyle(
+                fontSize: 12.0,
+              ),
+            ),
+          ),
+        ],
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
+    );
+  }
 }
 
 class _BottomWidget extends StatefulWidget {
@@ -457,7 +496,7 @@ class ImageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var thumb = ImageLruCache.getData(entity);
+    var thumb = ImageLruCache.getData(entity, size);
     if (thumb != null) {
       return _buildImageItem(thumb);
     }
@@ -468,7 +507,7 @@ class ImageItem extends StatelessWidget {
         var futureData = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done &&
             futureData != null) {
-          ImageLruCache.setData(entity, futureData);
+          ImageLruCache.setData(entity, size, futureData);
           return _buildImageItem(futureData);
         }
         return Center(

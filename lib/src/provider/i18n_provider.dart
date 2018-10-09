@@ -16,6 +16,10 @@ abstract class I18nProvider {
 
   String getAllGalleryText(Options options);
 
+  String loadingText(){
+    return "loading...";
+  }
+
   I18NPermissionProvider getNotPermissionText(Options options);
 
   static const I18nProvider chinese = CNProvider();
@@ -54,6 +58,11 @@ class CNProvider extends I18nProvider {
   @override
   String getAllGalleryText(Options options) {
     return "全部图片";
+  }
+
+  @override
+  String loadingText() {
+    return "加载中...";
   }
 
   @override

@@ -31,28 +31,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _pickImage() async {
     List<ImageEntity> imgList = await PhotoPicker.pickImage(
-      context: context,
-      themeColor: Colors.green,
-      padding: 5.0,
-      dividerColor: Colors.deepOrange,
-      disableColor: Colors.grey.shade300,
-      itemRadio: 0.88,
-      maxSelected: 8,
-      provider: CNProvider(),
-      rowCount: 5,
-      textColor: Colors.white,
-      thumbSize: 250,
+      context: context, // BuildContext requied
+
+      /// The following are optional parameters.
+      themeColor: Colors.green, // the title color and bottom color
+      padding: 5.0, // item padding
+      dividerColor: Colors.deepOrange, // divider color
+      disableColor: Colors.grey.shade300, // the check box disable color
+      itemRadio: 0.88, // the content item radio
+      maxSelected: 8, // max picker image count
+      provider: CNProvider(), // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
+      rowCount: 5,  // item row count
+      textColor: Colors.white, // text color
+      thumbSize: 150, // preview thumb size , default is 64
+      sortDelegate: SortDelegate.common, // default is common ,or you make custom delegate to sort your gallery
     );
 
-    List<String> r = [];
-
-    for(var e in imgList){
-      var file = await e.file;
-      r.add(file.absolute.path);
+    if (imgList == null) {
+      currentSelected = "not select item";
+    } else {
+      List<String> r = [];
+      for (var e in imgList) {
+        var file = await e.file;
+        r.add(file.absolute.path);
+      }
+      currentSelected = r.join("\n\n");
     }
-
-    currentSelected = r.join("\n\n");
-
     setState(() {});
   }
 
@@ -64,7 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         child: Center(
-          child: Text('$currentSelected'),
+          child: Text(
+            '$currentSelected',
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
       floatingActionButton: new FloatingActionButton(

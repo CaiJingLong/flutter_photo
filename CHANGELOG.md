@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.0.5] add a params
+
+add the sort delegate to help user sort gallery
+
+Optimized LruCache
+
+add a loading refresh indicator in the gallery
+
 ## [0.0.4] fix #1
 
 fix request other permission will crash bug

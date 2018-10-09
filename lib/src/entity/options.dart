@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo/src/delegate/sort_delegate.dart';
 
 class Options {
   final int rowCount;
@@ -19,6 +20,8 @@ class Options {
 
   final int thumbSize;
 
+  final SortDelegate sortDelegate;
+
   const Options({
     this.rowCount,
     this.maxSelected,
@@ -29,5 +32,6 @@ class Options {
     this.textColor,
     this.disableColor,
     this.thumbSize,
+    this.sortDelegate,
   });
 }

@@ -3,13 +3,17 @@ library photo;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:photo_manager/photo_manager.dart';
+
 import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
 import 'package:photo/src/ui/photo_app.dart';
-import 'package:photo_manager/photo_manager.dart';
+import 'package:photo/src/delegate/sort_delegate.dart';
 
-export 'package:photo/src/provider/i18n_provider.dart' show I18NCustomProvider,I18nProvider,CNProvider,ENProvider;
+export 'package:photo/src/provider/i18n_provider.dart'
+    show I18NCustomProvider, I18nProvider, CNProvider, ENProvider;
+export 'package:photo/src/delegate/sort_delegate.dart';
 
 class PhotoPicker {
   static PhotoPicker _instance;
@@ -53,6 +57,7 @@ class PhotoPicker {
     Color disableColor,
     int thumbSize = 64,
     I18nProvider provider = I18nProvider.chinese,
+    SortDelegate sortDelegate,
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
@@ -61,6 +66,8 @@ class PhotoPicker {
     dividerColor ??= Theme.of(context)?.dividerColor ?? Colors.grey;
     disableColor ??= Theme.of(context)?.disabledColor ?? Colors.grey;
     textColor ??= Colors.white;
+
+    sortDelegate ??= SortDelegate.common;
 
     var options = Options(
       rowCount: rowCount,
@@ -72,9 +79,14 @@ class PhotoPicker {
       textColor: textColor,
       themeColor: themeColor,
       thumbSize: thumbSize,
+      sortDelegate: sortDelegate,
     );
 
-    return PhotoPicker()._pickImage(context, options, provider);
+    return PhotoPicker()._pickImage(
+      context,
+      options,
+      provider,
+    );
   }
 
   Future<List<ImageEntity>> _pickImage(
@@ -100,13 +112,13 @@ class PhotoPicker {
   }
 
   Future<List<ImageEntity>> _openGalleryContentPage(
-      BuildContext context, Options options, I18nProvider provider)async{
+      BuildContext context, Options options, I18nProvider provider) async {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => PhotoApp(
-          options: options,
-          provider: provider,
-        ),
+              options: options,
+              provider: provider,
+            ),
       ),
     );
   }
