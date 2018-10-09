@@ -4,6 +4,8 @@
 
 fix request other permission will crash bug
 
+depo photo_manager 0.0.3
+
 ## [0.0.3] add the thumb size to option
 
 add a params for pick image , thumb size
