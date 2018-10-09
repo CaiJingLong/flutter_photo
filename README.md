@@ -89,7 +89,7 @@ like next
 
 ```plist
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>App需要您的同意,才能访问相册</string>
+    <string>App need your agree, can visit your album</string>
 ```
 
 xcode like image
