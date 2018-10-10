@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [0.0.6] add checkbox delegate
+users can use CheckBoxDelegate to custom preview right bottom widget
+
 ## [0.0.5] add a params
 
 add the sort delegate to help user sort gallery
