@@ -10,10 +10,12 @@ import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
 import 'package:photo/src/ui/photo_app.dart';
 import 'package:photo/src/delegate/sort_delegate.dart';
+import 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 
 export 'package:photo/src/provider/i18n_provider.dart'
     show I18NCustomProvider, I18nProvider, CNProvider, ENProvider;
 export 'package:photo/src/delegate/sort_delegate.dart';
+export 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 
 class PhotoPicker {
   static PhotoPicker _instance;
@@ -58,6 +60,7 @@ class PhotoPicker {
     int thumbSize = 64,
     I18nProvider provider = I18nProvider.chinese,
     SortDelegate sortDelegate,
+    CheckBoxBuilderDelegate checkBoxBuilderDelegate,
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
@@ -68,6 +71,7 @@ class PhotoPicker {
     textColor ??= Colors.white;
 
     sortDelegate ??= SortDelegate.common;
+    checkBoxBuilderDelegate ??= DefaultCheckBoxBuilderDelegate();
 
     var options = Options(
       rowCount: rowCount,
@@ -80,6 +84,7 @@ class PhotoPicker {
       themeColor: themeColor,
       thumbSize: thumbSize,
       sortDelegate: sortDelegate,
+      checkBoxBuilderDelegate: checkBoxBuilderDelegate,
     );
 
     return PhotoPicker()._pickImage(

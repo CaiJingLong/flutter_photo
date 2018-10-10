@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 import 'package:photo/src/delegate/sort_delegate.dart';
 
 class Options {
@@ -22,6 +23,8 @@ class Options {
 
   final SortDelegate sortDelegate;
 
+  final CheckBoxBuilderDelegate checkBoxBuilderDelegate;
+
   const Options({
     this.rowCount,
     this.maxSelected,
@@ -33,5 +36,6 @@ class Options {
     this.disableColor,
     this.thumbSize,
     this.sortDelegate,
+    this.checkBoxBuilderDelegate,
   });
 }

@@ -116,15 +116,15 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
             StreamBuilder(
               stream: pageStream,
               builder: (ctx, s) => FlatButton(
-                splashColor: Colors.transparent,
-                onPressed: selectedList.length == 0 ? null : sure,
-                child: Text(
+                    splashColor: Colors.transparent,
+                    onPressed: selectedList.length == 0 ? null : sure,
+                    child: Text(
                       config.provider.getSureText(options, selectedList.length),
                       style: selectedList.length == 0
                           ? textStyle.copyWith(color: options.disableColor)
                           : textStyle,
                     ),
-              ),
+                  ),
             ),
           ],
         ),
@@ -168,27 +168,49 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
         builder: (ctx, snapshot) {
           var index = snapshot.data;
           var data = list[index];
-          return CheckboxListTile(
-            value: selectedList.contains(data),
-            onChanged: (bool check) {
-              if (changeProviderOnCheckChange) {
-                _onChangeProvider(check, index);
-              } else {
-                _onCheckInOnlyPreview(check, index);
-              }
-            },
-            activeColor: Color.lerp(textColor, themeColor, 0.6),
-            title: Text(
-              config.provider.getSelectedOptionsText(options),
-              textAlign: TextAlign.end,
-              style: TextStyle(color: options.textColor),
-            ),
+          var checked = selectedList.contains(data);
+          return Stack(
+            children: <Widget>[
+              IgnorePointer(
+                child: _buildCheckboxContent(checked, index),
+              ),
+              Positioned(
+                top: 0.0,
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: GestureDetector(
+                  onTap: () => _changeSelected(!checked, index),
+                  behavior: HitTestBehavior.translucent,
+                  child: Container(),
+                ),
+              ),
+            ],
           );
         },
         initialData: widget.initIndex,
         stream: pageStream,
       ),
     );
+  }
+
+  Widget _buildCheckboxContent(bool checked, int index) {
+    return options.checkBoxBuilderDelegate.buildCheckBox(
+      context,
+      checked,
+      index,
+      options,
+      config.provider,
+    );
+  }
+
+  void _changeSelected(bool isChecked, int index) {
+    print("onTap out to change checkbox value = $isChecked, index = $index");
+    if (changeProviderOnCheckChange) {
+      _onChangeProvider(isChecked, index);
+    } else {
+      _onCheckInOnlyPreview(isChecked, index);
+    }
   }
 
   /// 仅仅修改预览时的状态,在退出时,再更新provider的顺序,这里无论添加与否不修改顺序
