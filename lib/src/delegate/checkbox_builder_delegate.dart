@@ -15,8 +15,12 @@ abstract class CheckBoxBuilderDelegate {
 
 class DefaultCheckBoxBuilderDelegate extends CheckBoxBuilderDelegate {
   Color activeColor;
+  Color unselectedColor;
 
-  DefaultCheckBoxBuilderDelegate({this.activeColor = Colors.white});
+  DefaultCheckBoxBuilderDelegate({
+    this.activeColor = Colors.white,
+    this.unselectedColor = Colors.white,
+  });
 
   @override
   Widget buildCheckBox(
@@ -26,14 +30,18 @@ class DefaultCheckBoxBuilderDelegate extends CheckBoxBuilderDelegate {
     Options options,
     I18nProvider i18nProvider,
   ) {
-    return CheckboxListTile(
-      value: checked,
-      onChanged: (bool check) {},
-      activeColor: activeColor,
-      title: Text(
-        i18nProvider.getSelectedOptionsText(options),
-        textAlign: TextAlign.end,
-        style: TextStyle(color: options.textColor),
+    return Theme(
+      data: Theme.of(context).copyWith(unselectedWidgetColor: unselectedColor),
+      child: CheckboxListTile(
+        value: checked,
+        onChanged: (bool check) {},
+        activeColor: activeColor,
+        checkColor: unselectedColor,
+        title: Text(
+          i18nProvider.getSelectedOptionsText(options),
+          textAlign: TextAlign.end,
+          style: TextStyle(color: options.textColor),
+        ),
       ),
     );
   }
