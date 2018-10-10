@@ -134,8 +134,8 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
           itemCount: list.length,
           onPageChanged: _onPageChanged,
         ),
-        bottomNavigationBar: _buildBottom(),
         bottomSheet: _buildThumb(),
+        bottomNavigationBar: _buildBottom(),
       ),
     );
   }
@@ -205,7 +205,6 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   }
 
   void _changeSelected(bool isChecked, int index) {
-    print("onTap out to change checkbox value = $isChecked, index = $index");
     if (changeProviderOnCheckChange) {
       _onChangeProvider(isChecked, index);
     } else {
