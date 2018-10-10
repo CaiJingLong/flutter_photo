@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart' hide Checkbox,CheckboxListTile;
+import 'package:flutter/material.dart' hide Checkbox, CheckboxListTile;
 
 import 'package:photo/src/ui/widget/check_box_copy.dart';
 
@@ -86,7 +86,7 @@ class CheckboxListTile extends StatelessWidget {
     this.secondary,
     this.selected = false,
     this.controlAffinity = ListTileControlAffinity.platform,
-  }) : assert(value != null),
+  })  : assert(value != null),
         assert(isThreeLine != null),
         assert(!isThreeLine || subtitle != null),
         assert(selected != null),
@@ -199,7 +199,11 @@ class CheckboxListTile extends StatelessWidget {
           isThreeLine: isThreeLine,
           dense: dense,
           enabled: onChanged != null,
-          onTap: onChanged != null ? () { onChanged(!value); } : null,
+          onTap: onChanged != null
+              ? () {
+                  onChanged(!value);
+                }
+              : null,
           selected: selected,
         ),
       ),

@@ -11,7 +11,7 @@ class ImageLruCache {
   }
 
   static void setData(ImageEntity entity, int size, Uint8List list) {
-    _map.put(_ImageCacheEntity(entity,size), list);
+    _map.put(_ImageCacheEntity(entity, size), list);
   }
 }
 

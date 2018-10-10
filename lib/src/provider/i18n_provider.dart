@@ -16,7 +16,7 @@ abstract class I18nProvider {
 
   String getAllGalleryText(Options options);
 
-  String loadingText(){
+  String loadingText() {
     return "loading...";
   }
 

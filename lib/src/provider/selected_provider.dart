@@ -34,12 +34,11 @@ abstract class SelectedProvider {
     var srcList = List.of(selectedList);
     selectedList.clear();
     srcList.forEach((entity) {
-      if (previewSelectedList.contains(entity)){
+      if (previewSelectedList.contains(entity)) {
         selectedList.add(entity);
       }
     });
   }
-
 
   void sure();
 }
