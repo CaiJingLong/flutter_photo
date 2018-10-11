@@ -1,5 +1,9 @@
 # photo
 
+[![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
+![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)
+
+
 image picker, multi picker
 use flutter as ui
 
