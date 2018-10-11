@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [0.0.8] fix bug
+DefaultCheckBoxBuilderDelegate params checkColor not valid bug
+
 ## [0.0.7] fix bug
 fix dividerColor not valid bug
 

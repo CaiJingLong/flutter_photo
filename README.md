@@ -13,7 +13,7 @@ if you want to build custom ui, you just need api to make custom ui. to use [pho
 
 ```yaml
 dependencies:
-  photo: ^0.0.7
+  photo: ^0.0.8
 ```
 
 ## import
