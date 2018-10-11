@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [0.0.7] fix bug
+fix dividerColor not valid bug
+
 ## [0.0.6] add checkbox delegate
 users can use CheckBoxDelegate to custom preview right bottom widget
 

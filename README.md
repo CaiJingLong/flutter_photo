@@ -13,7 +13,7 @@ if you want to build custom ui, you just need api to make custom ui. to use [pho
 
 ```yaml
 dependencies:
-  photo: ^0.0.6
+  photo: ^0.0.7
 ```
 
 ## import
@@ -27,28 +27,42 @@ import 'package:photo_manager/photo_manager.dart';
 
 ```dart
   void _pickImage() async {
-      List<ImageEntity> imgList = await PhotoPicker.pickImage(
-        context: context, // BuildContext requied
+    List<ImageEntity> imgList = await PhotoPicker.pickImage(
+      context: context, // BuildContext requied
 
-        /// The following are optional parameters.
-        themeColor: Colors.green, // the title color and bottom color
-        padding: 5.0, // item padding
-        dividerColor: Colors.deepOrange, // divider color
-        disableColor: Colors.grey.shade300, // the check box disable color
-        itemRadio: 0.88, // the content item radio
-        maxSelected: 8, // max picker image count
-        provider: CNProvider(), // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
-        rowCount: 5,  // item row count
-        textColor: Colors.white, // text color
-        thumbSize: 150, // preview thumb size , default is 64
-        sortDelegate: SortDelegate.common, // default is common ,or you make custom delegate
-      );
+      /// The following are optional parameters.
+      themeColor: Colors.green, // the title color and bottom color
+      padding: 1.0, // item padding
+      dividerColor: Colors.deepOrange, // divider color
+      disableColor: Colors.grey.shade300, // the check box disable color
+      itemRadio: 0.88, // the content item radio
+      maxSelected: 8, // max picker image count
+      provider: I18nProvider.chinese, // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
+      rowCount: 5,  // item row count
+      textColor: Colors.white, // text color
+      thumbSize: 150, // preview thumb size , default is 64
+      sortDelegate: SortDelegate.common, // default is common ,or you make custom delegate to sort your gallery
+      checkBoxBuilderDelegate: DefaultCheckBoxBuilderDelegate(), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
+    );
 
-      imgList.forEach((e) async {
-          print(e.id);
-      });
+    if (imgList == null) {
+      currentSelected = "not select item";
+    } else {
+      List<String> r = [];
+      for (var e in imgList) {
+        var file = await e.file;
+        r.add(file.absolute.path);
+      }
+      currentSelected = r.join("\n\n");
+    }
+    setState(() {});
   }
+
 ```
+
+## whole example
+
+you can see [github](https://github.com/caijinglong/flutter_photo/blob/master/example/)  [main.dart](https://github.com/caijinglong/flutter_photo/blob/master/example/lib/main.dart)
 
 ## about android
 

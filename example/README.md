@@ -1,6 +1,6 @@
 # example
 
-A new Flutter project.
+photo library example
 
 ## Getting Started
 
