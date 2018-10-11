@@ -172,7 +172,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     }
 
     return Container(
-      color: options.disableColor,
+      color: options.dividerColor,
       child: GridView.builder(
         controller: scrollController,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
