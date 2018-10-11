@@ -40,12 +40,15 @@ class _MyHomePageState extends State<MyHomePage> {
       disableColor: Colors.grey.shade300, // the check box disable color
       itemRadio: 0.88, // the content item radio
       maxSelected: 8, // max picker image count
-      provider: I18nProvider.chinese, // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
-      rowCount: 5,  // item row count
+      provider: I18nProvider
+          .chinese, // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
+      rowCount: 5, // item row count
       textColor: Colors.white, // text color
       thumbSize: 150, // preview thumb size , default is 64
-      sortDelegate: SortDelegate.common, // default is common ,or you make custom delegate to sort your gallery
-      checkBoxBuilderDelegate: DefaultCheckBoxBuilderDelegate(), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
+      sortDelegate: SortDelegate
+          .common, // default is common ,or you make custom delegate to sort your gallery
+      checkBoxBuilderDelegate:
+          DefaultCheckBoxBuilderDelegate(), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
     );
 
     if (imgList == null) {
