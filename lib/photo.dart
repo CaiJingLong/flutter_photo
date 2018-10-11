@@ -35,7 +35,7 @@ class PhotoPicker {
   ///
   /// 当用户给予权限后
   ///
-  ///   当用户确定时,返回一个图片[ImageEntity]列表
+  ///   当用户确定时,返回一个图片[AssetEntity]列表
   ///
   ///   当用户取消时
   ///
@@ -44,10 +44,10 @@ class PhotoPicker {
   ///
   /// when user give permission.
   ///
-  ///   when user sure , return a [ImageEntity] of [List]
+  ///   when user sure , return a [AssetEntity] of [List]
   ///
   ///   when user cancel selected,result is empty list
-  static Future<List<ImageEntity>> pickImage({
+  static Future<List<AssetEntity>> pickImage({
     @required BuildContext context,
     int rowCount = 4,
     int maxSelected = 9,
@@ -94,7 +94,7 @@ class PhotoPicker {
     );
   }
 
-  Future<List<ImageEntity>> _pickImage(
+  Future<List<AssetEntity>> _pickImage(
     BuildContext context,
     Options options,
     I18nProvider provider,
@@ -116,7 +116,7 @@ class PhotoPicker {
     return _openGalleryContentPage(context, options, provider);
   }
 
-  Future<List<ImageEntity>> _openGalleryContentPage(
+  Future<List<AssetEntity>> _openGalleryContentPage(
       BuildContext context, Options options, I18nProvider provider) async {
     return Navigator.of(context).push(
       MaterialPageRoute(

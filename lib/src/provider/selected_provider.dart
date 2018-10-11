@@ -1,21 +1,21 @@
 import 'package:photo_manager/photo_manager.dart';
 
 abstract class SelectedProvider {
-  List<ImageEntity> selectedList = [];
+  List<AssetEntity> selectedList = [];
 
   int get selectedCount => selectedList.length;
 
-  bool containsEntity(ImageEntity entity) {
+  bool containsEntity(AssetEntity entity) {
     return selectedList.contains(entity);
   }
 
-  int indexOfSelected(ImageEntity entity) {
+  int indexOfSelected(AssetEntity entity) {
     return selectedList.indexOf(entity);
   }
 
   bool isUpperLimit();
 
-  bool addSelectEntity(ImageEntity entity) {
+  bool addSelectEntity(AssetEntity entity) {
     if (containsEntity(entity)) {
       return false;
     }
@@ -26,11 +26,11 @@ abstract class SelectedProvider {
     return true;
   }
 
-  bool removeSelectEntity(ImageEntity entity) {
+  bool removeSelectEntity(AssetEntity entity) {
     return selectedList.remove(entity);
   }
 
-  void compareAndRemoveEntities(List<ImageEntity> previewSelectedList) {
+  void compareAndRemoveEntities(List<AssetEntity> previewSelectedList) {
     var srcList = List.of(selectedList);
     selectedList.clear();
     srcList.forEach((entity) {

@@ -12,7 +12,7 @@ import 'package:photo/src/ui/page/photo_preview_page.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class PhotoMainPage extends StatefulWidget {
-  final ValueChanged<List<ImageEntity>> onClose;
+  final ValueChanged<List<AssetEntity>> onClose;
 
   const PhotoMainPage({
     Key key,
@@ -29,22 +29,22 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   I18nProvider get i18nProvider => ConfigProvider.of(context).provider;
 
-  List<ImageEntity> list = [];
+  List<AssetEntity> list = [];
 
   Color get themeColor => options.themeColor;
 
-  ImagePathEntity _currentPath = ImagePathEntity.all;
+  AssetPathEntity _currentPath = AssetPathEntity.all;
 
   bool _isInit = false;
 
-  ImagePathEntity get currentPath {
+  AssetPathEntity get currentPath {
     if (_currentPath == null) {
       return null;
     }
     return _currentPath;
   }
 
-  set currentPath(ImagePathEntity value) {
+  set currentPath(AssetPathEntity value) {
     _currentPath = value;
   }
 
@@ -151,14 +151,14 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   }
 
   void _refreshList() async {
-    var pathList = await PhotoManager.getImagePathList();
+    var pathList = await PhotoManager.getAssetPathList();
 
     options.sortDelegate.sort(pathList);
 
     galleryPathList.clear();
     galleryPathList.addAll(pathList);
 
-    var imageList = await currentPath.imageList;
+    var imageList = await currentPath.assetList;
     this.list.clear();
     this.list.addAll(imageList);
     setState(() {
@@ -214,7 +214,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  Widget _buildSelected(ImageEntity entity) {
+  Widget _buildSelected(AssetEntity entity) {
     var currentSelected = containsEntity(entity);
     return Positioned(
       right: 0.0,
@@ -230,7 +230,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  Widget _buildText(ImageEntity entity) {
+  Widget _buildText(AssetEntity entity) {
     var isSelected = containsEntity(entity);
     Widget child;
     BoxDecoration decoration;
@@ -263,7 +263,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  void changeCheck(bool value, ImageEntity entity) {
+  void changeCheck(bool value, AssetEntity entity) {
     if (value) {
       addSelectEntity(entity);
     } else {
@@ -272,10 +272,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     setState(() {});
   }
 
-  void _onGalleryChange(ImagePathEntity value) {
+  void _onGalleryChange(AssetPathEntity value) {
     _currentPath = value;
 
-    _currentPath.imageList.then((v) {
+    _currentPath.assetList.then((v) {
       list.clear();
       list.addAll(v);
       scrollController.jumpTo(0.0);
@@ -283,7 +283,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     });
   }
 
-  void _onItemClick(ImageEntity data, int index) {
+  void _onItemClick(AssetEntity data, int index) {
     var result = new PhotoPreviewResult();
     isPushed = true;
     Navigator.of(context).push(
@@ -343,11 +343,11 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  bool handlePreviewResult(List<ImageEntity> v) {
+  bool handlePreviewResult(List<AssetEntity> v) {
     if (v == null) {
       return false;
     }
-    if (v is List<ImageEntity>) {
+    if (v is List<AssetEntity>) {
       return true;
     }
     return false;
@@ -383,7 +383,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 }
 
 class _BottomWidget extends StatefulWidget {
-  final ValueChanged<ImagePathEntity> onGalleryChange;
+  final ValueChanged<AssetPathEntity> onGalleryChange;
 
   final Options options;
 
@@ -481,7 +481,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
 }
 
 class ImageItem extends StatelessWidget {
-  final ImageEntity entity;
+  final AssetEntity entity;
 
   final Color themeColor;
 

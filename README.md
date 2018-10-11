@@ -13,11 +13,18 @@ if you want to build custom ui, you just need api to make custom ui. to use [pho
 
 ![image](https://github.com/CaiJingLong/some_asset/blob/master/image_picker1.gif)
 
+## API incompatibility
+API incompatibility
+
+because support video, so the ImagePathEntity and ImageEntity rename to AssetPathEntity and AssetEntity.
+
+so PhotoPicker.pickImage return type will change to List<AssetEntity>
+
 ## install
 
 ```yaml
 dependencies:
-  photo: ^0.0.8
+  photo: ^0.1.0
 ```
 
 ## import
@@ -31,7 +38,7 @@ import 'package:photo_manager/photo_manager.dart';
 
 ```dart
   void _pickImage() async {
-    List<ImageEntity> imgList = await PhotoPicker.pickImage(
+    List<AssetEntity> imgList = await PhotoPicker.pickImage(
       context: context, // BuildContext requied
 
       /// The following are optional parameters.

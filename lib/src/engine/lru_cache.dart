@@ -6,17 +6,17 @@ import 'package:photo_manager/photo_manager.dart';
 class ImageLruCache {
   static LRUMap<_ImageCacheEntity, Uint8List> _map = LRUMap(500);
 
-  static Uint8List getData(ImageEntity entity, [int size = 64]) {
+  static Uint8List getData(AssetEntity entity, [int size = 64]) {
     return _map.get(_ImageCacheEntity(entity, size));
   }
 
-  static void setData(ImageEntity entity, int size, Uint8List list) {
+  static void setData(AssetEntity entity, int size, Uint8List list) {
     _map.put(_ImageCacheEntity(entity, size), list);
   }
 }
 
 class _ImageCacheEntity {
-  ImageEntity entity;
+  AssetEntity entity;
   int size;
 
   _ImageCacheEntity(this.entity, this.size);

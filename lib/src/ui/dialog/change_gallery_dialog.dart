@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class ChangeGalleryDialog extends StatefulWidget {
-  final List<ImagePathEntity> galleryList;
+  final List<AssetPathEntity> galleryList;
 
   const ChangeGalleryDialog({Key key, this.galleryList}) : super(key: key);
 
