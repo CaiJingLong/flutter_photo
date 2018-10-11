@@ -173,6 +173,7 @@ class CheckboxListTile extends StatelessWidget {
     final Widget control = Checkbox(
       value: value,
       onChanged: onChanged,
+      checkColor: checkColor,
       activeColor: activeColor,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     );

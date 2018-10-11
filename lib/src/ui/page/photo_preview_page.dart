@@ -303,8 +303,13 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
 class BigPhotoImage extends StatefulWidget {
   final ImageEntity imageEntity;
+  final Widget loadingWidget;
 
-  const BigPhotoImage({Key key, this.imageEntity}) : super(key: key);
+  const BigPhotoImage({
+    Key key,
+    this.imageEntity,
+    this.loadingWidget,
+  }) : super(key: key);
 
   @override
   _BigPhotoImageState createState() => _BigPhotoImageState();
@@ -312,6 +317,11 @@ class BigPhotoImage extends StatefulWidget {
 
 class _BigPhotoImageState extends State<BigPhotoImage>
     with AutomaticKeepAliveClientMixin {
+
+  Widget get loadingWidget{
+    return widget.loadingWidget ?? Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -330,7 +340,7 @@ class _BigPhotoImageState extends State<BigPhotoImage>
             height: double.infinity,
           );
         }
-        return Container();
+        return loadingWidget;
       },
     );
   }

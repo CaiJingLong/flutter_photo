@@ -36,7 +36,7 @@ class DefaultCheckBoxBuilderDelegate extends CheckBoxBuilderDelegate {
         value: checked,
         onChanged: (bool check) {},
         activeColor: activeColor,
-        checkColor: unselectedColor,
+        checkColor: Colors.red,
         title: Text(
           i18nProvider.getSelectedOptionsText(options),
           textAlign: TextAlign.end,

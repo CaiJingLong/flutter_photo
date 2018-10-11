@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
       /// The following are optional parameters.
       themeColor: Colors.green, // the title color and bottom color
       padding: 1.0, // item padding
-      dividerColor: Colors.deepOrange, // divider color
+      dividerColor: Colors.grey, // divider color
       disableColor: Colors.grey.shade300, // the check box disable color
       itemRadio: 0.88, // the content item radio
       maxSelected: 8, // max picker image count
@@ -48,7 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
       sortDelegate: SortDelegate
           .common, // default is common ,or you make custom delegate to sort your gallery
       checkBoxBuilderDelegate:
-          DefaultCheckBoxBuilderDelegate(), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
+          DefaultCheckBoxBuilderDelegate(
+            activeColor: Colors.white,
+            unselectedColor: Colors.white,
+          ), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
     );
 
     if (imgList == null) {
