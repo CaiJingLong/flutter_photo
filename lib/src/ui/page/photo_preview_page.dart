@@ -11,7 +11,7 @@ import 'package:photo_manager/photo_manager.dart';
 class PhotoPreviewPage extends StatefulWidget {
   final SelectedProvider selectedProvider;
 
-  final List<ImageEntity> list;
+  final List<AssetEntity> list;
 
   final int initIndex;
 
@@ -45,7 +45,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   SelectedProvider get selectedProvider => widget.selectedProvider;
 
-  List<ImageEntity> get list => widget.list;
+  List<AssetEntity> get list => widget.list;
 
   StreamController<int> pageChangeController = StreamController.broadcast();
 
@@ -58,14 +58,14 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   /// 缩略图用的数据
   ///
   /// 用于与provider数据联动
-  List<ImageEntity> get previewList {
+  List<AssetEntity> get previewList {
     return selectedProvider.selectedList;
   }
 
   /// 选中的数据
-  List<ImageEntity> _selectedList = [];
+  List<AssetEntity> _selectedList = [];
 
-  List<ImageEntity> get selectedList {
+  List<AssetEntity> get selectedList {
     if (changeProviderOnCheckChange) {
       return previewList;
     }
@@ -237,7 +237,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   Widget _buildItem(BuildContext context, int index) {
     var data = list[index];
     return BigPhotoImage(
-      imageEntity: data,
+      assetEntity: data,
     );
   }
 
@@ -291,7 +291,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
     );
   }
 
-  void changeSelected(ImageEntity entity, int index) {
+  void changeSelected(AssetEntity entity, int index) {
     var itemIndex = list.indexOf(entity);
     if (itemIndex != -1) pageController.jumpToPage(itemIndex);
   }
@@ -302,12 +302,12 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 }
 
 class BigPhotoImage extends StatefulWidget {
-  final ImageEntity imageEntity;
+  final AssetEntity assetEntity;
   final Widget loadingWidget;
 
   const BigPhotoImage({
     Key key,
-    this.imageEntity,
+    this.assetEntity,
     this.loadingWidget,
   }) : super(key: key);
 
@@ -328,7 +328,7 @@ class _BigPhotoImageState extends State<BigPhotoImage>
     var height = MediaQuery.of(context).size.height;
     return FutureBuilder(
       future:
-          widget.imageEntity.thumbDataWithSize(width.floor(), height.floor()),
+          widget.assetEntity.thumbDataWithSize(width.floor(), height.floor()),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var file = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done && file != null) {
@@ -350,5 +350,5 @@ class _BigPhotoImageState extends State<BigPhotoImage>
 }
 
 class PhotoPreviewResult {
-  List<ImageEntity> previewSelectedList = [];
+  List<AssetEntity> previewSelectedList = [];
 }

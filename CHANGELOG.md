@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [0.1.0] support video
+API incompatibility
+
+ImageXXX rename AssetXXX
+
 ## [0.0.8] fix bug
 DefaultCheckBoxBuilderDelegate params checkColor not valid bug
 

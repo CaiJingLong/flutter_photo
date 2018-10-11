@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String currentSelected = "";
 
   void _pickImage() async {
-    List<ImageEntity> imgList = await PhotoPicker.pickImage(
+    List<AssetEntity> imgList = await PhotoPicker.pickImage(
       context: context, // BuildContext requied
 
       /// The following are optional parameters.

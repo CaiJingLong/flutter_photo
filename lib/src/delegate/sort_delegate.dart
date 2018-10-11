@@ -3,7 +3,7 @@ import 'package:photo_manager/photo_manager.dart';
 abstract class SortDelegate {
   const SortDelegate();
 
-  void sort(List<ImagePathEntity> list);
+  void sort(List<AssetPathEntity> list);
 
   static const none = DefaultSortDelegate();
 
@@ -14,20 +14,20 @@ class DefaultSortDelegate extends SortDelegate {
   const DefaultSortDelegate();
 
   @override
-  void sort(List<ImagePathEntity> list) {}
+  void sort(List<AssetPathEntity> list) {}
 }
 
 class CommonSortDelegate extends SortDelegate {
   const CommonSortDelegate();
 
   @override
-  void sort(List<ImagePathEntity> list) {
+  void sort(List<AssetPathEntity> list) {
     list.sort((path1, path2) {
-      if (path1 == ImagePathEntity.all) {
+      if (path1 == AssetPathEntity.all) {
         return -1;
       }
 
-      if (path2 == ImagePathEntity.all) {
+      if (path2 == AssetPathEntity.all) {
         return 1;
       }
 
@@ -51,15 +51,15 @@ class CommonSortDelegate extends SortDelegate {
     });
   }
 
-  int otherSort(ImagePathEntity path1, ImagePathEntity path2) {
+  int otherSort(AssetPathEntity path1, AssetPathEntity path2) {
     return path1.name.compareTo(path2.name);
   }
 
-  bool _isCamera(ImagePathEntity entity) {
+  bool _isCamera(AssetPathEntity entity) {
     return entity.name.toUpperCase() == "camera".toUpperCase();
   }
 
-  bool _isScreenShot(ImagePathEntity entity) {
+  bool _isScreenShot(AssetPathEntity entity) {
     return entity.name.toUpperCase() == "screenshots".toUpperCase() ||
         entity.name.toUpperCase() == "screenshot".toUpperCase();
   }
