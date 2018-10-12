@@ -3,7 +3,6 @@
 [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
 ![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)
 
-
 image picker, multi picker
 use flutter as ui
 
@@ -14,6 +13,7 @@ if you want to build custom ui, you just need api to make custom ui. to use [pho
 ![image](https://github.com/CaiJingLong/some_asset/blob/master/image_picker1.gif)
 
 ## API incompatibility
+
 API incompatibility
 
 because support video, so the ImagePathEntity and ImageEntity rename to AssetPathEntity and AssetEntity.
@@ -68,12 +68,11 @@ import 'package:photo_manager/photo_manager.dart';
     }
     setState(() {});
   }
-
 ```
 
 ## whole example
 
-you can see [github](https://github.com/caijinglong/flutter_photo/blob/master/example/)  [main.dart](https://github.com/caijinglong/flutter_photo/blob/master/example/lib/main.dart)
+you can see [github](https://github.com/caijinglong/flutter_photo/blob/master/example/) [main.dart](https://github.com/caijinglong/flutter_photo/blob/master/example/lib/main.dart)
 
 ## about android
 
@@ -104,11 +103,9 @@ if you use the proguard
 
 see the [github](https://github.com/bumptech/glide#proguard)
 
-
 ## about ios
 
 Because the album is a privacy privilege, you need user permission to access it. You must to modify the `Info.plist` file in Runner project.
-
 
 like next
 

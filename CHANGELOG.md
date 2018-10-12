@@ -1,17 +1,21 @@
 # CHANGELOG
 
 ## [0.1.0] support video
+
 API incompatibility
 
 ImageXXX rename AssetXXX
 
 ## [0.0.8] fix bug
+
 DefaultCheckBoxBuilderDelegate params checkColor not valid bug
 
 ## [0.0.7] fix bug
+
 fix dividerColor not valid bug
 
 ## [0.0.6] add checkbox delegate
+
 users can use CheckBoxDelegate to custom preview right bottom widget
 
 ## [0.0.5] add a params
