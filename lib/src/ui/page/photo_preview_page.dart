@@ -243,7 +243,8 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   }
 
   Widget _buildLoadingWidget(AssetEntity entity) {
-    return options.loadingDelegate.buildBigImageLoading(context, entity, themeColor);
+    return options.loadingDelegate
+        .buildBigImageLoading(context, entity, themeColor);
   }
 
   void _onPageChanged(int value) {
