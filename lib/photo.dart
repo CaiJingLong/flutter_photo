@@ -3,19 +3,20 @@ library photo;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:photo_manager/photo_manager.dart';
-
+import 'package:photo/src/delegate/checkbox_builder_delegate.dart';
+import 'package:photo/src/delegate/loading_delegate.dart';
+import 'package:photo/src/delegate/sort_delegate.dart';
 import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
 import 'package:photo/src/ui/photo_app.dart';
-import 'package:photo/src/delegate/sort_delegate.dart';
-import 'package:photo/src/delegate/checkbox_builder_delegate.dart';
+import 'package:photo_manager/photo_manager.dart';
 
+export 'package:photo/src/delegate/checkbox_builder_delegate.dart';
+export 'package:photo/src/delegate/loading_delegate.dart';
+export 'package:photo/src/delegate/sort_delegate.dart';
 export 'package:photo/src/provider/i18n_provider.dart'
     show I18NCustomProvider, I18nProvider, CNProvider, ENProvider;
-export 'package:photo/src/delegate/sort_delegate.dart';
-export 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 
 class PhotoPicker {
   static PhotoPicker _instance;
@@ -61,6 +62,7 @@ class PhotoPicker {
     I18nProvider provider = I18nProvider.chinese,
     SortDelegate sortDelegate,
     CheckBoxBuilderDelegate checkBoxBuilderDelegate,
+    LoadingDelegate loadingDelegate,
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
@@ -72,6 +74,8 @@ class PhotoPicker {
 
     sortDelegate ??= SortDelegate.common;
     checkBoxBuilderDelegate ??= DefaultCheckBoxBuilderDelegate();
+
+    loadingDelegate ??= DefaultLoadingDelegate();
 
     var options = Options(
       rowCount: rowCount,
@@ -85,6 +89,7 @@ class PhotoPicker {
       thumbSize: thumbSize,
       sortDelegate: sortDelegate,
       checkBoxBuilderDelegate: checkBoxBuilderDelegate,
+      loadingDelegate: loadingDelegate,
     );
 
     return PhotoPicker()._pickImage(

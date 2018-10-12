@@ -238,7 +238,13 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
     var data = list[index];
     return BigPhotoImage(
       assetEntity: data,
+      loadingWidget: _buildLoadingWidget(data),
     );
+  }
+
+  Widget _buildLoadingWidget(AssetEntity entity) {
+    return options.loadingDelegate
+        .buildBigImageLoading(context, entity, themeColor);
   }
 
   void _onPageChanged(int value) {
@@ -271,6 +277,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
               themeColor: themeColor,
               entity: item,
               size: options.thumbSize,
+              loadingDelegate: options.loadingDelegate,
             ),
             IgnorePointer(
               child: StreamBuilder(
@@ -317,8 +324,7 @@ class BigPhotoImage extends StatefulWidget {
 
 class _BigPhotoImageState extends State<BigPhotoImage>
     with AutomaticKeepAliveClientMixin {
-
-  Widget get loadingWidget{
+  Widget get loadingWidget {
     return widget.loadingWidget ?? Container();
   }
 

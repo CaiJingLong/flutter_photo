@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:photo/src/delegate/loading_delegate.dart';
 import 'package:photo/src/engine/lru_cache.dart';
 import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/provider/config_provider.dart';
@@ -197,6 +198,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
             entity: data,
             themeColor: themeColor,
             size: options.thumbSize,
+            loadingDelegate: options.loadingDelegate,
           ),
           _buildMask(containsEntity(data)),
           _buildSelected(data),
@@ -487,11 +489,14 @@ class ImageItem extends StatelessWidget {
 
   final int size;
 
+  final LoadingDelegate loadingDelegate;
+
   const ImageItem({
     Key key,
     this.entity,
     this.themeColor,
     this.size = 64,
+    this.loadingDelegate,
   }) : super(key: key);
 
   @override
@@ -511,13 +516,8 @@ class ImageItem extends StatelessWidget {
           return _buildImageItem(futureData);
         }
         return Center(
-          child: Container(
-            width: 20.0,
-            height: 20.0,
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(themeColor),
-            ),
-          ),
+          child:
+              loadingDelegate.buildPreviewLoading(context, entity, themeColor),
         );
       },
     );
