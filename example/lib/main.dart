@@ -61,10 +61,10 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       checkBoxBuilderDelegate: DefaultCheckBoxBuilderDelegate(
         activeColor: Colors.white,
         unselectedColor: Colors.white,
-      ),
-      // default is D
+      ), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
+
       loadingDelegate:
-          this, // efaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
+          this, // if you want to build custom loading widget,extends LoadingDelegate, [see example/lib/main.dart]
     );
 
     if (imgList == null) {
