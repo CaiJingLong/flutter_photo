@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.1] fix bug and add params
+
+add loadingDelegate
+
 ## [0.1.0] support video
 
 API incompatibility
