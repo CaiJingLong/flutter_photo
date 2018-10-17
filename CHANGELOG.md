@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [0.1.2] fix bug
+fix all path hasVideo property bug
+
 ## [0.1.1] fix bug and add params
 
 add loadingDelegate
