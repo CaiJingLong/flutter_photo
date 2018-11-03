@@ -4,6 +4,11 @@
 ![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)
 
 image picker, multi picker
+
+support ios icloud
+
+support video
+
 use flutter as ui
 
 if you want to build custom ui, you just need api to make custom ui. to use [photo_manager](https://github.com/CaiJingLong/flutter_photo_manager)
@@ -24,7 +29,7 @@ so PhotoPicker.pickImage return type will change to List<AssetEntity>
 
 ```yaml
 dependencies:
-  photo: ^0.1.2
+  photo: ^0.1.3
 ```
 
 ## import
