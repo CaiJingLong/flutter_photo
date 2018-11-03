@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## [0.1.3] support ios icloud asset
+
 ## [0.1.2] fix bug
 fix all path hasVideo property bug
 
