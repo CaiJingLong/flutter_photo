@@ -127,3 +127,7 @@ like next
 
 xcode like image
 ![in xcode](https://github.com/CaiJingLong/some_asset/blob/master/flutter_photo2.png)
+
+
+### build error
+if you build error like include of non-modular header inside framework module, see [#10](https://github.com/CaiJingLong/flutter_photo/issues/10) or [so](https://stackoverflow.com/questions/27776497/include-of-non-modular-header-inside-framework-module)
