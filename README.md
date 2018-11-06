@@ -1,7 +1,8 @@
 # photo
 
 [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
-![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)
+[![GitHub](https://img.shields.io/github/license/CaiJingLong/flutter_photo.svg?style=flat-square)](https://github.com/CaiJingLong/flutter_photo)
+[![GitHub stars](https://img.shields.io/github/stars/CaiJingLong/flutter_photo.svg?style=social&label=Stars)](https://github.com/CaiJingLong/flutter_photo)
 
 image picker, multi picker
 
@@ -78,7 +79,6 @@ void _pickImage() async {
       loadingDelegate:
           this, // if you want to build custom loading widget,extends LoadingDelegate [see example/lib/main.dart]
     );
-
 ```
 
 ## whole example
@@ -128,6 +128,6 @@ like next
 xcode like image
 ![in xcode](https://github.com/CaiJingLong/some_asset/blob/master/flutter_photo2.png)
 
-
 ### build error
+
 if you build error like include of non-modular header inside framework module, see [#10](https://github.com/CaiJingLong/flutter_photo/issues/10) or [so](https://stackoverflow.com/questions/27776497/include-of-non-modular-header-inside-framework-module)
