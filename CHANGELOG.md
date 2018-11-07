@@ -1,8 +1,13 @@
 # CHANGELOG
 
+## [0.1.4] fix thumb is null bug
+
+fix thumb bug.
+
 ## [0.1.3] support ios icloud asset
 
 ## [0.1.2] fix bug
+
 fix all path hasVideo property bug
 
 ## [0.1.1] fix bug and add params
