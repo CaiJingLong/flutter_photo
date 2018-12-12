@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## [0.1.5] rollback photo_manager version
+
 ## [0.1.4] fix thumb is null bug
 
 fix thumb bug.

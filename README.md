@@ -30,7 +30,7 @@ so PhotoPicker.pickImage return type will change to List<AssetEntity>
 
 ```yaml
 dependencies:
-  photo: ^0.1.4
+  photo: ^0.1.5
 ```
 
 ## import
