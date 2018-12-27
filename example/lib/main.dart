@@ -31,9 +31,9 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   String currentSelected = "";
 
   void _pickImage() async {
-    List<AssetEntity> imgList = await PhotoPicker.pickImage(
+    List<AssetEntity> imgList = await PhotoPicker.pickAsset(
+      // BuildContext required
       context: context,
-      // BuildContext requied
 
       /// The following are optional parameters.
       themeColor: Colors.green,
@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       // max picker image count
       provider: I18nProvider.chinese,
       // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
-      rowCount: 5,
+      rowCount: 3,
       // item row count
       textColor: Colors.white,
       // text color
@@ -61,10 +61,11 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       checkBoxBuilderDelegate: DefaultCheckBoxBuilderDelegate(
         activeColor: Colors.white,
         unselectedColor: Colors.white,
-      ), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
+      ),
+      // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
 
-      loadingDelegate:
-          this, // if you want to build custom loading widget,extends LoadingDelegate, [see example/lib/main.dart]
+      loadingDelegate: this,
+      // if you want to build custom loading widget,extends LoadingDelegate, [see example/lib/main.dart]
     );
 
     if (imgList == null) {

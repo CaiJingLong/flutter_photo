@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:photo/src/delegate/badge_delegate.dart';
 import 'package:photo/src/delegate/loading_delegate.dart';
 import 'package:photo/src/engine/lru_cache.dart';
 import 'package:photo/src/entity/options.dart';
@@ -190,19 +191,22 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   Widget _buildItem(BuildContext context, int index) {
     var data = list[index];
-    return GestureDetector(
-      onTap: () => _onItemClick(data, index),
-      child: Stack(
-        children: <Widget>[
-          ImageItem(
-            entity: data,
-            themeColor: themeColor,
-            size: options.thumbSize,
-            loadingDelegate: options.loadingDelegate,
-          ),
-          _buildMask(containsEntity(data)),
-          _buildSelected(data),
-        ],
+    return RepaintBoundary(
+      child: GestureDetector(
+        onTap: () => _onItemClick(data, index),
+        child: Stack(
+          children: <Widget>[
+            ImageItem(
+              entity: data,
+              themeColor: themeColor,
+              size: options.thumbSize,
+              loadingDelegate: options.loadingDelegate,
+              badgeDelegate: options.badgeDelegate,
+            ),
+            _buildMask(containsEntity(data)),
+            _buildSelected(data),
+          ],
+        ),
       ),
     );
   }
@@ -491,19 +495,22 @@ class ImageItem extends StatelessWidget {
 
   final LoadingDelegate loadingDelegate;
 
+  final BadgeDelegate badgeDelegate;
+
   const ImageItem({
     Key key,
     this.entity,
     this.themeColor,
     this.size = 64,
     this.loadingDelegate,
+    this.badgeDelegate,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var thumb = ImageLruCache.getData(entity, size);
     if (thumb != null) {
-      return _buildImageItem(thumb);
+      return _buildImageItem(context, thumb);
     }
 
     return FutureBuilder<Uint8List>(
@@ -513,22 +520,37 @@ class ImageItem extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done &&
             futureData != null) {
           ImageLruCache.setData(entity, size, futureData);
-          return _buildImageItem(futureData);
+          return _buildImageItem(context, futureData);
         }
         return Center(
-          child:
-              loadingDelegate.buildPreviewLoading(context, entity, themeColor),
+          child: loadingDelegate.buildPreviewLoading(
+            context,
+            entity,
+            themeColor,
+          ),
         );
       },
     );
   }
 
-  Widget _buildImageItem(Uint8List data) {
-    return Image.memory(
+  Widget _buildImageItem(BuildContext context, Uint8List data) {
+    var image = Image.memory(
       data,
       width: double.infinity,
       height: double.infinity,
       fit: BoxFit.cover,
+    );
+    var badge = badgeDelegate?.buildBadge(context, entity.type);
+    if (badge == null) {
+      return image;
+    }
+    return Stack(
+      children: <Widget>[
+        image,
+        IgnorePointer(
+          child: badge,
+        ),
+      ],
     );
   }
 }

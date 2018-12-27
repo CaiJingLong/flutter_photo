@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo/src/delegate/badge_delegate.dart';
 import 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 import 'package:photo/src/delegate/loading_delegate.dart';
 import 'package:photo/src/delegate/sort_delegate.dart';
@@ -28,6 +29,8 @@ class Options {
 
   final LoadingDelegate loadingDelegate;
 
+  final BadgeDelegate badgeDelegate;
+
   const Options({
     this.rowCount,
     this.maxSelected,
@@ -41,5 +44,6 @@ class Options {
     this.sortDelegate,
     this.checkBoxBuilderDelegate,
     this.loadingDelegate,
+    this.badgeDelegate,
   });
 }

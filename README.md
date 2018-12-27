@@ -24,7 +24,7 @@ API incompatibility
 
 because support video, so the ImagePathEntity and ImageEntity rename to AssetPathEntity and AssetEntity.
 
-so PhotoPicker.pickImage return type will change to List<AssetEntity>
+so PhotoPicker.pickImage return type will change to `List<AssetEntity>`
 
 ## install
 
@@ -44,7 +44,7 @@ import 'package:photo_manager/photo_manager.dart';
 
 ```dart
 void _pickImage() async {
-    List<AssetEntity> imgList = await PhotoPicker.pickImage(
+    List<AssetEntity> imgList = await PhotoPicker.pickAsset(
       context: context,
       // BuildContext requied
 
@@ -121,8 +121,8 @@ Because the album is a privacy privilege, you need user permission to access it.
 like next
 
 ```plist
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>App need your agree, can visit your album</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>App need your agree, can visit your album</string>
 ```
 
 xcode like image
