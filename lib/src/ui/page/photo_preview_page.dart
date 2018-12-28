@@ -267,32 +267,34 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   Widget _buildThumbItem(BuildContext context, int index) {
     var item = previewList[index];
-    return GestureDetector(
-      onTap: () => changeSelected(item, index),
-      child: Container(
-        width: 80.0,
-        child: Stack(
-          children: <Widget>[
-            ImageItem(
-              themeColor: themeColor,
-              entity: item,
-              size: options.thumbSize,
-              loadingDelegate: options.loadingDelegate,
-            ),
-            IgnorePointer(
-              child: StreamBuilder(
-                stream: pageStream,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (selectedList.contains(item)) {
-                    return Container();
-                  }
-                  return Container(
-                    color: Colors.white.withOpacity(0.5),
-                  );
-                },
+    return RepaintBoundary(
+      child: GestureDetector(
+        onTap: () => changeSelected(item, index),
+        child: Container(
+          width: 80.0,
+          child: Stack(
+            children: <Widget>[
+              ImageItem(
+                themeColor: themeColor,
+                entity: item,
+                size: options.thumbSize,
+                loadingDelegate: options.loadingDelegate,
               ),
-            ),
-          ],
+              IgnorePointer(
+                child: StreamBuilder(
+                  stream: pageStream,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (selectedList.contains(item)) {
+                      return Container();
+                    }
+                    return Container(
+                      color: Colors.white.withOpacity(0.5),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
