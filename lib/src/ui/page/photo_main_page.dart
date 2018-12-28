@@ -540,10 +540,24 @@ class ImageItem extends StatelessWidget {
       height: double.infinity,
       fit: BoxFit.cover,
     );
-    var badge = badgeDelegate?.buildBadge(context, entity.type);
-    if (badge == null) {
-      return image;
-    }
+    // FutureBuilder()
+    var badge = FutureBuilder<Duration>(
+      future: entity.videoDuration,
+      builder: (ctx, snapshot) {
+        if (snapshot.hasData && snapshot != null) {
+          var buildBadge =
+              badgeDelegate?.buildBadge(context, entity.type, snapshot.data);
+          if (buildBadge == null) {
+            return Container();
+          } else {
+            return buildBadge;
+          }
+        }else{
+          return Container();
+        }
+      },
+    );
+
     return Stack(
       children: <Widget>[
         image,

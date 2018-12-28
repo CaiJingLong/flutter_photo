@@ -66,6 +66,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
 
       loadingDelegate: this,
       // if you want to build custom loading widget,extends LoadingDelegate, [see example/lib/main.dart]
+
+      badgeDelegate: const DurationBadgeDelegate(),
     );
 
     if (imgList == null) {
