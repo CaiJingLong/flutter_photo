@@ -552,7 +552,7 @@ class ImageItem extends StatelessWidget {
           } else {
             return buildBadge;
           }
-        }else{
+        } else {
           return Container();
         }
       },
