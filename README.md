@@ -12,7 +12,7 @@ support video
 
 use flutter as ui
 
-if you want to build custom ui, you just need api to make custom ui. to use [photo_manager](https://github.com/CaiJingLong/flutter_photo_manager)
+if you want to build custom ui, you just need api to make custom ui. to use [photo_manager](https://github.com/CaiJingLong/flutter_photo_manager) or fork the library to custom ui.
 
 ## screenshot
 
@@ -30,7 +30,7 @@ so PhotoPicker.pickImage return type will change to `List<AssetEntity>`
 
 ```yaml
 dependencies:
-  photo: ^0.1.6
+  photo: ^0.1.7
 ```
 
 ## import
@@ -89,11 +89,11 @@ you can see [github](https://github.com/caijinglong/flutter_photo/blob/master/ex
 
 ### glide
 
-android use glide to create image thumb, version is 4.8.0
+Android native use glide to create image thumb bytes, version is 4.8.0.
 
-if you other android library use the library, and version is not same, then you need edit your android project's build.gradle
+If your other android library use the library, and version is not same, then you need edit your android project's build.gradle.
 
-```gradle
+```groovy
 rootProject.allprojects {
 
     subprojects {
@@ -131,3 +131,17 @@ xcode like image
 ### build error
 
 if you build error like include of non-modular header inside framework module, see [#10](https://github.com/CaiJingLong/flutter_photo/issues/10) or [so](https://stackoverflow.com/questions/27776497/include-of-non-modular-header-inside-framework-module)
+
+## thanks
+
+Part of the Android code comes from [debuggerx01](https://github.com/debuggerx01).
+
+## donate
+
+If my code helps you, and you're willing to buy me a cup of coffee.
+
+you can use [paypal](https://paypal.me/caijinglong)
+
+or scan my alipay
+
+<img width="200px"  src="https://raw.githubusercontent.com/CaiJingLong/asset_for_picgo/master/20181228213953.png"/>

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.7]
+
+add a badge delegate for asset
+
 ## [0.1.6] rollback photo_manager version
 
 sort asset by date
