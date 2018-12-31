@@ -44,7 +44,7 @@ import 'package:photo_manager/photo_manager.dart';
 
 ```dart
 void _pickImage() async {
-    List<AssetEntity> imgList = await PhotoPicker.pickImage(
+    List<AssetEntity> imgList = await PhotoPicker.pickAsset(
       context: context,
       // BuildContext requied
 
