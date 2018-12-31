@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.8]
+
+Fixed crash bug when the number of photos or videos was zero.
+
 ## [0.1.7]
 
 add a badge delegate for asset

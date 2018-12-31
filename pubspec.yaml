@@ -1,6 +1,6 @@
 name: photo
 description: image picker, multi picker support video / icloud asset ,use flutter as ui, if you want to build custom ui,you just use photo_manager.
-version: 0.1.7
+version: 0.1.8
 author: caijinglong<cjl_spy@163.com>
 homepage: https://github.com/CaiJingLong/flutter_photo
 
@@ -11,13 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  photo_manager: ^0.1.9
+  photo_manager: ^0.1.10
   # photo_manager:
   #   git:
   #     url: https://github.com/CaiJingLong/flutter_photo_manager.git
   #     ref: 11705633cbd01724af6aaa6aa8c8b9ca86ea385c
 #  photo_manager:
-#    path: /Users/caijinglong/code/flutter/plugin/flutter_photo_manager/
+#    path: /Users/caijinglong/code/flutter/plugin/flutter_photo_manager
 
 dev_dependencies:
   flutter_test:
