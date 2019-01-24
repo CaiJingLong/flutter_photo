@@ -58,6 +58,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   @override
   void initState() {
     super.initState();
+    AssetPathEntity.all.name = i18nProvider.getAllGalleryText(options);
     _refreshList();
     scaffoldKey = GlobalKey();
     scrollController = ScrollController();

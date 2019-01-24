@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.9]
+
+fix all assets i18n provider
+
 ## [0.1.8]
 
 Fixed crash bug when the number of photos or videos was zero.
