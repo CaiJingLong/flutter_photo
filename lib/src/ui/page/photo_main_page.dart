@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -25,8 +26,7 @@ class PhotoMainPage extends StatefulWidget {
   _PhotoMainPageState createState() => _PhotoMainPageState();
 }
 
-class _PhotoMainPageState extends State<PhotoMainPage>
-    with SelectedProvider, GalleryListProvider {
+class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, GalleryListProvider {
   Options get options => ConfigProvider.of(context).options;
 
   I18nProvider get i18nProvider => ConfigProvider.of(context).provider;
@@ -58,7 +58,6 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   @override
   void initState() {
     super.initState();
-    AssetPathEntity.all.name = i18nProvider.getAllGalleryText(options);
     _refreshList();
     scaffoldKey = GlobalKey();
     scrollController = ScrollController();
@@ -94,9 +93,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
                 splashColor: Colors.transparent,
                 child: Text(
                   i18nProvider.getSureText(options, selectedCount),
-                  style: selectedCount == 0
-                      ? textStyle.copyWith(color: options.disableColor)
-                      : textStyle,
+                  style: selectedCount == 0 ? textStyle.copyWith(color: options.disableColor) : textStyle,
                 ),
                 onPressed: selectedCount == 0 ? null : sure,
               ),
@@ -153,7 +150,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  void _refreshList() async {
+  Future<void> _refreshList() async {
     var pathList = await PhotoManager.getAssetPathList();
 
     options.sortDelegate.sort(pathList);
@@ -162,6 +159,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     galleryPathList.addAll(pathList);
 
     var imageList = await currentPath.assetList;
+    AssetPathEntity.all.name = i18nProvider.getAllGalleryText(options);
     this.list.clear();
     this.list.addAll(imageList);
     setState(() {
@@ -461,8 +459,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
                   height: 44.0,
                   alignment: Alignment.center,
                   child: Text(
-                    i18nProvider.getPreviewText(
-                        options, widget.selectedProvider),
+                    i18nProvider.getPreviewText(options, widget.selectedProvider),
                     style: textStyle,
                   ),
                   padding: textPadding,
@@ -518,8 +515,7 @@ class ImageItem extends StatelessWidget {
       future: entity.thumbDataWithSize(size, size),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var futureData = snapshot.data;
-        if (snapshot.connectionState == ConnectionState.done &&
-            futureData != null) {
+        if (snapshot.connectionState == ConnectionState.done && futureData != null) {
           ImageLruCache.setData(entity, size, futureData);
           return _buildImageItem(context, futureData);
         }
@@ -546,8 +542,7 @@ class ImageItem extends StatelessWidget {
       future: entity.videoDuration,
       builder: (ctx, snapshot) {
         if (snapshot.hasData && snapshot != null) {
-          var buildBadge =
-              badgeDelegate?.buildBadge(context, entity.type, snapshot.data);
+          var buildBadge = badgeDelegate?.buildBadge(context, entity.type, snapshot.data);
           if (buildBadge == null) {
             return Container();
           } else {
