@@ -2,8 +2,7 @@
 
 [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
 [![GitHub](https://img.shields.io/github/license/CaiJingLong/flutter_photo.svg?style=flat-square)](https://github.com/CaiJingLong/flutter_photo)
-[![GitHub stars](https://img.shields.io/github/stars/CaiJingLong/flutter_photo.svg?style=social&label=Stars)](https://github.com/CaiJingLong/flutter_photo) 
-[![Join the chat at https://gitter.im/caijinglong/flutter_photo](https://badges.gitter.im/caijinglong/flutter_photo.svg)](https://gitter.im/caijinglong/flutter_photo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub stars](https://img.shields.io/github/stars/CaiJingLong/flutter_photo.svg?style=social&label=Stars)](https://github.com/CaiJingLong/flutter_photo)
 
 image picker, multi picker
 

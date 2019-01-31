@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.11]
+
+fix pubspec version
+
 ## [0.1.10] fix bug
 
 fix a error widget bug.
