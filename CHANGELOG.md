@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.1.10] fix bug
+
+fix a error widget bug.
+
 ## [0.1.9]
 
 fix all assets i18n provider

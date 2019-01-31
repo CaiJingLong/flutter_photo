@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -58,7 +59,6 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   @override
   void initState() {
     super.initState();
-    AssetPathEntity.all.name = i18nProvider.getAllGalleryText(options);
     _refreshList();
     scaffoldKey = GlobalKey();
     scrollController = ScrollController();
@@ -153,7 +153,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  void _refreshList() async {
+  Future<void> _refreshList() async {
     var pathList = await PhotoManager.getAssetPathList();
 
     options.sortDelegate.sort(pathList);
@@ -162,6 +162,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     galleryPathList.addAll(pathList);
 
     var imageList = await currentPath.assetList;
+    AssetPathEntity.all.name = i18nProvider.getAllGalleryText(options);
     this.list.clear();
     this.list.addAll(imageList);
     setState(() {
