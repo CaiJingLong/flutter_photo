@@ -16,8 +16,8 @@ import 'package:photo_manager/photo_manager.dart';
 export 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 export 'package:photo/src/delegate/loading_delegate.dart';
 export 'package:photo/src/delegate/sort_delegate.dart';
-export 'package:photo/src/provider/i18n_provider.dart'
-    show I18NCustomProvider, I18nProvider, CNProvider, ENProvider;
+export 'package:photo/src/provider/i18n_provider.dart' show I18NCustomProvider, I18nProvider, CNProvider, ENProvider;
+export 'package:photo/src/entity/options.dart' show PickType;
 export 'package:photo/src/delegate/badge_delegate.dart';
 
 class PhotoPicker {
@@ -31,44 +31,6 @@ class PhotoPicker {
   }
 
   static const String rootRouteName = "photo_picker_image";
-
-  /// use new method [pickAsset]
-  ///
-  /// This method will be removed in the future.
-  @deprecated
-  static Future<List<AssetEntity>> pickImage({
-    @required BuildContext context,
-    int rowCount = 4,
-    int maxSelected = 9,
-    double padding = 0.5,
-    double itemRadio = 1.0,
-    Color themeColor,
-    Color dividerColor,
-    Color textColor,
-    Color disableColor,
-    int thumbSize = 64,
-    I18nProvider provider = I18nProvider.chinese,
-    SortDelegate sortDelegate,
-    CheckBoxBuilderDelegate checkBoxBuilderDelegate,
-    LoadingDelegate loadingDelegate,
-  }) {
-    return pickAsset(
-      context: context,
-      rowCount: rowCount,
-      maxSelected: maxSelected,
-      padding: padding,
-      itemRadio: itemRadio,
-      themeColor: themeColor,
-      dividerColor: dividerColor,
-      textColor: textColor,
-      disableColor: disableColor,
-      thumbSize: thumbSize,
-      provider: provider,
-      sortDelegate: sortDelegate,
-      checkBoxBuilderDelegate: checkBoxBuilderDelegate,
-      loadingDelegate: loadingDelegate,
-    );
-  }
 
   /// 没有授予权限的时候,会开启一个dialog去帮助用户去应用设置页面开启权限
   /// 确定开启设置页面,取消关闭弹窗,无论选择什么,返回值都是null
@@ -107,10 +69,12 @@ class PhotoPicker {
     SortDelegate sortDelegate,
     CheckBoxBuilderDelegate checkBoxBuilderDelegate,
     LoadingDelegate loadingDelegate,
+    PickType pickType = PickType.all,
     BadgeDelegate badgeDelegate = const DefaultBadgeDelegate(),
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
+    assert(pickType != null, "pickType must be not null");
 
     themeColor ??= Theme.of(context)?.primaryColor ?? Colors.black;
     dividerColor ??= Theme.of(context)?.dividerColor ?? Colors.grey;
@@ -136,16 +100,17 @@ class PhotoPicker {
       checkBoxBuilderDelegate: checkBoxBuilderDelegate,
       loadingDelegate: loadingDelegate,
       badgeDelegate: badgeDelegate,
+      pickType: pickType,
     );
 
-    return PhotoPicker()._pickImage(
+    return PhotoPicker()._pickAsset(
       context,
       options,
       provider,
     );
   }
 
-  Future<List<AssetEntity>> _pickImage(
+  Future<List<AssetEntity>> _pickAsset(
     BuildContext context,
     Options options,
     I18nProvider provider,
@@ -167,8 +132,7 @@ class PhotoPicker {
     return _openGalleryContentPage(context, options, provider);
   }
 
-  Future<List<AssetEntity>> _openGalleryContentPage(
-      BuildContext context, Options options, I18nProvider provider) async {
+  Future<List<AssetEntity>> _openGalleryContentPage(BuildContext context, Options options, I18nProvider provider) async {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => PhotoApp(

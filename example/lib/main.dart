@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   String currentSelected = "";
 
-  void _pickImage() async {
+  void _pickAsset(PickType type) async {
     List<AssetEntity> imgList = await PhotoPicker.pickAsset(
       // BuildContext required
       context: context,
@@ -48,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       // the content item radio
       maxSelected: 8,
       // max picker image count
-      provider: I18nProvider.english,
-      // provider: I18nProvider.chinese,
+      // provider: I18nProvider.english,
+      provider: I18nProvider.chinese,
       // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
       rowCount: 3,
       // item row count
@@ -69,6 +69,9 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       // if you want to build custom loading widget,extends LoadingDelegate, [see example/lib/main.dart]
 
       badgeDelegate: const DurationBadgeDelegate(),
+      // badgeDelegate to show badge widget
+
+      pickType: type,
     );
 
     if (imgList == null) {
@@ -85,8 +88,7 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   }
 
   @override
-  Widget buildBigImageLoading(
-      BuildContext context, AssetEntity entity, Color themeColor) {
+  Widget buildBigImageLoading(BuildContext context, AssetEntity entity, Color themeColor) {
     return Center(
       child: Container(
         width: 50.0,
@@ -99,8 +101,7 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   }
 
   @override
-  Widget buildPreviewLoading(
-      BuildContext context, AssetEntity entity, Color themeColor) {
+  Widget buildPreviewLoading(BuildContext context, AssetEntity entity, Color themeColor) {
     return Center(
       child: Container(
         width: 50.0,
@@ -119,17 +120,45 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
         title: new Text(widget.title),
       ),
       body: Container(
-        child: Center(
-          child: Text(
-            '$currentSelected',
-            textAlign: TextAlign.center,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              IconTextButton(icon: Icons.photo, text: "photo", onTap: () => _pickAsset(PickType.onlyImage)),
+              IconTextButton(icon: Icons.videocam, text: "video", onTap: () => _pickAsset(PickType.onlyVideo)),
+              IconTextButton(icon: Icons.album, text: "all", onTap: () => _pickAsset(PickType.all)),
+              Text(
+                '$currentSelected',
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
       ),
       floatingActionButton: new FloatingActionButton(
-        onPressed: _pickImage,
+        onPressed: () => _pickAsset(PickType.all),
         tooltip: 'pickImage',
         child: new Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class IconTextButton extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final Function onTap;
+
+  const IconTextButton({Key key, this.icon, this.text, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        child: ListTile(
+          leading: Icon(icon ?? Icons.device_unknown),
+          title: Text(text ?? ""),
+        ),
       ),
     );
   }

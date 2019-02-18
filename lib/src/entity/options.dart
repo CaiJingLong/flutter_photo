@@ -31,6 +31,8 @@ class Options {
 
   final BadgeDelegate badgeDelegate;
 
+  final PickType pickType;
+
   const Options({
     this.rowCount,
     this.maxSelected,
@@ -45,5 +47,12 @@ class Options {
     this.checkBoxBuilderDelegate,
     this.loadingDelegate,
     this.badgeDelegate,
+    this.pickType,
   });
+}
+
+enum PickType {
+  all,
+  onlyImage,
+  onlyVideo,
 }

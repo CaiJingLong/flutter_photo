@@ -28,9 +28,11 @@ so PhotoPicker.pickImage return type will change to `List<AssetEntity>`
 
 ## install
 
+latest version : [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
+
 ```yaml
 dependencies:
-  photo: ^0.1.11
+  photo: $latest_version
 ```
 
 ## import
@@ -78,6 +80,8 @@ void _pickImage() async {
 
       loadingDelegate:
           this, // if you want to build custom loading widget,extends LoadingDelegate [see example/lib/main.dart]
+
+      pickType: type, // all/image/video
     );
 ```
 
