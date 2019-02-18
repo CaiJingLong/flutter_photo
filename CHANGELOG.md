@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [0.2.0]
+
+**break change**
+support pick only image or video
+
 ## [0.1.11]
 
 fix pubspec version
