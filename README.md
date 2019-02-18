@@ -18,14 +18,6 @@ if you want to build custom ui, you just need api to make custom ui. to use [pho
 
 ![image](https://github.com/CaiJingLong/some_asset/blob/master/image_picker1.gif)
 
-## API incompatibility
-
-API incompatibility
-
-because support video, so the ImagePathEntity and ImageEntity rename to AssetPathEntity and AssetEntity.
-
-so PhotoPicker.pickImage return type will change to `List<AssetEntity>`
-
 ## install
 
 latest version : [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
