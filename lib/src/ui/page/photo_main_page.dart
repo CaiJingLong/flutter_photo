@@ -16,19 +16,20 @@ import 'package:photo_manager/photo_manager.dart';
 
 class PhotoMainPage extends StatefulWidget {
   final ValueChanged<List<AssetEntity>> onClose;
+  final Options options;
 
   const PhotoMainPage({
     Key key,
     this.onClose,
+    this.options,
   }) : super(key: key);
 
   @override
   _PhotoMainPageState createState() => _PhotoMainPageState();
 }
 
-class _PhotoMainPageState extends State<PhotoMainPage>
-    with SelectedProvider, GalleryListProvider {
-  Options get options => ConfigProvider.of(context).options;
+class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, GalleryListProvider {
+  Options get options => widget.options;
 
   I18nProvider get i18nProvider => ConfigProvider.of(context).provider;
 
@@ -94,9 +95,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
                 splashColor: Colors.transparent,
                 child: Text(
                   i18nProvider.getSureText(options, selectedCount),
-                  style: selectedCount == 0
-                      ? textStyle.copyWith(color: options.disableColor)
-                      : textStyle,
+                  style: selectedCount == 0 ? textStyle.copyWith(color: options.disableColor) : textStyle,
                 ),
                 onPressed: selectedCount == 0 ? null : sure,
               ),
@@ -154,17 +153,44 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   }
 
   Future<void> _refreshList() async {
-    var pathList = await PhotoManager.getAssetPathList();
+    List<AssetPathEntity> pathList;
+    switch (options.pickType) {
+      case PickType.onlyImage:
+        pathList = await PhotoManager.getImageAsset();
+        break;
+      case PickType.onlyVideo:
+        pathList = await PhotoManager.getVideoAsset();
+        break;
+      default:
+        pathList = await PhotoManager.getAssetPathList();
+    }
+
+    if (pathList == null) {
+      return;
+    }
 
     options.sortDelegate.sort(pathList);
 
     galleryPathList.clear();
     galleryPathList.addAll(pathList);
 
-    var imageList = await currentPath.assetList;
-    AssetPathEntity.all.name = i18nProvider.getAllGalleryText(options);
+    List<AssetEntity> imageList;
+
+    if (pathList.isNotEmpty) {
+      imageList = await pathList[0].assetList;
+      _currentPath = pathList[0];
+    }
+
+    for (var path in pathList) {
+      if (path.isAll) {
+        path.name = i18nProvider.getAllGalleryText(options);
+      }
+    }
+
     this.list.clear();
-    this.list.addAll(imageList);
+    if (imageList != null) {
+      this.list.addAll(imageList);
+    }
     setState(() {
       _isInit = true;
     });
@@ -320,11 +346,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     });
   }
 
-  void _onTapPreview() {
+  void _onTapPreview() async {
     var result = new PhotoPreviewResult();
     isPushed = true;
-    Navigator.of(context)
-        .push(
+    var v = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => ConfigProvider(
               provider: ConfigProvider.of(context).provider,
@@ -337,18 +362,14 @@ class _PhotoMainPageState extends State<PhotoMainPage>
               ),
             ),
       ),
-    )
-        .then(
-      (v) {
-        if (handlePreviewResult(v)) {
-          print(v);
-          Navigator.pop(context, v);
-          return;
-        }
-        isPushed = false;
-        compareAndRemoveEntities(result.previewSelectedList);
-      },
     );
+    if (handlePreviewResult(v)) {
+      // print(v);
+      Navigator.pop(context, v);
+      return;
+    }
+    isPushed = false;
+    compareAndRemoveEntities(result.previewSelectedList);
   }
 
   bool handlePreviewResult(List<AssetEntity> v) {
@@ -462,8 +483,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
                   height: 44.0,
                   alignment: Alignment.center,
                   child: Text(
-                    i18nProvider.getPreviewText(
-                        options, widget.selectedProvider),
+                    i18nProvider.getPreviewText(options, widget.selectedProvider),
                     style: textStyle,
                   ),
                   padding: textPadding,
@@ -519,8 +539,7 @@ class ImageItem extends StatelessWidget {
       future: entity.thumbDataWithSize(size, size),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var futureData = snapshot.data;
-        if (snapshot.connectionState == ConnectionState.done &&
-            futureData != null) {
+        if (snapshot.connectionState == ConnectionState.done && futureData != null) {
           ImageLruCache.setData(entity, size, futureData);
           return _buildImageItem(context, futureData);
         }
@@ -547,8 +566,7 @@ class ImageItem extends StatelessWidget {
       future: entity.videoDuration,
       builder: (ctx, snapshot) {
         if (snapshot.hasData && snapshot != null) {
-          var buildBadge =
-              badgeDelegate?.buildBadge(context, entity.type, snapshot.data);
+          var buildBadge = badgeDelegate?.buildBadge(context, entity.type, snapshot.data);
           if (buildBadge == null) {
             return Container();
           } else {

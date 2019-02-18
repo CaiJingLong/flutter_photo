@@ -23,11 +23,11 @@ class CommonSortDelegate extends SortDelegate {
   @override
   void sort(List<AssetPathEntity> list) {
     list.sort((path1, path2) {
-      if (path1 == AssetPathEntity.all) {
+      if (path1.isAll) {
         return -1;
       }
 
-      if (path2 == AssetPathEntity.all) {
+      if (path2.isAll) {
         return 1;
       }
 
@@ -60,7 +60,6 @@ class CommonSortDelegate extends SortDelegate {
   }
 
   bool _isScreenShot(AssetPathEntity entity) {
-    return entity.name.toUpperCase() == "screenshots".toUpperCase() ||
-        entity.name.toUpperCase() == "screenshot".toUpperCase();
+    return entity.name.toUpperCase() == "screenshots".toUpperCase() || entity.name.toUpperCase() == "screenshot".toUpperCase();
   }
 }

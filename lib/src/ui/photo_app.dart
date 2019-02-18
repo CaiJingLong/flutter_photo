@@ -20,6 +20,7 @@ class PhotoApp extends StatelessWidget {
         onClose: (List<AssetEntity> value) {
           Navigator.pop(context, value);
         },
+        options: options,
       ),
     );
   }
