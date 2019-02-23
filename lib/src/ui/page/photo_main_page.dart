@@ -68,6 +68,7 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, Ga
   @override
   void dispose() {
     scaffoldKey = null;
+    scrollController?.dispose();
     super.dispose();
   }
 
