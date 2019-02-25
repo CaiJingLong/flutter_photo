@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## [0.2.1] add params photoList
+
 ## [0.2.0]
 
 **break change**

@@ -43,9 +43,9 @@ class PhotoPicker {
   ///   当用户确定时,返回一个图片[AssetEntity]列表
   ///
   ///   当用户取消时返回一个空数组
-  /// 
+  ///
   ///   [photoList] 一旦设置 则 [pickType]参数无效
-  /// 
+  ///
   /// 关于参数可以查看readme文档介绍
   ///
   /// if user not grand permission, then return null and show a dialog to help user open setting.
@@ -56,7 +56,7 @@ class PhotoPicker {
   ///   when user sure , return a [AssetEntity] of [List]
   ///
   ///   when user cancel selected,result is empty list
-  /// 
+  ///
   ///   when [photoList] is not null , [pickType] invalid
   ///
   /// params see readme.md
