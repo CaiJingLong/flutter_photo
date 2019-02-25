@@ -30,7 +30,84 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   String currentSelected = "";
 
-  void _pickAsset(PickType type) async {
+  @override
+  Widget buildBigImageLoading(
+      BuildContext context, AssetEntity entity, Color themeColor) {
+    return Center(
+      child: Container(
+        width: 50.0,
+        height: 50.0,
+        child: CupertinoActivityIndicator(
+          radius: 25.0,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget buildPreviewLoading(
+      BuildContext context, AssetEntity entity, Color themeColor) {
+    return Center(
+      child: Container(
+        width: 50.0,
+        height: 50.0,
+        child: CupertinoActivityIndicator(
+          radius: 25.0,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text(widget.title),
+        actions: <Widget>[
+          FlatButton(
+            child: Icon(Icons.image),
+            onPressed: _testPhotoListParams,
+          ),
+        ],
+      ),
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              IconTextButton(
+                  icon: Icons.photo,
+                  text: "photo",
+                  onTap: () => _pickAsset(PickType.onlyImage)),
+              IconTextButton(
+                  icon: Icons.videocam,
+                  text: "video",
+                  onTap: () => _pickAsset(PickType.onlyVideo)),
+              IconTextButton(
+                  icon: Icons.album,
+                  text: "all",
+                  onTap: () => _pickAsset(PickType.all)),
+              Text(
+                '$currentSelected',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        onPressed: () => _pickAsset(PickType.all),
+        tooltip: 'pickImage',
+        child: new Icon(Icons.add),
+      ),
+    );
+  }
+
+  void _testPhotoListParams() async {
+    var assetPathList = await PhotoManager.getImageAsset();
+    _pickAsset(PickType.all, pathList: assetPathList);
+  }
+
+  void _pickAsset(PickType type, {List<AssetPathEntity> pathList}) async {
     List<AssetEntity> imgList = await PhotoPicker.pickAsset(
       // BuildContext required
       context: context,
@@ -72,6 +149,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       // badgeDelegate to show badge widget
 
       pickType: type,
+
+      photoPathList: pathList,
     );
 
     if (imgList == null) {
@@ -85,72 +164,6 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       currentSelected = r.join("\n\n");
     }
     setState(() {});
-  }
-
-  @override
-  Widget buildBigImageLoading(
-      BuildContext context, AssetEntity entity, Color themeColor) {
-    return Center(
-      child: Container(
-        width: 50.0,
-        height: 50.0,
-        child: CupertinoActivityIndicator(
-          radius: 25.0,
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget buildPreviewLoading(
-      BuildContext context, AssetEntity entity, Color themeColor) {
-    return Center(
-      child: Container(
-        width: 50.0,
-        height: 50.0,
-        child: CupertinoActivityIndicator(
-          radius: 25.0,
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              IconTextButton(
-                  icon: Icons.photo,
-                  text: "photo",
-                  onTap: () => _pickAsset(PickType.onlyImage)),
-              IconTextButton(
-                  icon: Icons.videocam,
-                  text: "video",
-                  onTap: () => _pickAsset(PickType.onlyVideo)),
-              IconTextButton(
-                  icon: Icons.album,
-                  text: "all",
-                  onTap: () => _pickAsset(PickType.all)),
-              Text(
-                '$currentSelected',
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: () => _pickAsset(PickType.all),
-        tooltip: 'pickImage',
-        child: new Icon(Icons.add),
-      ),
-    );
   }
 }
 

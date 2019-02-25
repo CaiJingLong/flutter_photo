@@ -55,6 +55,13 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     _currentPath = value;
   }
 
+  String get currentGalleryName {
+    if (currentPath.isAll) {
+      return i18nProvider.getAllGalleryText(options);
+    }
+    return currentPath.name;
+  }
+
   GlobalKey scaffoldKey;
   ScrollController scrollController;
 
@@ -111,7 +118,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
             key: scaffoldKey,
             provider: i18nProvider,
             options: options,
-            galleryName: currentPath.name,
+            galleryName: currentGalleryName,
             onGalleryChange: _onGalleryChange,
             onTapPreview: selectedList.isEmpty ? null : _onTapPreview,
             selectedProvider: this,
@@ -527,6 +534,8 @@ class __BottomWidgetState extends State<_BottomWidget> {
       context: context,
       builder: (ctx) => ChangeGalleryDialog(
             galleryList: widget.galleryListProvider.galleryPathList,
+            i18n: i18nProvider,
+            options: options,
           ),
     );
 

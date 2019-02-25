@@ -44,7 +44,7 @@ class PhotoPicker {
   ///
   ///   当用户取消时返回一个空数组
   ///
-  ///   [photoList] 一旦设置 则 [pickType]参数无效
+  ///   [photoPathList] 一旦设置 则 [pickType]参数无效
   ///
   /// 关于参数可以查看readme文档介绍
   ///
@@ -57,7 +57,7 @@ class PhotoPicker {
   ///
   ///   when user cancel selected,result is empty list
   ///
-  ///   when [photoList] is not null , [pickType] invalid
+  ///   when [photoPathList] is not null , [pickType] invalid
   ///
   /// params see readme.md
   static Future<List<AssetEntity>> pickAsset({
@@ -77,7 +77,7 @@ class PhotoPicker {
     LoadingDelegate loadingDelegate,
     PickType pickType = PickType.all,
     BadgeDelegate badgeDelegate = const DefaultBadgeDelegate(),
-    List<AssetPathEntity> photoList,
+    List<AssetPathEntity> photoPathList,
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
@@ -114,7 +114,7 @@ class PhotoPicker {
       context,
       options,
       provider,
-      photoList,
+      photoPathList,
     );
   }
 

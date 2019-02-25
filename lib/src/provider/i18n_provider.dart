@@ -102,7 +102,7 @@ class ENProvider extends I18nProvider {
 
   @override
   String getAllGalleryText(Options options) {
-    return "all";
+    return "Recent";
   }
 
   @override

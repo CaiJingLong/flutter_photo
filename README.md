@@ -77,11 +77,11 @@ void pickAsset() async {
 
       pickType: type, // all/image/video
 
-      List<AssetPathEntity> photoList, /// when [photoList] is not null , [pickType] invalid .
+      List<AssetPathEntity> photoPathList, /// when [photoPathList] is not null , [pickType] invalid .
     );
 ```
 
-## about photoList
+### about photoPathList params
 
 You can use [photo_manager] package to get `List<AssetPathEntity>` and handle or cache.
 
