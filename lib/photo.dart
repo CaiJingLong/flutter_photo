@@ -3,6 +3,9 @@ library photo;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
+import 'package:photo_manager/photo_manager.dart';
+
 import 'package:photo/src/delegate/badge_delegate.dart';
 import 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 import 'package:photo/src/delegate/loading_delegate.dart';
@@ -11,8 +14,6 @@ import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/ui/dialog/not_permission_dialog.dart';
 import 'package:photo/src/ui/photo_app.dart';
-import 'package:photo_manager/photo_manager.dart';
-
 export 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 export 'package:photo/src/delegate/loading_delegate.dart';
 export 'package:photo/src/delegate/sort_delegate.dart';
@@ -42,7 +43,9 @@ class PhotoPicker {
   ///   当用户确定时,返回一个图片[AssetEntity]列表
   ///
   ///   当用户取消时返回一个空数组
-  ///
+  /// 
+  ///   [photoList] 一旦设置 则 [pickType]参数无效
+  /// 
   /// 关于参数可以查看readme文档介绍
   ///
   /// if user not grand permission, then return null and show a dialog to help user open setting.
@@ -53,6 +56,8 @@ class PhotoPicker {
   ///   when user sure , return a [AssetEntity] of [List]
   ///
   ///   when user cancel selected,result is empty list
+  /// 
+  ///   when [photoList] is not null , [pickType] invalid
   ///
   /// params see readme.md
   static Future<List<AssetEntity>> pickAsset({
@@ -72,6 +77,7 @@ class PhotoPicker {
     LoadingDelegate loadingDelegate,
     PickType pickType = PickType.all,
     BadgeDelegate badgeDelegate = const DefaultBadgeDelegate(),
+    List<AssetPathEntity> photoList,
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
@@ -108,6 +114,7 @@ class PhotoPicker {
       context,
       options,
       provider,
+      photoList,
     );
   }
 
@@ -115,6 +122,7 @@ class PhotoPicker {
     BuildContext context,
     Options options,
     I18nProvider provider,
+    List<AssetPathEntity> photoList,
   ) async {
     var requestPermission = await PhotoManager.requestPermission();
     if (requestPermission != true) {
@@ -130,16 +138,21 @@ class PhotoPicker {
       return null;
     }
 
-    return _openGalleryContentPage(context, options, provider);
+    return _openGalleryContentPage(context, options, provider, photoList);
   }
 
   Future<List<AssetEntity>> _openGalleryContentPage(
-      BuildContext context, Options options, I18nProvider provider) async {
+    BuildContext context,
+    Options options,
+    I18nProvider provider,
+    List<AssetPathEntity> photoList,
+  ) async {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => PhotoApp(
               options: options,
               provider: provider,
+              photoList: photoList,
             ),
       ),
     );

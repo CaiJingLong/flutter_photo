@@ -17,11 +17,13 @@ import 'package:photo_manager/photo_manager.dart';
 class PhotoMainPage extends StatefulWidget {
   final ValueChanged<List<AssetEntity>> onClose;
   final Options options;
+  final List<AssetPathEntity> photoList;
 
   const PhotoMainPage({
     Key key,
     this.onClose,
     this.options,
+    this.photoList,
   }) : super(key: key);
 
   @override
@@ -155,7 +157,27 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  Future<void> _refreshList() async {
+  void _refreshList() {
+    if (widget.photoList != null && widget.photoList.isNotEmpty) {
+      _refreshListFromWidget();
+      return;
+    }
+
+    _refreshListFromGallery();
+  }
+
+  Future<void> _refreshListFromWidget() async {
+    galleryPathList.clear();
+    galleryPathList.addAll(widget.photoList);
+    this.list.clear();
+    var assetList = await galleryPathList[0].assetList;
+    this.list.addAll(assetList);
+    setState(() {
+      _isInit = true;
+    });
+  }
+
+  Future<void> _refreshListFromGallery() async {
     List<AssetPathEntity> pathList;
     switch (options.pickType) {
       case PickType.onlyImage:
