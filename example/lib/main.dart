@@ -88,7 +88,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   }
 
   @override
-  Widget buildBigImageLoading(BuildContext context, AssetEntity entity, Color themeColor) {
+  Widget buildBigImageLoading(
+      BuildContext context, AssetEntity entity, Color themeColor) {
     return Center(
       child: Container(
         width: 50.0,
@@ -101,7 +102,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   }
 
   @override
-  Widget buildPreviewLoading(BuildContext context, AssetEntity entity, Color themeColor) {
+  Widget buildPreviewLoading(
+      BuildContext context, AssetEntity entity, Color themeColor) {
     return Center(
       child: Container(
         width: 50.0,
@@ -123,9 +125,18 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              IconTextButton(icon: Icons.photo, text: "photo", onTap: () => _pickAsset(PickType.onlyImage)),
-              IconTextButton(icon: Icons.videocam, text: "video", onTap: () => _pickAsset(PickType.onlyVideo)),
-              IconTextButton(icon: Icons.album, text: "all", onTap: () => _pickAsset(PickType.all)),
+              IconTextButton(
+                  icon: Icons.photo,
+                  text: "photo",
+                  onTap: () => _pickAsset(PickType.onlyImage)),
+              IconTextButton(
+                  icon: Icons.videocam,
+                  text: "video",
+                  onTap: () => _pickAsset(PickType.onlyVideo)),
+              IconTextButton(
+                  icon: Icons.album,
+                  text: "all",
+                  onTap: () => _pickAsset(PickType.all)),
               Text(
                 '$currentSelected',
                 textAlign: TextAlign.center,
@@ -148,7 +159,8 @@ class IconTextButton extends StatelessWidget {
   final String text;
   final Function onTap;
 
-  const IconTextButton({Key key, this.icon, this.text, this.onTap}) : super(key: key);
+  const IconTextButton({Key key, this.icon, this.text, this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

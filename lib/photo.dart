@@ -16,7 +16,8 @@ import 'package:photo_manager/photo_manager.dart';
 export 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 export 'package:photo/src/delegate/loading_delegate.dart';
 export 'package:photo/src/delegate/sort_delegate.dart';
-export 'package:photo/src/provider/i18n_provider.dart' show I18NCustomProvider, I18nProvider, CNProvider, ENProvider;
+export 'package:photo/src/provider/i18n_provider.dart'
+    show I18NCustomProvider, I18nProvider, CNProvider, ENProvider;
 export 'package:photo/src/entity/options.dart' show PickType;
 export 'package:photo/src/delegate/badge_delegate.dart';
 
@@ -132,7 +133,8 @@ class PhotoPicker {
     return _openGalleryContentPage(context, options, provider);
   }
 
-  Future<List<AssetEntity>> _openGalleryContentPage(BuildContext context, Options options, I18nProvider provider) async {
+  Future<List<AssetEntity>> _openGalleryContentPage(
+      BuildContext context, Options options, I18nProvider provider) async {
     return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => PhotoApp(
