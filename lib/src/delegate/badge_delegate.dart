@@ -50,8 +50,8 @@ class DurationBadgeDelegate extends BadgeDelegate {
   @override
   Widget buildBadge(BuildContext context, AssetType type, Duration duration) {
     if (type == AssetType.video) {
-      var s = duration.inSeconds;
-      var m = duration.inMinutes;
+      var s = duration.inSeconds % 60;
+      var m = duration.inMinutes % 60;
       var h = duration.inHours;
 
       String text =
