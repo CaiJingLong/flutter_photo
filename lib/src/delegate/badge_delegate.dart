@@ -52,7 +52,7 @@ class DurationBadgeDelegate extends BadgeDelegate {
     if (type == AssetType.video) {
       var s = duration.inSeconds % 60;
       var m = duration.inMinutes % 60;
-      var h = duration.inHours ;
+      var h = duration.inHours;
 
       String text =
           "$h:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}";
