@@ -1,6 +1,13 @@
 # CHANGELOG
 
-## [0.2.1] add params photoList
+## [0.3.0] add params photoList
+
+**Breaking change**. Migrate from the deprecated original Android Support Library to AndroidX. This shouldn't result in any functional changes, but it requires any Android apps using this plugin to also migrate if they're using the original support library.
+
+fix:
+
+- duration badge
+- sort image
 
 ## [0.2.0]
 
