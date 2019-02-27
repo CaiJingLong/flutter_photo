@@ -18,5 +18,6 @@ class ConfigProvider extends InheritedWidget {
     return true;
   }
 
-  static ConfigProvider of(BuildContext context) => context.inheritFromWidgetOfExactType(ConfigProvider);
+  static ConfigProvider of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(ConfigProvider);
 }

@@ -60,6 +60,7 @@ class CommonSortDelegate extends SortDelegate {
   }
 
   bool _isScreenShot(AssetPathEntity entity) {
-    return entity.name.toUpperCase() == "screenshots".toUpperCase() || entity.name.toUpperCase() == "screenshot".toUpperCase();
+    return entity.name.toUpperCase() == "screenshots".toUpperCase() ||
+        entity.name.toUpperCase() == "screenshot".toUpperCase();
   }
 }

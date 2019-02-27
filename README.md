@@ -37,7 +37,7 @@ import 'package:photo_manager/photo_manager.dart';
 ## use
 
 ```dart
-void _pickImage() async {
+void pickAsset() async {
     List<AssetEntity> imgList = await PhotoPicker.pickAsset(
       context: context,
       // BuildContext requied
@@ -73,9 +73,19 @@ void _pickImage() async {
       loadingDelegate:
           this, // if you want to build custom loading widget,extends LoadingDelegate [see example/lib/main.dart]
 
+      badgeDelegate: const DefaultBadgeDelegate(), /// or custom class extends [BadgeDelegate]
+
       pickType: type, // all/image/video
+
+      List<AssetPathEntity> photoPathList, /// when [photoPathList] is not null , [pickType] invalid .
     );
 ```
+
+### about photoPathList params
+
+You can use [photo_manager] package to get `List<AssetPathEntity>` and handle or cache.
+
+This parameter is then passed into the `pickAsset` method, where the incoming photoList is rendered instead of the data in the album.
 
 ## whole example
 

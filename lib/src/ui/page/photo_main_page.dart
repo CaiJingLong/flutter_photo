@@ -17,18 +17,21 @@ import 'package:photo_manager/photo_manager.dart';
 class PhotoMainPage extends StatefulWidget {
   final ValueChanged<List<AssetEntity>> onClose;
   final Options options;
+  final List<AssetPathEntity> photoList;
 
   const PhotoMainPage({
     Key key,
     this.onClose,
     this.options,
+    this.photoList,
   }) : super(key: key);
 
   @override
   _PhotoMainPageState createState() => _PhotoMainPageState();
 }
 
-class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, GalleryListProvider {
+class _PhotoMainPageState extends State<PhotoMainPage>
+    with SelectedProvider, GalleryListProvider {
   Options get options => widget.options;
 
   I18nProvider get i18nProvider => ConfigProvider.of(context).provider;
@@ -50,6 +53,13 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, Ga
 
   set currentPath(AssetPathEntity value) {
     _currentPath = value;
+  }
+
+  String get currentGalleryName {
+    if (currentPath.isAll) {
+      return i18nProvider.getAllGalleryText(options);
+    }
+    return currentPath.name;
   }
 
   GlobalKey scaffoldKey;
@@ -95,7 +105,9 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, Ga
                 splashColor: Colors.transparent,
                 child: Text(
                   i18nProvider.getSureText(options, selectedCount),
-                  style: selectedCount == 0 ? textStyle.copyWith(color: options.disableColor) : textStyle,
+                  style: selectedCount == 0
+                      ? textStyle.copyWith(color: options.disableColor)
+                      : textStyle,
                 ),
                 onPressed: selectedCount == 0 ? null : sure,
               ),
@@ -106,7 +118,7 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, Ga
             key: scaffoldKey,
             provider: i18nProvider,
             options: options,
-            galleryName: currentPath.name,
+            galleryName: currentGalleryName,
             onGalleryChange: _onGalleryChange,
             onTapPreview: selectedList.isEmpty ? null : _onTapPreview,
             selectedProvider: this,
@@ -152,7 +164,27 @@ class _PhotoMainPageState extends State<PhotoMainPage> with SelectedProvider, Ga
     );
   }
 
-  Future<void> _refreshList() async {
+  void _refreshList() {
+    if (widget.photoList != null && widget.photoList.isNotEmpty) {
+      _refreshListFromWidget();
+      return;
+    }
+
+    _refreshListFromGallery();
+  }
+
+  Future<void> _refreshListFromWidget() async {
+    galleryPathList.clear();
+    galleryPathList.addAll(widget.photoList);
+    this.list.clear();
+    var assetList = await galleryPathList[0].assetList;
+    this.list.addAll(assetList);
+    setState(() {
+      _isInit = true;
+    });
+  }
+
+  Future<void> _refreshListFromGallery() async {
     List<AssetPathEntity> pathList;
     switch (options.pickType) {
       case PickType.onlyImage:
@@ -483,7 +515,8 @@ class __BottomWidgetState extends State<_BottomWidget> {
                   height: 44.0,
                   alignment: Alignment.center,
                   child: Text(
-                    i18nProvider.getPreviewText(options, widget.selectedProvider),
+                    i18nProvider.getPreviewText(
+                        options, widget.selectedProvider),
                     style: textStyle,
                   ),
                   padding: textPadding,
@@ -501,6 +534,8 @@ class __BottomWidgetState extends State<_BottomWidget> {
       context: context,
       builder: (ctx) => ChangeGalleryDialog(
             galleryList: widget.galleryListProvider.galleryPathList,
+            i18n: i18nProvider,
+            options: options,
           ),
     );
 
@@ -539,7 +574,8 @@ class ImageItem extends StatelessWidget {
       future: entity.thumbDataWithSize(size, size),
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var futureData = snapshot.data;
-        if (snapshot.connectionState == ConnectionState.done && futureData != null) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            futureData != null) {
           ImageLruCache.setData(entity, size, futureData);
           return _buildImageItem(context, futureData);
         }
@@ -566,7 +602,8 @@ class ImageItem extends StatelessWidget {
       future: entity.videoDuration,
       builder: (ctx, snapshot) {
         if (snapshot.hasData && snapshot != null) {
-          var buildBadge = badgeDelegate?.buildBadge(context, entity.type, snapshot.data);
+          var buildBadge =
+              badgeDelegate?.buildBadge(context, entity.type, snapshot.data);
           if (buildBadge == null) {
             return Container();
           } else {
