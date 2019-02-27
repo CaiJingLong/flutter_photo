@@ -70,6 +70,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   bool isPushed = false;
 
+  bool get useAlbum => widget.photoList == null || widget.photoList.isEmpty;
+
   @override
   void initState() {
     super.initState();
@@ -172,7 +174,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   }
 
   void _refreshList() {
-    if (widget.photoList != null && widget.photoList.isNotEmpty) {
+    if (!useAlbum) {
       _refreshListFromWidget();
       return;
     }
@@ -456,5 +458,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     );
   }
 
-  void _onAssetChange() {}
+  void _onAssetChange() {
+    if (useAlbum) {
+      _refreshList();
+    }
+  }
+  
 }
