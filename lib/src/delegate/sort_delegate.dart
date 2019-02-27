@@ -1,7 +1,14 @@
 import 'package:photo_manager/photo_manager.dart';
 
+part './sort_asset_delegate.dart';
+
+/// SortPathDelegate
 abstract class SortDelegate {
-  const SortDelegate();
+  final SortAssetDelegate assetDelegate;
+
+  const SortDelegate({
+    this.assetDelegate = const DefaultAssetDelegate(),
+  });
 
   void sort(List<AssetPathEntity> list);
 
@@ -11,14 +18,18 @@ abstract class SortDelegate {
 }
 
 class DefaultSortDelegate extends SortDelegate {
-  const DefaultSortDelegate();
+  const DefaultSortDelegate({
+    SortAssetDelegate assetDelegate = const DefaultAssetDelegate(),
+  }) : super(assetDelegate: assetDelegate);
 
   @override
   void sort(List<AssetPathEntity> list) {}
 }
 
 class CommonSortDelegate extends SortDelegate {
-  const CommonSortDelegate();
+  const CommonSortDelegate({
+    SortAssetDelegate assetDelegate = const DefaultAssetDelegate(),
+  }) : super(assetDelegate: assetDelegate);
 
   @override
   void sort(List<AssetPathEntity> list) {

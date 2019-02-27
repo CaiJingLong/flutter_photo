@@ -178,6 +178,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     galleryPathList.addAll(widget.photoList);
     this.list.clear();
     var assetList = await galleryPathList[0].assetList;
+    _sortAssetList(assetList);
     this.list.addAll(assetList);
     setState(() {
       _isInit = true;
@@ -210,6 +211,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
     if (pathList.isNotEmpty) {
       imageList = await pathList[0].assetList;
+      _sortAssetList(imageList);
       _currentPath = pathList[0];
     }
 
@@ -226,6 +228,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     setState(() {
       _isInit = true;
     });
+  }
+
+  void _sortAssetList(List<AssetEntity> assetList) {
+    options?.sortDelegate?.assetDelegate?.sort(assetList);
   }
 
   Widget _buildBody() {
@@ -342,6 +348,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     _currentPath = value;
 
     _currentPath.assetList.then((v) {
+      _sortAssetList(v);
       list.clear();
       list.addAll(v);
       scrollController.jumpTo(0.0);
