@@ -361,11 +361,12 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   void _onGalleryChange(AssetPathEntity assetPathEntity) {
     _currentPath = assetPathEntity;
 
-    _currentPath.assetList.then((v) {
+    _currentPath.assetList.then((v)async {
       _sortAssetList(v);
       list.clear();
       list.addAll(v);
       scrollController.jumpTo(0.0);
+      await checkPickImageEntity();
       setState(() {});
     });
   }
@@ -499,4 +500,5 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     // Not deleted
     _onGalleryChange(this.currentPath);
   }
+
 }

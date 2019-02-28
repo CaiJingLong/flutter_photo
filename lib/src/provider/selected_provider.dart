@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:photo_manager/photo_manager.dart';
 
 abstract class SelectedProvider {
@@ -41,4 +43,18 @@ abstract class SelectedProvider {
   }
 
   void sure();
+
+  Future checkPickImageEntity() async {
+    List<AssetEntity> notExistsList = [];
+    for (var entity in selectedList) {
+      var exists = await entity.exists;
+      if (!exists) {
+        notExistsList.add(entity);
+      }
+    }
+
+    selectedList.removeWhere((e) {
+      return notExistsList.contains(e);
+    });
+  }
 }
