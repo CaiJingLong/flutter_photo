@@ -14,7 +14,7 @@ use flutter as ui
 
 if you want to build custom ui, you just need api to make custom ui. to use [photo_manager](https://github.com/CaiJingLong/flutter_photo_manager) or fork the library to custom ui.
 
-## screenshot
+## Screenshot
 
 ![image](https://github.com/CaiJingLong/some_asset/blob/master/image_picker1.gif)
 
@@ -27,7 +27,7 @@ dependencies:
   photo: $latest_version
 ```
 
-## import
+## Import
 
 ```dart
 import 'package:photo/photo.dart';
@@ -81,19 +81,23 @@ void pickAsset() async {
     );
 ```
 
-### about photoPathList params
+### About photoPathList params
 
 You can use [photo_manager] package to get `List<AssetPathEntity>` and handle or cache.
 
 This parameter is then passed into the `pickAsset` method, where the incoming photoList is rendered instead of the data in the album.
 
-## whole example
+## Whole example
 
-you can see [github](https://github.com/caijinglong/flutter_photo/blob/master/example/) [main.dart](https://github.com/caijinglong/flutter_photo/blob/master/example/lib/main.dart)
+You can see [github](https://github.com/caijinglong/flutter_photo/blob/master/example/) [main.dart](https://github.com/caijinglong/flutter_photo/blob/master/example/lib/main.dart)
 
-## about android
+## About android
 
-### glide
+### Migrate to androidX
+
+See the [gitbook](https://caijinglong.gitbooks.io/migrate-flutter-to-androidx/content/)
+
+### Glide
 
 Android native use glide to create image thumb bytes, version is 4.8.0.
 
@@ -120,7 +124,7 @@ if you use the proguard
 
 see the [github](https://github.com/bumptech/glide#proguard)
 
-## about ios
+## About ios
 
 Because the album is a privacy privilege, you need user permission to access it. You must to modify the `Info.plist` file in Runner project.
 
@@ -134,15 +138,15 @@ like next
 xcode like image
 ![in xcode](https://github.com/CaiJingLong/some_asset/blob/master/flutter_photo2.png)
 
-### build error
+### Build error
 
 if you build error like include of non-modular header inside framework module, see [#10](https://github.com/CaiJingLong/flutter_photo/issues/10) or [so](https://stackoverflow.com/questions/27776497/include-of-non-modular-header-inside-framework-module)
 
-## thanks
+## Thanks
 
 Part of the Android code comes from [debuggerx01](https://github.com/debuggerx01).
 
-## donate
+## Donate
 
 If my code helps you, and you're willing to buy me a cup of coffee.
 
