@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:photo/src/delegate/badge_delegate.dart';
 import 'package:photo/src/delegate/loading_delegate.dart';
 import 'package:photo/src/engine/lru_cache.dart';
+import 'package:photo/src/engine/throttle.dart';
 import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/provider/config_provider.dart';
 import 'package:photo/src/provider/gallery_list_provider.dart';
@@ -72,20 +73,24 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   bool get useAlbum => widget.photoList == null || widget.photoList.isEmpty;
 
+  Throttle _changeThrottle;
+
   @override
   void initState() {
     super.initState();
     _refreshList();
     scaffoldKey = GlobalKey();
     scrollController = ScrollController();
-    PhotoManager.addChangeCallback(_onAssetChange);
+    _changeThrottle = Throttle(onCall: _onAssetChange);
+    PhotoManager.addChangeCallback(_changeThrottle.call);
     PhotoManager.startChangeNotify();
   }
 
   @override
   void dispose() {
-    PhotoManager.removeChangeCallback(_onAssetChange);
+    PhotoManager.removeChangeCallback(_changeThrottle.call);
     PhotoManager.stopChangeNotify();
+    _changeThrottle.dispose();
     scaffoldKey = null;
     super.dispose();
   }
@@ -353,8 +358,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     setState(() {});
   }
 
-  void _onGalleryChange(AssetPathEntity value) {
-    _currentPath = value;
+  void _onGalleryChange(AssetPathEntity assetPathEntity) {
+    _currentPath = assetPathEntity;
 
     _currentPath.assetList.then((v) {
       _sortAssetList(v);
@@ -460,8 +465,38 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   void _onAssetChange() {
     if (useAlbum) {
-      _refreshList();
+      _onPhotoRefresh();
     }
   }
-  
+
+  void _onPhotoRefresh() async {
+    List<AssetPathEntity> pathList;
+    switch (options.pickType) {
+      case PickType.onlyImage:
+        pathList = await PhotoManager.getImageAsset();
+        break;
+      case PickType.onlyVideo:
+        pathList = await PhotoManager.getVideoAsset();
+        break;
+      default:
+        pathList = await PhotoManager.getAssetPathList();
+    }
+
+    if (pathList == null) {
+      return;
+    }
+
+    this.galleryPathList.clear();
+    this.galleryPathList.addAll(pathList);
+
+    if (!this.galleryPathList.contains(this.currentPath)) {
+      // current path is deleted , 当前的相册被删除, 应该提示刷新
+      if (this.galleryPathList.length > 0) {
+        _onGalleryChange(this.galleryPathList[0]);
+      }
+      return;
+    }
+    // Not deleted
+    _onGalleryChange(this.currentPath);
+  }
 }

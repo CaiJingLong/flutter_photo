@@ -4,10 +4,14 @@
 
 **Breaking change**. Migrate from the deprecated original Android Support Library to AndroidX. This shouldn't result in any functional changes, but it requires any Android apps using this plugin to also migrate if they're using the original support library.
 
+add:
+
+- When the album changes, it refreshes in real time.
+
 fix:
 
-- duration badge
-- sort image
+- Video duration badge time problem.
+- Images sort by create time.
 
 ## [0.2.0]
 

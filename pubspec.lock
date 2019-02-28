@@ -70,11 +70,9 @@ packages:
   photo_manager:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "8ef0bf9047cdd86e2331f0db8d15c4c50f35610d"
-      resolved-ref: "8ef0bf9047cdd86e2331f0db8d15c4c50f35610d"
-      url: "https://github.com/CaiJingLong/flutter_photo_manager.git"
-    source: git
+      name: photo_manager
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "0.3.0"
   quiver:
     dependency: transitive
