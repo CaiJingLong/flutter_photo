@@ -1,4 +1,3 @@
-
 part of '../photo_main_page.dart';
 
 class _BottomWidget extends StatefulWidget {

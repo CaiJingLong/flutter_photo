@@ -1,6 +1,5 @@
 part of '../photo_main_page.dart';
 
-
 class ImageItem extends StatelessWidget {
   final AssetEntity entity;
 
