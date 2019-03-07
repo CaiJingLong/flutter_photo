@@ -1,6 +1,7 @@
-import 'package:example/asset_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
+
+import './asset_image.dart';
 
 class PreviewPage extends StatelessWidget {
   final List<AssetEntity> list;

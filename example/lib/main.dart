@@ -1,8 +1,9 @@
-import 'package:example/preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
+
+import './preview.dart';
 
 void main() => runApp(new MyApp());
 
