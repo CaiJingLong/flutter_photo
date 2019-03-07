@@ -1,3 +1,4 @@
+import 'package:example/preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo/photo.dart';
@@ -162,6 +163,11 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
         r.add(file.absolute.path);
       }
       currentSelected = r.join("\n\n");
+
+      List<AssetEntity> preview = [];
+      preview.addAll(imgList);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (_) => PreviewPage(list: preview)));
     }
     setState(() {});
   }
