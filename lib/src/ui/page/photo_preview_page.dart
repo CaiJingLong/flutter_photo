@@ -332,6 +332,7 @@ class _BigPhotoImageState extends State<BigPhotoImage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return FutureBuilder(
