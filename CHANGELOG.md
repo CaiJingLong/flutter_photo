@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 0.3.4+1
+
+fix:
+
+- title and left icon color.
+- checkColor in preview can be edit.
+
 ## 0.3.4
 
 rollback `photo_manager` to `0.3.4`

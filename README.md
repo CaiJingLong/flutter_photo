@@ -68,6 +68,7 @@ void pickAsset() async {
       checkBoxBuilderDelegate: DefaultCheckBoxBuilderDelegate(
         activeColor: Colors.white,
         unselectedColor: Colors.white,
+        checkColor: Colors.blue,
       ), // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
 
       loadingDelegate:
