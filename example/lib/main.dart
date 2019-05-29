@@ -117,6 +117,9 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       /// The following are optional parameters.
       themeColor: Colors.green,
       // the title color and bottom color
+
+      textColor: Colors.white,
+      // text color
       padding: 1.0,
       // item padding
       dividerColor: Colors.grey,
@@ -132,8 +135,7 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
       rowCount: 3,
       // item row count
-      textColor: Colors.white,
-      // text color
+
       thumbSize: 150,
       // preview thumb size , default is 64
       sortDelegate: SortDelegate.common,
@@ -141,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       checkBoxBuilderDelegate: DefaultCheckBoxBuilderDelegate(
         activeColor: Colors.white,
         unselectedColor: Colors.white,
+        checkColor: Colors.green,
       ),
       // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
 

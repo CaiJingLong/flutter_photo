@@ -108,11 +108,17 @@ class _PhotoMainPageState extends State<PhotoMainPage>
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.close),
+              icon: Icon(
+                Icons.close,
+                color: options.textColor,
+              ),
               onPressed: _cancel,
             ),
             title: Text(
               i18nProvider.getTitleText(options),
+              style: TextStyle(
+                color: options.textColor,
+              ),
             ),
             actions: <Widget>[
               FlatButton(
