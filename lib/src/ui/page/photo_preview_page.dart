@@ -96,20 +96,29 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    var data = Theme.of(context);
     var textStyle = TextStyle(
       color: options.textColor,
       fontSize: 14.0,
     );
     return Theme(
-      data: Theme.of(context).copyWith(primaryColor: options.themeColor),
+      data: data.copyWith(
+        primaryColor: options.themeColor,
+      ),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: config.options.themeColor,
+          leading: BackButton(
+            color: options.textColor,
+          ),
           title: StreamBuilder(
             stream: pageStream,
             initialData: widget.initIndex,
             builder: (ctx, snap) => Text(
                   "${snap.data + 1}/${widget.list.length}",
+                  style: TextStyle(
+                    color: options.textColor,
+                  ),
                 ),
           ),
           actions: <Widget>[

@@ -12,7 +12,7 @@ class PreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("预览"),
+        title: Text("Preview"),
       ),
       body: ListView(
         children: list
