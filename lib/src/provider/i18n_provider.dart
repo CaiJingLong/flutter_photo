@@ -17,7 +17,7 @@ abstract class I18nProvider {
   String getAllGalleryText(Options options);
 
   String loadingText() {
-    return "loading...";
+    return "Loading...";
   }
 
   I18NPermissionProvider getNotPermissionText(Options options);
@@ -77,27 +77,27 @@ class ENProvider extends I18nProvider {
 
   @override
   String getTitleText(Options options) {
-    return "image picker";
+    return "Image Picker";
   }
 
   @override
   String getPreviewText(Options options, SelectedProvider selectedProvider) {
-    return "preview(${selectedProvider.selectedCount})";
+    return "Preview (${selectedProvider.selectedCount})";
   }
 
   @override
   String getSureText(Options options, int currentCount) {
-    return "sure($currentCount/${options.maxSelected})";
+    return "Save ($currentCount/${options.maxSelected})";
   }
 
   @override
   String getSelectedOptionsText(Options options) {
-    return "selected";
+    return "Selected";
   }
 
   @override
   String getMaxTipText(Options options) {
-    return "select ${options.maxSelected} pictures at most";
+    return "Select ${options.maxSelected} pictures at most";
   }
 
   @override
@@ -108,8 +108,8 @@ class ENProvider extends I18nProvider {
   @override
   I18NPermissionProvider getNotPermissionText(Options options) {
     return I18NPermissionProvider(
-        cancelText: "cancel",
-        sureText: "allow",
+        cancelText: "Cancel",
+        sureText: "Allow",
         titleText: "No permission to access gallery");
   }
 }
