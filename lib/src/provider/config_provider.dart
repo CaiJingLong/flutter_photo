@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:photo/src/entity/options.dart';
+import 'package:photo/src/provider/asset_provider.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 
-class ConfigProvider extends InheritedWidget {
+class PhotoPickerProvider extends InheritedWidget {
   final Options options;
   final I18nProvider provider;
+  final AssetProvider assetProvider = AssetProvider();
 
-  ConfigProvider({
+  PhotoPickerProvider({
     @required this.options,
     @required this.provider,
     @required Widget child,
@@ -18,6 +20,9 @@ class ConfigProvider extends InheritedWidget {
     return true;
   }
 
-  static ConfigProvider of(BuildContext context) =>
-      context.inheritFromWidgetOfExactType(ConfigProvider);
+  static PhotoPickerProvider of(BuildContext context) =>
+      context.inheritFromWidgetOfExactType(PhotoPickerProvider);
+
+  static AssetProvider assetProviderOf(BuildContext context) =>
+      of(context).assetProvider;
 }

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:photo/src/entity/options.dart';
+import 'package:photo/src/provider/asset_provider.dart';
 import 'package:photo/src/provider/config_provider.dart';
 import 'package:photo/src/provider/selected_provider.dart';
 import 'package:photo/src/ui/page/photo_main_page.dart';
@@ -18,8 +19,13 @@ class PhotoPreviewPage extends StatefulWidget {
   /// 这个参数是控制在内部点击check后是否实时修改provider状态
   final bool changeProviderOnCheckChange;
 
+  /// 是否通过预览进来的
+  final bool isPreview;
+
   /// 这里封装了结果
   final PhotoPreviewResult result;
+
+  final AssetProvider assetProvider;
 
   const PhotoPreviewPage({
     Key key,
@@ -27,7 +33,9 @@ class PhotoPreviewPage extends StatefulWidget {
     @required this.list,
     @required this.changeProviderOnCheckChange,
     @required this.result,
+    @required this.assetProvider,
     this.initIndex = 0,
+    this.isPreview = false,
   }) : super(key: key);
 
   @override
@@ -35,7 +43,8 @@ class PhotoPreviewPage extends StatefulWidget {
 }
 
 class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
-  ConfigProvider get config => ConfigProvider.of(context);
+  PhotoPickerProvider get config => PhotoPickerProvider.of(context);
+  AssetProvider get assetProvider => widget.assetProvider;
 
   Options get options => config.options;
 
@@ -45,7 +54,12 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   SelectedProvider get selectedProvider => widget.selectedProvider;
 
-  List<AssetEntity> get list => widget.list;
+  List<AssetEntity> get list {
+    if (!widget.isPreview) {
+      return assetProvider.data;
+    }
+    return widget.list;
+  }
 
   StreamController<int> pageChangeController = StreamController.broadcast();
 
@@ -96,6 +110,13 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    int totalCount = assetProvider.current.assetCount ?? 0;
+    if (!widget.isPreview) {
+      totalCount = assetProvider.current.assetCount;
+    } else {
+      totalCount = list.length;
+    }
+
     var data = Theme.of(context);
     var textStyle = TextStyle(
       color: options.textColor,
@@ -114,33 +135,35 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
           title: StreamBuilder(
             stream: pageStream,
             initialData: widget.initIndex,
-            builder: (ctx, snap) => Text(
-                  "${snap.data + 1}/${widget.list.length}",
-                  style: TextStyle(
-                    color: options.textColor,
-                  ),
+            builder: (ctx, snap) {
+              return Text(
+                "${snap.data + 1}/$totalCount",
+                style: TextStyle(
+                  color: options.textColor,
                 ),
+              );
+            },
           ),
           actions: <Widget>[
             StreamBuilder(
               stream: pageStream,
               builder: (ctx, s) => FlatButton(
-                    splashColor: Colors.transparent,
-                    onPressed: selectedList.length == 0 ? null : sure,
-                    child: Text(
-                      config.provider.getSureText(options, selectedList.length),
-                      style: selectedList.length == 0
-                          ? textStyle.copyWith(color: options.disableColor)
-                          : textStyle,
-                    ),
-                  ),
+                splashColor: Colors.transparent,
+                onPressed: selectedList.length == 0 ? null : sure,
+                child: Text(
+                  config.provider.getSureText(options, selectedList.length),
+                  style: selectedList.length == 0
+                      ? textStyle.copyWith(color: options.disableColor)
+                      : textStyle,
+                ),
+              ),
             ),
           ],
         ),
         body: PageView.builder(
           controller: pageController,
           itemBuilder: _buildItem,
-          itemCount: list.length,
+          itemCount: totalCount,
           onPageChanged: _onPageChanged,
         ),
         bottomSheet: _buildThumb(),
@@ -244,11 +267,19 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   }
 
   Widget _buildItem(BuildContext context, int index) {
+    if (!widget.isPreview && index >= list.length - 5) {
+      _loadMore();
+    }
+
     var data = list[index];
     return BigPhotoImage(
       assetEntity: data,
       loadingWidget: _buildLoadingWidget(data),
     );
+  }
+
+  Future<void> _loadMore() async {
+    assetProvider.loadMore();
   }
 
   Widget _buildLoadingWidget(AssetEntity entity) {
@@ -263,13 +294,13 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
   Widget _buildThumb() {
     return StreamBuilder(
       builder: (ctx, snapshot) => Container(
-            height: 80.0,
-            child: ListView.builder(
-              itemBuilder: _buildThumbItem,
-              itemCount: previewList.length,
-              scrollDirection: Axis.horizontal,
-            ),
-          ),
+        height: 80.0,
+        child: ListView.builder(
+          itemBuilder: _buildThumbItem,
+          itemCount: previewList.length,
+          scrollDirection: Axis.horizontal,
+        ),
+      ),
       stream: pageStream,
     );
   }

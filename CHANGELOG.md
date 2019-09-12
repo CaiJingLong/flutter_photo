@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.4.0
+
+roolback `photo_manager` to `0.4.0`
+
+- support androidQ.
+
 ## 0.3.4+1
 
 fix:
