@@ -22,7 +22,6 @@ class AssetImageWidget extends StatelessWidget {
     if (assetEntity == null) {
       return _buildContainer();
     }
-    final size = assetEntity.size;
 
     print(
         "assetEntity.width = ${assetEntity.width} , assetEntity.height = ${assetEntity.height}");
