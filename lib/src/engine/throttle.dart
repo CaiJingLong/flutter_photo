@@ -21,7 +21,7 @@ class Throttle {
     this.duration = const Duration(seconds: 2),
   });
 
-  void call() {
+  void call(call) {
     if (!_isRunning) {
       _startTimer();
       onCall?.call();

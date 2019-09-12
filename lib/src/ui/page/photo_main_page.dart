@@ -44,7 +44,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   Color get themeColor => options.themeColor;
 
-  AssetPathEntity _currentPath = AssetPathEntity.all;
+  AssetPathEntity _currentPath;
 
   bool _isInit = false;
 
@@ -60,10 +60,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   }
 
   String get currentGalleryName {
-    if (currentPath.isAll) {
+    if (currentPath?.isAll == true) {
       return i18nProvider.getAllGalleryText(options);
     }
-    return currentPath.name;
+    return currentPath?.name ?? "";
   }
 
   GlobalKey scaffoldKey;
@@ -412,15 +412,15 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     var v = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => ConfigProvider(
-              provider: ConfigProvider.of(context).provider,
-              options: options,
-              child: PhotoPreviewPage(
-                selectedProvider: this,
-                list: List.of(selectedList),
-                changeProviderOnCheckChange: false,
-                result: result,
-              ),
-            ),
+          provider: ConfigProvider.of(context).provider,
+          options: options,
+          child: PhotoPreviewPage(
+            selectedProvider: this,
+            list: List.of(selectedList),
+            changeProviderOnCheckChange: false,
+            result: result,
+          ),
+        ),
       ),
     );
     if (handlePreviewResult(v)) {

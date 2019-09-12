@@ -22,34 +22,30 @@ class AssetImageWidget extends StatelessWidget {
     if (assetEntity == null) {
       return _buildContainer();
     }
-    return FutureBuilder<Size>(
-      builder: (c, s) {
-        if (!s.hasData) {
-          return Container();
+    final size = assetEntity.size;
+
+    print(
+        "assetEntity.width = ${assetEntity.width} , assetEntity.height = ${assetEntity.height}");
+
+    return FutureBuilder<Uint8List>(
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          return _buildContainer(
+            child: Image.memory(
+              snapshot.data,
+              width: width,
+              height: height,
+              fit: boxFit,
+            ),
+          );
+        } else {
+          return _buildContainer();
         }
-        var size = s.data;
-        return FutureBuilder<Uint8List>(
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.hasData) {
-              return _buildContainer(
-                child: Image.memory(
-                  snapshot.data,
-                  width: width,
-                  height: height,
-                  fit: boxFit,
-                ),
-              );
-            } else {
-              return _buildContainer();
-            }
-          },
-          future: assetEntity.thumbDataWithSize(
-            size.width.toInt(),
-            size.height.toInt(),
-          ),
-        );
       },
-      future: assetEntity.size,
+      future: assetEntity.thumbDataWithSize(
+        width.toInt(),
+        height.toInt(),
+      ),
     );
   }
 
