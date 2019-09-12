@@ -7,6 +7,7 @@ import 'package:photo/src/delegate/loading_delegate.dart';
 import 'package:photo/src/engine/lru_cache.dart';
 import 'package:photo/src/engine/throttle.dart';
 import 'package:photo/src/entity/options.dart';
+import 'package:photo/src/provider/asset_provider.dart';
 import 'package:photo/src/provider/config_provider.dart';
 import 'package:photo/src/provider/gallery_list_provider.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
@@ -38,9 +39,11 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     with SelectedProvider, GalleryListProvider {
   Options get options => widget.options;
 
-  I18nProvider get i18nProvider => ConfigProvider.of(context).provider;
+  I18nProvider get i18nProvider => PhotoPickerProvider.of(context).provider;
+  AssetProvider get assetProvider =>
+      PhotoPickerProvider.of(context).assetProvider;
 
-  List<AssetEntity> list = [];
+  List<AssetEntity> get list => assetProvider.data;
 
   Color get themeColor => options.themeColor;
 
@@ -227,12 +230,9 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     galleryPathList.clear();
     galleryPathList.addAll(pathList);
 
-    List<AssetEntity> imageList;
-
     if (pathList.isNotEmpty) {
-      imageList = await pathList[0].assetList;
-      _sortAssetList(imageList);
-      _currentPath = pathList[0];
+      assetProvider.current = pathList[0];
+      await assetProvider.loadMore();
     }
 
     for (var path in pathList) {
@@ -241,10 +241,6 @@ class _PhotoMainPageState extends State<PhotoMainPage>
       }
     }
 
-    this.list.clear();
-    if (imageList != null) {
-      this.list.addAll(imageList);
-    }
     setState(() {
       _isInit = true;
     });
@@ -259,6 +255,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
       return _buildLoading();
     }
 
+    final noMore = assetProvider.noMore;
+
+    final count = assetProvider.count + (noMore ? 0 : 1);
+
     return Container(
       color: options.dividerColor,
       child: GridView.builder(
@@ -270,12 +270,18 @@ class _PhotoMainPageState extends State<PhotoMainPage>
           mainAxisSpacing: options.padding,
         ),
         itemBuilder: _buildItem,
-        itemCount: list.length,
+        itemCount: count,
       ),
     );
   }
 
   Widget _buildItem(BuildContext context, int index) {
+    final noMore = assetProvider.noMore;
+    if (!noMore && index == assetProvider.count) {
+      _loadMore();
+      return _buildLoading();
+    }
+
     var data = list[index];
     return RepaintBoundary(
       child: GestureDetector(
@@ -295,6 +301,11 @@ class _PhotoMainPageState extends State<PhotoMainPage>
         ),
       ),
     );
+  }
+
+  _loadMore() async {
+    await assetProvider.loadMore();
+    setState(() {});
   }
 
   _buildMask(bool showMask) {
@@ -364,17 +375,22 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     setState(() {});
   }
 
-  void _onGalleryChange(AssetPathEntity assetPathEntity) {
-    _currentPath = assetPathEntity;
+  void _onGalleryChange(AssetPathEntity assetPathEntity) async {
+    // _currentPath = assetPathEntity;
 
-    _currentPath.assetList.then((v) async {
-      _sortAssetList(v);
-      list.clear();
-      list.addAll(v);
-      scrollController.jumpTo(0.0);
-      await checkPickImageEntity();
+    // _currentPath.assetList.then((v) async {
+    //   _sortAssetList(v);
+    //   list.clear();
+    //   list.addAll(v);
+    //   scrollController.jumpTo(0.0);
+    //   await checkPickImageEntity();
+    //   setState(() {});
+    // });
+    if (assetPathEntity != assetProvider.current) {
+      assetProvider.current = assetPathEntity;
+      await assetProvider.loadMore();
       setState(() {});
-    });
+    }
   }
 
   void _onItemClick(AssetEntity data, int index) {
@@ -383,8 +399,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) {
-          return ConfigProvider(
-            provider: ConfigProvider.of(context).provider,
+          return PhotoPickerProvider(
+            provider: PhotoPickerProvider.of(context).provider,
             options: options,
             child: PhotoPreviewPage(
               selectedProvider: this,
@@ -392,6 +408,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
               initIndex: index,
               changeProviderOnCheckChange: true,
               result: result,
+              isPreview: false,
+              assetProvider: assetProvider,
             ),
           );
         },
@@ -411,14 +429,16 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     isPushed = true;
     var v = await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => ConfigProvider(
-          provider: ConfigProvider.of(context).provider,
+        builder: (ctx) => PhotoPickerProvider(
+          provider: PhotoPickerProvider.of(context).provider,
           options: options,
           child: PhotoPreviewPage(
             selectedProvider: this,
             list: List.of(selectedList),
             changeProviderOnCheckChange: false,
             result: result,
+            isPreview: true,
+            assetProvider: assetProvider,
           ),
         ),
       ),

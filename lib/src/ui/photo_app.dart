@@ -20,7 +20,7 @@ class PhotoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConfigProvider(
+    return PhotoPickerProvider(
       provider: provider,
       options: options,
       child: PhotoMainPage(
