@@ -1,8 +1,12 @@
 # CHANGELOG
 
+## 0.4.1
+
+Rollback `photo_manager` to `0.4.1`.
+
 ## 0.4.0
 
-roolback `photo_manager` to `0.4.0`
+Rollback `photo_manager` to `0.4.0`.
 
 - support androidQ.
 
@@ -15,15 +19,15 @@ fix:
 
 ## 0.3.4
 
-rollback `photo_manager` to `0.3.4`
+Rollback `photo_manager` to `0.3.4`
 
 ## 0.3.3
 
-rollback `photo_manager` to `0.3.3`
+Rollback `photo_manager` to `0.3.3`
 
 ## 0.3.2
 
-rollback `photo_manager` to `0.3.2`
+Rollback `photo_manager` to `0.3.2`
 
 ## 0.3.1
 
@@ -69,11 +73,11 @@ Fixed crash bug when the number of photos or videos was zero.
 
 add a badge delegate for asset
 
-## 0.1.6 rollback photo_manager version
+## 0.1.6 Rollback photo_manager version
 
 sort asset by date
 
-## 0.1.5 rollback photo_manager version
+## 0.1.5 Rollback photo_manager version
 
 ## 0.1.4 fix thumb is null bug
 
