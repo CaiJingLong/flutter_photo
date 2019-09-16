@@ -1,14 +1,22 @@
 # CHANGELOG
 
+## 0.4.2
+
+Rollback `photo_manager` to `0.4.2`.
+
 ## 0.4.1+1
 
 Rollback `photo_manager` to `0.4.1`.
 
 ## 0.4.1
 
+**The version will build fail.**
+
 Rollback `photo_manager` to `0.4.1`.
 
 ## 0.4.0
+
+**The version will build fail.**
 
 Rollback `photo_manager` to `0.4.0`.
 
