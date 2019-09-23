@@ -12,7 +12,7 @@ class DefaultAssetDelegate extends SortAssetDelegate {
   @override
   void sort(List<AssetEntity> list) {
     list.sort((entity1, entity2) {
-      return entity2.createTime.compareTo(entity1.createTime);
+      return entity2.createDateTime.compareTo(entity1.createDateTime);
     });
   }
 }

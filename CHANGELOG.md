@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.3+1
+
+Fix a error for build.
+
 ## 0.4.3
 
 Rollback `photo_manager` to `0.4.3`.
