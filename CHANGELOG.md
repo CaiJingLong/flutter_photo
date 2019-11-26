@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.5
+
+Rollback `photo_manager` to `0.4.5`.
+
 ## 0.4.4
 
 Rollback `photo_manager` to `0.4.4`.
