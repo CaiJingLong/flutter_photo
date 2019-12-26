@@ -1,22 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import './preview.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Pick Image Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
+    return OKToast(
+      child: MaterialApp(
+        title: 'Pick Image Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(title: 'Pick Image Demo'),
       ),
-      home: new MyHomePage(title: 'Pick Image Demo'),
     );
   }
 }
@@ -26,7 +29,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
@@ -62,9 +65,9 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
         actions: <Widget>[
           FlatButton(
             child: Icon(Icons.image),
@@ -96,10 +99,10 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
           ),
         ),
       ),
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () => _pickAsset(PickType.all),
         tooltip: 'pickImage',
-        child: new Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
     );
   }
@@ -158,8 +161,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
       photoPathList: pathList,
     );
 
-    if (imgList == null) {
-      currentSelected = "not select item";
+    if (imgList == null || imgList.isEmpty) {
+      showToast("No pick item.");
     } else {
       List<String> r = [];
       for (var e in imgList) {
