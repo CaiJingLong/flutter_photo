@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.4.5+1
+
+Fix:
+
+- `photoPathList` of `PhotoPicker.pickAsset`.
+
 ## 0.4.5
 
 Rollback `photo_manager` to `0.4.5`.

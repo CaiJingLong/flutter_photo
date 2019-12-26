@@ -34,7 +34,20 @@ import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
 ```
 
-## use
+## Usage
+
+### Simple use
+
+```dart
+void pickAssets() async {
+    List<AssetEntity> assetList = await PhotoPicker.pickAsset(context: context);
+    /// Use assetList to do something.
+}
+```
+
+### More option
+
+The context is required, other params is optional.
 
 ```dart
 void pickAsset() async {
