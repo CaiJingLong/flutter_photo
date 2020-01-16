@@ -46,6 +46,8 @@ class PhotoPicker {
   ///
   ///   [photoPathList] 一旦设置 则 [pickType]参数无效
   ///
+  ///   [pickedAssetList] 已选择的asset
+  ///
   /// 关于参数可以查看readme文档介绍
   ///
   /// if user not grand permission, then return null and show a dialog to help user open setting.
@@ -58,6 +60,8 @@ class PhotoPicker {
   ///   when user cancel selected,result is empty list
   ///
   ///   when [photoPathList] is not null , [pickType] invalid
+  ///
+  ///   [pickedAssetList]: The results of the last selection can be passed in for easy secondary selection.
   ///
   /// params see readme.md
   static Future<List<AssetEntity>> pickAsset({
@@ -78,6 +82,7 @@ class PhotoPicker {
     PickType pickType = PickType.all,
     BadgeDelegate badgeDelegate = const DefaultBadgeDelegate(),
     List<AssetPathEntity> photoPathList,
+    List<AssetEntity> pickedAssetList,
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
@@ -115,6 +120,7 @@ class PhotoPicker {
       options,
       provider,
       photoPathList,
+      pickedAssetList,
     );
   }
 
@@ -123,6 +129,7 @@ class PhotoPicker {
     Options options,
     I18nProvider provider,
     List<AssetPathEntity> photoList,
+    List<AssetEntity> pickedAssetList,
   ) async {
     var requestPermission = await PhotoManager.requestPermission();
     if (requestPermission != true) {
@@ -138,7 +145,13 @@ class PhotoPicker {
       return null;
     }
 
-    return _openGalleryContentPage(context, options, provider, photoList);
+    return _openGalleryContentPage(
+      context,
+      options,
+      provider,
+      photoList,
+      pickedAssetList,
+    );
   }
 
   Future<List<AssetEntity>> _openGalleryContentPage(
@@ -146,6 +159,7 @@ class PhotoPicker {
     Options options,
     I18nProvider provider,
     List<AssetPathEntity> photoList,
+    List<AssetEntity> pickedAssetList,
   ) async {
     return Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
@@ -153,6 +167,7 @@ class PhotoPicker {
           options: options,
           provider: provider,
           photoList: photoList,
+          pickedAssetList: pickedAssetList,
         ),
       ),
     );

@@ -11,16 +11,18 @@ class PhotoApp extends StatelessWidget {
   final Options options;
   final I18nProvider provider;
   final List<AssetPathEntity> photoList;
+  final List<AssetEntity> pickedAssetList;
   const PhotoApp({
     Key key,
     this.options,
     this.provider,
     this.photoList,
+    this.pickedAssetList,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return PhotoPickerProvider(
+    final pickerProvider = PhotoPickerProvider(
       provider: provider,
       options: options,
       child: PhotoMainPage(
@@ -31,5 +33,7 @@ class PhotoApp extends StatelessWidget {
         photoList: photoList,
       ),
     );
+
+    return pickerProvider;
   }
 }

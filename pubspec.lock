@@ -115,7 +115,7 @@ packages:
       name: photo_manager
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.5"
+    version: "0.4.6"
   quiver:
     dependency: transitive
     description:
