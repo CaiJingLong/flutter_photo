@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.4.7
+
+- Rollback photo_manager.
+- Add `pickedAssetList` for `pickAsset`.
+
 ## 0.4.5+1
 
 Fix:
