@@ -92,6 +92,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_isInit) {
+      addPickedAsset(PhotoPickerProvider.of(context).pickedAssetList.toList());
       _refreshList();
     }
   }

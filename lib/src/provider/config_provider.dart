@@ -8,10 +8,12 @@ class PhotoPickerProvider extends InheritedWidget {
   final Options options;
   final I18nProvider provider;
   final AssetProvider assetProvider = AssetProvider();
+  final List<AssetEntity> pickedAssetList;
   PhotoPickerProvider({
     @required this.options,
     @required this.provider,
     @required Widget child,
+    this.pickedAssetList,
     Key key,
   }) : super(key: key, child: child);
 
@@ -25,8 +27,4 @@ class PhotoPickerProvider extends InheritedWidget {
 
   static AssetProvider assetProviderOf(BuildContext context) =>
       of(context).assetProvider;
-
-  void addPickedAssetList(List<AssetEntity> pickedAssetList) {
-    assetProvider.addPickedAssetList();
-  }
 }

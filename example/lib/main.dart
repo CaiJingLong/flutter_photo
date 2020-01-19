@@ -5,6 +5,8 @@ import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import './preview.dart';
+import 'icon_text_button.dart';
+import 'picked_example.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Pick Image Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.lime,
         ),
         home: MyHomePage(title: 'Pick Image Demo'),
       ),
@@ -80,20 +82,24 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
           child: Column(
             children: <Widget>[
               IconTextButton(
-                  icon: Icons.photo,
-                  text: "photo",
-                  onTap: () => _pickAsset(PickType.onlyImage)),
+                icon: Icons.photo,
+                text: "photo",
+                onTap: () => _pickAsset(PickType.onlyImage),
+              ),
               IconTextButton(
-                  icon: Icons.videocam,
-                  text: "video",
-                  onTap: () => _pickAsset(PickType.onlyVideo)),
+                icon: Icons.videocam,
+                text: "video",
+                onTap: () => _pickAsset(PickType.onlyVideo),
+              ),
               IconTextButton(
-                  icon: Icons.album,
-                  text: "all",
-                  onTap: () => _pickAsset(PickType.all)),
-              Text(
-                '$currentSelected',
-                textAlign: TextAlign.center,
+                icon: Icons.album,
+                text: "all",
+                onTap: () => _pickAsset(PickType.all),
+              ),
+              IconTextButton(
+                icon: CupertinoIcons.reply_all,
+                text: "Picked asset example.",
+                onTap: () => routePage(PickedExample()),
               ),
             ],
           ),
@@ -182,25 +188,14 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
     }
     setState(() {});
   }
-}
 
-class IconTextButton extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final Function onTap;
-
-  const IconTextButton({Key key, this.icon, this.text, this.onTap})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        child: ListTile(
-          leading: Icon(icon ?? Icons.device_unknown),
-          title: Text(text ?? ""),
-        ),
+  void routePage(Widget widget) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return widget;
+        },
       ),
     );
   }

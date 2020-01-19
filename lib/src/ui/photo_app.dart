@@ -25,6 +25,7 @@ class PhotoApp extends StatelessWidget {
     final pickerProvider = PhotoPickerProvider(
       provider: provider,
       options: options,
+      pickedAssetList: pickedAssetList,
       child: PhotoMainPage(
         onClose: (List<AssetEntity> value) {
           Navigator.pop(context, value);

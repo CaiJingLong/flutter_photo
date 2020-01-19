@@ -31,8 +31,6 @@ class AssetProvider {
   bool get noMore => getPaging()?.noMore ?? false;
 
   int get count => data?.length ?? 0;
-
-  void addPickedAssetList() {}
 }
 
 class AssetPaging {
