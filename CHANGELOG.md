@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 0.4.8
+
+- Rollback photo_manager
+
+Fix:
+
+- pickedAssetList error
+
 ## 0.4.7
 
 - Rollback photo_manager.
