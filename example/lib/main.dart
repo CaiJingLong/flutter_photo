@@ -173,6 +173,7 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
 
     if (imgList == null || imgList.isEmpty) {
       showToast("No pick item.");
+      return;
     } else {
       List<String> r = [];
       for (var e in imgList) {
