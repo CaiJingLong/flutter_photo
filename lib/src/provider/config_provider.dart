@@ -4,6 +4,7 @@ import 'package:photo/src/provider/asset_provider.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+// ignore_for_file: deprecated_member_use
 class PhotoPickerProvider extends InheritedWidget {
   final Options options;
   final I18nProvider provider;
