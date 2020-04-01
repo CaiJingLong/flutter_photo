@@ -214,13 +214,14 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     List<AssetPathEntity> pathList;
     switch (options.pickType) {
       case PickType.onlyImage:
-        pathList = await PhotoManager.getImageAsset();
+        pathList = await PhotoManager.getAssetPathList(type: RequestType.image);
         break;
       case PickType.onlyVideo:
-        pathList = await PhotoManager.getVideoAsset();
+        pathList = await PhotoManager.getAssetPathList(type: RequestType.image);
         break;
       default:
-        pathList = await PhotoManager.getAssetPathList();
+        pathList = await PhotoManager.getAssetPathList(
+            type: RequestType.image | RequestType.video);
     }
 
     _onRefreshAssetPathList(pathList);
@@ -502,10 +503,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     List<AssetPathEntity> pathList;
     switch (options.pickType) {
       case PickType.onlyImage:
-        pathList = await PhotoManager.getImageAsset();
+        pathList = await PhotoManager.getAssetPathList(type: RequestType.image);
         break;
       case PickType.onlyVideo:
-        pathList = await PhotoManager.getVideoAsset();
+        pathList = await PhotoManager.getAssetPathList(type: RequestType.image);
         break;
       default:
         pathList = await PhotoManager.getAssetPathList();

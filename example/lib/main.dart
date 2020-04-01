@@ -114,7 +114,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
   }
 
   void _testPhotoListParams() async {
-    var assetPathList = await PhotoManager.getImageAsset();
+    var assetPathList =
+        await PhotoManager.getAssetPathList(type: RequestType.image);
     _pickAsset(PickType.all, pathList: assetPathList);
   }
 
