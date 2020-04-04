@@ -14,6 +14,7 @@ import 'package:photo/src/provider/i18n_provider.dart';
 import 'package:photo/src/provider/selected_provider.dart';
 import 'package:photo/src/ui/dialog/change_gallery_dialog.dart';
 import 'package:photo/src/ui/page/photo_preview_page.dart';
+import 'package:photo/src/ui/widget/image_provider.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 part './main/bottom_widget.dart';

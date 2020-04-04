@@ -22,6 +22,7 @@ class ImageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return buildWithProvider(context);
     var thumb = ImageLruCache.getData(entity, size);
     if (thumb != null) {
       return _buildImageItem(context, thumb);
@@ -44,6 +45,37 @@ class ImageItem extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget buildWithProvider(BuildContext context) {
+    var badge;
+    final badgeBuilder =
+        badgeDelegate?.buildBadge(context, entity.type, entity.videoDuration);
+    if (badgeBuilder == null) {
+      badge = Container();
+    } else {
+      badge = badgeBuilder;
+    }
+
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: Image(
+            image: AssetEntityThumbImage(
+              entity: entity,
+              width: size,
+              height: size,
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        IgnorePointer(
+          child: badge,
+        ),
+      ],
     );
   }
 
