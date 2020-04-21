@@ -25,6 +25,10 @@ abstract class I18nProvider {
   static const I18nProvider chinese = CNProvider();
 
   static const I18nProvider english = ENProvider();
+
+  String getNoSelectedText(Options options) {
+    return 'Select Folder';
+  }
 }
 
 class CNProvider extends I18nProvider {
@@ -57,12 +61,17 @@ class CNProvider extends I18nProvider {
 
   @override
   String getAllGalleryText(Options options) {
-    return "全部图片";
+    return "全部";
   }
 
   @override
   String loadingText() {
     return "加载中...";
+  }
+
+  @override
+  String getNoSelectedText(Options options) {
+    return getAllGalleryText(options);
   }
 
   @override

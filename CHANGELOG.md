@@ -1,8 +1,12 @@
 # CHANGELOG
 
-## 0.5.0-dev.1
+## 0.5.0-dev.2
 
 - Rollback photo_manager
+
+Fix:
+
+- no selected text
 
 ## 0.4.8
 
