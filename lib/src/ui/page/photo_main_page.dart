@@ -65,6 +65,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   String get currentGalleryName {
     if (currentPath?.isAll == true) {
       return i18nProvider.getAllGalleryText(options);
+    } else if (currentPath == null) {
+      return i18nProvider.getNoSelectedText(options);
     }
     return currentPath?.name ?? "Select Folder";
   }
