@@ -1,6 +1,6 @@
 # photo
 
-[![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
+[![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo) [![pub package](https://img.shields.io/pub/v/photo?include_prereleases)](https://pub.dartlang.org/packages/photo)
 [![GitHub](https://img.shields.io/github/license/CaiJingLong/flutter_photo.svg?style=flat-square)](https://github.com/CaiJingLong/flutter_photo)
 [![GitHub stars](https://img.shields.io/github/stars/CaiJingLong/flutter_photo.svg?style=social&label=Stars)](https://github.com/CaiJingLong/flutter_photo)
 
@@ -20,7 +20,7 @@ if you want to build custom ui, you just need api to make custom ui. to use [pho
 
 ## install
 
-latest version : [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo)
+latest version : [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo) [![pub package](https://img.shields.io/pub/v/photo?include_prereleases)](https://pub.dartlang.org/packages/photo)
 
 ```yaml
 dependencies:
