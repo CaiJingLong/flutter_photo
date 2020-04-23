@@ -26,6 +26,8 @@ abstract class I18nProvider {
 
   static const I18nProvider english = ENProvider();
 
+  static const I18nProvider german = DEProvider();
+
   String getNoSelectedText(Options options) {
     return 'Select Folder';
   }
@@ -120,6 +122,56 @@ class ENProvider extends I18nProvider {
         cancelText: "Cancel",
         sureText: "Allow",
         titleText: "No permission to access gallery");
+  }
+}
+
+class DEProvider extends I18nProvider {
+  const DEProvider() : super._();
+
+  @override
+  String getTitleText(Options options) {
+    return "Medienauswahl";
+  }
+
+  @override
+  String getPreviewText(Options options, SelectedProvider selectedProvider) {
+    return "Vorschau (${selectedProvider.selectedCount})";
+  }
+
+  @override
+  String getSureText(Options options, int currentCount) {
+    return "Speichern ($currentCount/${options.maxSelected})";
+  }
+
+  @override
+  String getSelectedOptionsText(Options options) {
+    return "Ausgewählt";
+  }
+
+  @override
+  String getMaxTipText(Options options) {
+    return "Wählen Sie höchstens ${options.maxSelected} Medien aus";
+  }
+
+  @override
+  String getAllGalleryText(Options options) {
+    return "Alle";
+  }
+
+  String loadingText() {
+    return "Lädt...";
+  }
+
+  String getNoSelectedText(Options options) {
+    return 'Ordner auswählen';
+  }
+
+  @override
+  I18NPermissionProvider getNotPermissionText(Options options) {
+    return I18NPermissionProvider(
+        cancelText: "Abbrechen",
+        sureText: "Erlauben",
+        titleText: "Kein Zugriff auf den Ordner");
   }
 }
 
