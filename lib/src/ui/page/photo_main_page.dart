@@ -138,7 +138,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
               FlatButton(
                 splashColor: Colors.transparent,
                 child: Text(
-                  i18nProvider.getSureText(options, selectedCount),
+                  PhotoPickerProvider.of(context).getSureText(selectedCount),
                   style: selectedCount == 0
                       ? textStyle.copyWith(color: options.disableColor)
                       : textStyle,
