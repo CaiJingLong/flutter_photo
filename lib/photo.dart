@@ -3,6 +3,7 @@ library photo;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:photo/src/engine/lru_cache.dart';
 
 import 'package:photo_manager/photo_manager.dart';
 
@@ -30,6 +31,10 @@ class PhotoPicker {
   factory PhotoPicker() {
     _instance ??= PhotoPicker._();
     return _instance;
+  }
+
+  static void clearThumbMemoryCache() {
+    ImageLruCache.clearCache();
   }
 
   static const String rootRouteName = "photo_picker_image";
