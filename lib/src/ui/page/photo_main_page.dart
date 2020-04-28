@@ -219,7 +219,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
         pathList = await PhotoManager.getAssetPathList(type: RequestType.image);
         break;
       case PickType.onlyVideo:
-        pathList = await PhotoManager.getAssetPathList(type: RequestType.image);
+        pathList = await PhotoManager.getAssetPathList(type: RequestType.video);
         break;
       default:
         pathList = await PhotoManager.getAssetPathList(
