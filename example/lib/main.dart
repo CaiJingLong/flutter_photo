@@ -124,6 +124,8 @@ class _MyHomePageState extends State<MyHomePage> with LoadingDelegate {
     /// context is required, other params is optional.
     /// context is required, other params is optional.
 
+    PhotoPicker.clearThumbMemoryCache();
+
     List<AssetEntity> imgList = await PhotoPicker.pickAsset(
       // BuildContext required
       context: context,
