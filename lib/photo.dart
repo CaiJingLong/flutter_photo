@@ -33,6 +33,12 @@ class PhotoPicker {
     return _instance;
   }
 
+  /// Clear memory Lru cache.
+  ///
+  /// Suitable for the following scenarios:
+  ///
+  /// 1. The app's memory is tight.
+  /// 2. When the resources was modified, all the thumbnails are no longer as expected.
   static void clearThumbMemoryCache() {
     ImageLruCache.clearCache();
   }

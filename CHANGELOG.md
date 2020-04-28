@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 0.5.0-dev.3
+
+Fix:
+
+video type error.
+
+Feature:
+
+Clear memory cache.
+
 ## 0.5.0-dev.2
 
 - Rollback photo_manager
