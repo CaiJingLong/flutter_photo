@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.5.0
+
+Rollback to 0.5.1 photo_manager
+
 ## 0.5.0-dev.3
 
 Fix:
