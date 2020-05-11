@@ -8,6 +8,8 @@ abstract class I18nProvider {
 
   String getSureText(Options options, int currentCount);
 
+  String getSureTextWithMax(Options options, int currentCount);
+
   String getPreviewText(Options options, SelectedProvider selectedProvider);
 
   String getSelectedOptionsText(Options options);
@@ -48,6 +50,11 @@ class CNProvider extends I18nProvider {
 
   @override
   String getSureText(Options options, int currentCount) {
+    return "确定($currentCount)";
+  }
+
+  @override
+  String getSureTextWithMax(Options options, int currentCount) {
     return "确定($currentCount/${options.maxSelected})";
   }
 
@@ -98,6 +105,11 @@ class ENProvider extends I18nProvider {
 
   @override
   String getSureText(Options options, int currentCount) {
+    return "Save ($currentCount)";
+  }
+
+  @override
+  String getSureTextWithMax(Options options, int currentCount) {
     return "Save ($currentCount/${options.maxSelected})";
   }
 
@@ -140,6 +152,11 @@ class DEProvider extends I18nProvider {
 
   @override
   String getSureText(Options options, int currentCount) {
+    return "Speichern ($currentCount)";
+  }
+
+  @override
+  String getSureTextWithMax(Options options, int currentCount) {
     return "Speichern ($currentCount/${options.maxSelected})";
   }
 

@@ -151,7 +151,7 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
                 splashColor: Colors.transparent,
                 onPressed: selectedList.length == 0 ? null : sure,
                 child: Text(
-                  config.provider.getSureText(options, selectedList.length),
+                  config.getSureText(selectedList.length),
                   style: selectedList.length == 0
                       ? textStyle.copyWith(color: options.disableColor)
                       : textStyle,

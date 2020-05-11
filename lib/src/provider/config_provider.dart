@@ -28,4 +28,8 @@ class PhotoPickerProvider extends InheritedWidget {
 
   static AssetProvider assetProviderOf(BuildContext context) =>
       of(context).assetProvider;
+
+  String getSureText(selectedCount) => options.maxSelected == null
+      ? provider.getSureText(options, selectedCount)
+      : provider.getSureTextWithMax(options, selectedCount);
 }
