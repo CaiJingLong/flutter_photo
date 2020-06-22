@@ -94,6 +94,7 @@ class PhotoPicker {
     BadgeDelegate badgeDelegate = const DefaultBadgeDelegate(),
     List<AssetPathEntity> photoPathList,
     List<AssetEntity> pickedAssetList,
+    PhotoPreviousBuilder previousBuilder,
   }) {
     assert(provider != null, "provider must be not null");
     assert(context != null, "context must be not null");
@@ -124,6 +125,7 @@ class PhotoPicker {
       loadingDelegate: loadingDelegate,
       badgeDelegate: badgeDelegate,
       pickType: pickType,
+      previousBuilder: previousBuilder,
     );
 
     return PhotoPicker()._pickAsset(

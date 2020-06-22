@@ -80,6 +80,12 @@ class _PhotoMainPageState extends State<PhotoMainPage>
 
   Throttle _changeThrottle;
 
+  int get previousWidgetsCount {
+    if (options.previousBuilder != null) {
+      return 1;
+    } else return 0;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -275,16 +281,28 @@ class _PhotoMainPageState extends State<PhotoMainPage>
           mainAxisSpacing: options.padding,
         ),
         itemBuilder: _buildItem,
-        itemCount: count,
+        itemCount: count + previousWidgetsCount,
       ),
     );
   }
 
   Widget _buildItem(BuildContext context, int index) {
+    if (options.previousBuilder != null) {
+      if (index == 0) {
+        return options.previousBuilder(context);
+      } else {
+        index--;
+      }
+    }
+
     final noMore = assetProvider.noMore;
     if (!noMore && index == assetProvider.count) {
       _loadMore();
       return _buildLoading();
+    }
+
+    if (list.length < 1) {
+      return new Container();
     }
 
     var data = list[index];
