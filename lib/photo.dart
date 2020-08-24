@@ -3,6 +3,7 @@ library photo;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:photo/src/engine/lru_cache.dart';
 
 import 'package:photo_manager/photo_manager.dart';
 
@@ -30,6 +31,16 @@ class PhotoPicker {
   factory PhotoPicker() {
     _instance ??= PhotoPicker._();
     return _instance;
+  }
+
+  /// Clear memory Lru cache.
+  ///
+  /// Suitable for the following scenarios:
+  ///
+  /// 1. The app's memory is tight.
+  /// 2. When the resources was modified, all the thumbnails are no longer as expected.
+  static void clearThumbMemoryCache() {
+    ImageLruCache.clearCache();
   }
 
   static const String rootRouteName = "photo_picker_image";
