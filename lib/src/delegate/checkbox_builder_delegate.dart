@@ -1,7 +1,7 @@
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart' hide CheckboxListTile;
 import 'package:photo/src/entity/options.dart';
 import 'package:photo/src/provider/i18n_provider.dart';
-import 'package:photo/src/ui/widget/check_tile_copy.dart';
 
 abstract class CheckBoxBuilderDelegate {
   Widget buildCheckBox(
@@ -34,15 +34,12 @@ class DefaultCheckBoxBuilderDelegate extends CheckBoxBuilderDelegate {
   ) {
     return Theme(
       data: Theme.of(context).copyWith(unselectedWidgetColor: unselectedColor),
-      child: CheckboxListTile(
-        value: checked,
-        onChanged: (bool check) {},
-        activeColor: activeColor,
-        checkColor: checkColor,
-        title: Text(
-          i18nProvider.getSelectedOptionsText(options),
-          textAlign: TextAlign.end,
-          style: TextStyle(color: options.textColor),
+      child: Transform.scale(
+        scale: 24 / 18,
+        child: CircularCheckBox(
+          value: checked,
+          onChanged: (bool check) {},
+          activeColor: options.themeColor,
         ),
       ),
     );

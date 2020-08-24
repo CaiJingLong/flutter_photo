@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
 
   photo_manager: ^0.5.1
+  circular_check_box:
   # photo_manager:
   #   git:
   #     url: https://github.com/CaiJingLong/flutter_photo_manager.git

@@ -180,6 +180,7 @@ class PhotoPicker {
           photoList: photoList,
           pickedAssetList: pickedAssetList,
         ),
+        fullscreenDialog: true,
       ),
     );
   }

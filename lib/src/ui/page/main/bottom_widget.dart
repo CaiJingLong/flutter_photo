@@ -36,10 +36,10 @@ class __BottomWidgetState extends State<_BottomWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var textStyle = TextStyle(fontSize: 14.0);
+    // var textStyle = TextStyle(fontSize: 14.0);
     const textPadding = const EdgeInsets.symmetric(horizontal: 16.0);
     return Container(
-      color: options.themeColor,
+      // color: options.themeColor,
       child: SafeArea(
         bottom: true,
         top: false,
@@ -56,7 +56,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
                   padding: textPadding,
                   child: Text(
                     widget.galleryName,
-                    style: textStyle.copyWith(color: options.textColor),
+                    // style: textStyle.copyWith(color: options.textColor),
                   ),
                 ),
               ),
@@ -65,7 +65,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
               ),
               FlatButton(
                 onPressed: widget.onTapPreview,
-                textColor: options.textColor,
+                // textColor: options.textColor,
                 splashColor: Colors.transparent,
                 disabledTextColor: options.disableColor,
                 child: Container(
@@ -74,7 +74,7 @@ class __BottomWidgetState extends State<_BottomWidget> {
                   child: Text(
                     i18nProvider.getPreviewText(
                         options, widget.selectedProvider),
-                    style: textStyle,
+                    // style: textStyle,
                   ),
                   padding: textPadding,
                 ),
@@ -87,13 +87,24 @@ class __BottomWidgetState extends State<_BottomWidget> {
   }
 
   void _showGallerySelectDialog() async {
+    var screenHeight = MediaQuery.of(context).size.height;
+    var paddingBottomHeight = MediaQuery.of(context).padding.bottom;
+    var appBarHeight = AppBar().preferredSize.height;
+    var leftHeight = screenHeight - paddingBottomHeight - appBarHeight;
+
     var result = await showModalBottomSheet(
       context: context,
-      builder: (ctx) => ChangeGalleryDialog(
-            galleryList: widget.galleryListProvider.galleryPathList,
-            i18n: i18nProvider,
-            options: options,
-          ),
+      elevation: 0,
+      barrierColor: Colors.black.withOpacity(0.01),
+      isScrollControlled: true,
+      builder: (ctx) => FractionallySizedBox(
+        heightFactor: leftHeight / screenHeight,
+        child: ChangeGalleryDialog(
+          galleryList: widget.galleryListProvider.galleryPathList,
+          i18n: i18nProvider,
+          options: options,
+        ),
+      ),
     );
 
     if (result != null) widget.onGalleryChange?.call(result);

@@ -68,7 +68,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     } else if (currentPath == null) {
       return i18nProvider.getNoSelectedText(options);
     }
-    return currentPath?.name ?? "Select Folder";
+    return currentPath?.name ?? i18nProvider.getAllGalleryText(options);
   }
 
   GlobalKey scaffoldKey;
@@ -112,54 +112,60 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   @override
   Widget build(BuildContext context) {
     var textStyle = TextStyle(
-      color: options.textColor,
+      color: options.themeColor,
       fontSize: 14.0,
     );
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: options.themeColor),
-      child: DefaultTextStyle(
-        style: textStyle,
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.close,
-                color: options.textColor,
-              ),
-              onPressed: _cancel,
-            ),
-            title: Text(
-              i18nProvider.getTitleText(options),
-              style: TextStyle(
-                color: options.textColor,
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                splashColor: Colors.transparent,
-                child: Text(
-                  i18nProvider.getSureText(options, selectedCount),
-                  style: selectedCount == 0
-                      ? textStyle.copyWith(color: options.disableColor)
-                      : textStyle,
-                ),
-                onPressed: selectedCount == 0 ? null : sure,
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.close,
+            // color: options.textColor,
+          ),
+          onPressed: _cancel,
+        ),
+        title: FlatButton(
+          onPressed: _showGallerySelectDialog,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  assetProvider.current != null
+                      ? assetProvider.current.name
+                      : currentGalleryName,
+                  style: Theme.of(context).textTheme.subtitle1
+                  // style: TextStyle(
+                  //   color: options.textColor,
+                  // ),
+                  ),
+              Icon(Icons.arrow_drop_down)
             ],
           ),
-          body: _buildBody(),
-          bottomNavigationBar: _BottomWidget(
-            key: scaffoldKey,
-            provider: i18nProvider,
-            options: options,
-            galleryName: currentGalleryName,
-            onGalleryChange: _onGalleryChange,
-            onTapPreview: selectedList.isEmpty ? null : _onTapPreview,
-            selectedProvider: this,
-            galleryListProvider: this,
-          ),
         ),
+        actions: <Widget>[
+          FlatButton(
+            splashColor: Colors.transparent,
+            child: Text(
+              i18nProvider.getSureText(options, selectedCount),
+              style: selectedCount == 0
+                  ? textStyle.copyWith(color: options.disableColor)
+                  : textStyle,
+            ),
+            onPressed: selectedCount == 0 ? null : sure,
+          ),
+        ],
       ),
+      body: _buildBody(),
+      // bottomNavigationBar: _BottomWidget(
+      //   key: scaffoldKey,
+      //   provider: i18nProvider,
+      //   options: options,
+      //   galleryName: currentGalleryName,
+      //   onGalleryChange: _onGalleryChange,
+      //   onTapPreview: selectedList.isEmpty ? null : _onTapPreview,
+      //   selectedProvider: this,
+      //   galleryListProvider: this,
+      // ),
     );
   }
 
@@ -265,7 +271,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     final count = assetProvider.count + (noMore ? 0 : 1);
 
     return Container(
-      color: options.dividerColor,
+      // color: options.dividerColor,
       child: GridView.builder(
         controller: scrollController,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -317,7 +323,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     return IgnorePointer(
       child: AnimatedContainer(
         color: showMask ? Colors.black.withOpacity(0.5) : Colors.transparent,
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 100),
       ),
     );
   }
@@ -347,23 +353,24 @@ class _PhotoMainPageState extends State<PhotoMainPage>
         (indexOfSelected(entity) + 1).toString(),
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 12.0,
+          fontSize: 14.0,
           color: options.textColor,
         ),
       );
-      decoration = BoxDecoration(color: themeColor);
+      decoration = BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0), color: themeColor);
     } else {
       decoration = BoxDecoration(
-        borderRadius: BorderRadius.circular(1.0),
+        borderRadius: BorderRadius.circular(10.0),
         border: Border.all(
-          color: themeColor,
+          color: options.textColor,
         ),
       );
     }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 100),
         decoration: decoration,
         alignment: Alignment.center,
         child: child,
@@ -393,6 +400,7 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     // });
     if (assetPathEntity != assetProvider.current) {
       assetProvider.current = assetPathEntity;
+      // print(assetProvider.current);
       await assetProvider.loadMore();
       setState(() {});
     }
@@ -401,7 +409,8 @@ class _PhotoMainPageState extends State<PhotoMainPage>
   void _onItemClick(AssetEntity data, int index) {
     var result = PhotoPreviewResult();
     isPushed = true;
-    Navigator.of(context).push(
+    Navigator.of(context)
+        .push(
       MaterialPageRoute(
         builder: (ctx) {
           return PhotoPickerProvider(
@@ -418,8 +427,10 @@ class _PhotoMainPageState extends State<PhotoMainPage>
             ),
           );
         },
+        fullscreenDialog: true,
       ),
-    ).then((v) {
+    )
+        .then((v) {
       if (handlePreviewResult(v)) {
         Navigator.pop(context, v);
         return;
@@ -530,5 +541,30 @@ class _PhotoMainPageState extends State<PhotoMainPage>
     }
     // Not deleted
     _onGalleryChange(this.currentPath);
+  }
+
+  void _showGallerySelectDialog() async {
+    var screenHeight = MediaQuery.of(context).size.height;
+    var paddingBottomHeight = MediaQuery.of(context).padding.bottom;
+    var appBarHeight = AppBar().preferredSize.height;
+    var leftHeight = screenHeight - paddingBottomHeight - appBarHeight;
+
+    var result = await showModalBottomSheet(
+      context: context,
+      elevation: 0,
+      barrierColor: Colors.black.withOpacity(0.01),
+      isScrollControlled: true,
+      builder: (ctx) => FractionallySizedBox(
+        heightFactor: leftHeight / screenHeight,
+        child: ChangeGalleryDialog(
+          galleryList: this.galleryPathList,
+          i18n: i18nProvider,
+          options: options,
+          current: assetProvider.current,
+        ),
+      ),
+    );
+
+    if (result != null) _onGalleryChange?.call(result);
   }
 }

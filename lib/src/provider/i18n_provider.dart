@@ -28,6 +28,8 @@ abstract class I18nProvider {
 
   static const I18nProvider german = DEProvider();
 
+  static const I18nProvider japanese = JPProvider();
+
   String getNoSelectedText(Options options) {
     return 'Select Folder';
   }
@@ -43,7 +45,7 @@ class CNProvider extends I18nProvider {
 
   @override
   String getPreviewText(Options options, SelectedProvider selectedProvider) {
-    return "预览(${selectedProvider.selectedCount})";
+    return "预";
   }
 
   @override
@@ -93,12 +95,12 @@ class ENProvider extends I18nProvider {
 
   @override
   String getPreviewText(Options options, SelectedProvider selectedProvider) {
-    return "Preview (${selectedProvider.selectedCount})";
+    return "Preview";
   }
 
   @override
   String getSureText(Options options, int currentCount) {
-    return "Save ($currentCount/${options.maxSelected})";
+    return "Save";
   }
 
   @override
@@ -172,6 +174,48 @@ class DEProvider extends I18nProvider {
         cancelText: "Abbrechen",
         sureText: "Erlauben",
         titleText: "Kein Zugriff auf den Ordner");
+  }
+}
+
+class JPProvider extends I18nProvider {
+  const JPProvider() : super._();
+
+  @override
+  String getTitleText(Options options) {
+    return "ライブラリ";
+  }
+
+  @override
+  String getPreviewText(Options options, SelectedProvider selectedProvider) {
+    return "Preview";
+  }
+
+  @override
+  String getSureText(Options options, int currentCount) {
+    return "追加する";
+  }
+
+  @override
+  String getSelectedOptionsText(Options options) {
+    return "選択済み";
+  }
+
+  @override
+  String getMaxTipText(Options options) {
+    return "Select ${options.maxSelected} pictures at most";
+  }
+
+  @override
+  String getAllGalleryText(Options options) {
+    return "最近の項目";
+  }
+
+  @override
+  I18NPermissionProvider getNotPermissionText(Options options) {
+    return I18NPermissionProvider(
+        cancelText: "キャンセル",
+        sureText: "許可",
+        titleText: "No permission to access gallery");
   }
 }
 

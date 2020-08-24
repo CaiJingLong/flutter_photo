@@ -117,72 +117,74 @@ class _PhotoPreviewPageState extends State<PhotoPreviewPage> {
       totalCount = list.length;
     }
 
-    var data = Theme.of(context);
     var textStyle = TextStyle(
       color: options.textColor,
       fontSize: 14.0,
     );
-    return Theme(
-      data: data.copyWith(
-        primaryColor: options.themeColor,
-      ),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: config.options.themeColor,
-          leading: BackButton(
-            color: options.textColor,
-          ),
-          title: StreamBuilder(
-            stream: pageStream,
-            initialData: widget.initIndex,
-            builder: (ctx, snap) {
-              return Text(
-                "${snap.data + 1}/$totalCount",
-                style: TextStyle(
-                  color: options.textColor,
-                ),
-              );
-            },
-          ),
-          actions: <Widget>[
-            StreamBuilder(
-              stream: pageStream,
-              builder: (ctx, s) => FlatButton(
-                splashColor: Colors.transparent,
-                onPressed: selectedList.length == 0 ? null : sure,
-                child: Text(
-                  config.provider.getSureText(options, selectedList.length),
-                  style: selectedList.length == 0
-                      ? textStyle.copyWith(color: options.disableColor)
-                      : textStyle,
-                ),
-              ),
-            ),
-          ],
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: BackButton(
+          color: options.textColor,
         ),
-        body: PageView.builder(
+        title: StreamBuilder(
+          stream: pageStream,
+          initialData: widget.initIndex,
+          builder: (ctx, snap) {
+            return Text(
+              "${snap.data + 1}/$totalCount",
+              style: TextStyle(
+                color: options.textColor,
+              ),
+            );
+          },
+        ),
+        elevation: 0,
+        // actions: <Widget>[
+        //   StreamBuilder(
+        //     stream: pageStream,
+        //     builder: (ctx, s) => FlatButton(
+        //       splashColor: Colors.transparent,
+        //       onPressed: selectedList.length == 0 ? null : sure,
+        //       child: Text(
+        //         config.provider.getSureText(options, selectedList.length),
+        //         style: selectedList.length == 0
+        //             ? textStyle.copyWith(color: options.disableColor)
+        //             : textStyle,
+        //       ),
+        //     ),
+        //   ),
+        // ],
+      ),
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        child: PageView.builder(
           controller: pageController,
           itemBuilder: _buildItem,
           itemCount: totalCount,
           onPageChanged: _onPageChanged,
         ),
-        bottomSheet: _buildThumb(),
-        bottomNavigationBar: _buildBottom(),
       ),
+      // bottomSheet: _buildThumb(),
+      bottomNavigationBar: _buildBottom(),
     );
   }
 
   Widget _buildBottom() {
     return Container(
-      color: themeColor,
+      color: Colors.transparent,
       child: SafeArea(
         child: Container(
           height: 52.0,
           child: Row(
             children: <Widget>[
-              Expanded(
-                child: Container(),
-              ),
+              // Expanded(
+              //   child: Container(),
+              // ),
+              SizedBox(width: 12),
               _buildCheckbox(),
             ],
           ),
@@ -381,7 +383,6 @@ class _BigPhotoImageState extends State<BigPhotoImage>
       builder: (BuildContext context, AsyncSnapshot<Uint8List> snapshot) {
         var file = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done && file != null) {
-          print(file.length);
           return Image.memory(
             file,
             fit: BoxFit.contain,
