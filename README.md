@@ -1,3 +1,7 @@
+# archived
+The package is archived.
+Please use [flutter_wechat_assets_picker](https://github.com/fluttercandies/flutter_wechat_assets_picker).
+
 # photo
 
 [![pub package](https://img.shields.io/pub/v/photo.svg)](https://pub.dartlang.org/packages/photo) [![pub package](https://img.shields.io/pub/v/photo?include_prereleases)](https://pub.dartlang.org/packages/photo)
