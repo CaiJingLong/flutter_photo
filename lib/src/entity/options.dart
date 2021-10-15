@@ -4,6 +4,7 @@ import 'package:photo/src/delegate/checkbox_builder_delegate.dart';
 import 'package:photo/src/delegate/loading_delegate.dart';
 import 'package:photo/src/delegate/sort_delegate.dart';
 
+typedef PhotoPreviousBuilder = Widget Function(BuildContext context);
 class Options {
   final int rowCount;
 
@@ -33,6 +34,8 @@ class Options {
 
   final PickType pickType;
 
+  final PhotoPreviousBuilder previousBuilder;
+
   const Options({
     this.rowCount,
     this.maxSelected,
@@ -48,6 +51,7 @@ class Options {
     this.loadingDelegate,
     this.badgeDelegate,
     this.pickType,
+    this.previousBuilder
   });
 }
 

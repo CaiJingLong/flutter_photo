@@ -96,6 +96,9 @@ void pickAsset() async {
       pickType: type, // all/image/video
 
       List<AssetPathEntity> photoPathList, /// when [photoPathList] is not null , [pickType] invalid .
+
+      PhotoPreviousBuilder previousBuilder,
+      // custom widget before items, and size should be 64.0 . eg: “camera” button at first.
     );
 ```
 
